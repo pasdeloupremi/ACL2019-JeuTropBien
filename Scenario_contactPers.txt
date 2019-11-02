@@ -1,0 +1,18 @@
+contactPers :
+ 
+Cette méthode a pour but de détecter si il y a un contact entre 2 personnages.
+
+
+Date de création : 02/11/19
+Version : V0.2
+Acteurs : Le système
+Responsable : Pasdeloup Rémi
+Pré condition : 2 personnages qui existent 
+Post condition : résultat de la méthode : boolean
+Description par étape : 
+
+
+La méthode va en premier lieu récupérer les coordonnées des 2 personnages et va calculer la distance D entre ces derniers.
+Ensuite, la méthode va tester si la somme de seuilContact de chaque personnage (S1+S2) est inférieure ou non à D.
+Si cette somme est inférieure à D, alors la méthode va retourner True. Cela signifie qu’il y a bien contact entre les 2 personnages.
+Sinon, le méthode retourne False. Cela signifie qu’il n’y a pas contact.
