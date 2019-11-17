@@ -6,3 +6,5 @@ Quentin Huan
 
 Titouan Langevin
 
+Raphaël Richard
+
