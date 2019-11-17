@@ -6,6 +6,10 @@ public class Main {
 System.out.println("coucou");
 System.out.println("salut");
 System.out.println("resalut");
+Monstre m=new Monstre();
+Heros h = new Heros();
+h.toucher();
+
 	}
 
 }
