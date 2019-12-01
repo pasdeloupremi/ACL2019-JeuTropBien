@@ -20,7 +20,7 @@ public class PacmanGame implements Game {
 	 * constructeur avec fichier source pour le help
 	 * 
 	 */
-	public PacmanGame(String source) {
+	public PacmanGame() {
 	}
 
 	/**

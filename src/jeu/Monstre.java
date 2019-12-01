@@ -3,7 +3,8 @@ package jeu;
 
 public class Monstre extends Personnage{
 	 	
-	public Monstre() {
+	public Monstre(float[] XY, String name) {
+		super(XY,name);
 		listeMonstre.add(this);
 	}
 }
