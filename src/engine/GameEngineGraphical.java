@@ -65,6 +65,8 @@ public class GameEngineGraphical {
 			// met en attente
 			Thread.sleep(50);
 		}
+		
+		this.gui.closeWindow();
 	}
 
 }
