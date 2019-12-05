@@ -12,9 +12,9 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		Monstre m=new Monstre();
-		Heros h = new Heros();
-		h.toucher();
+		//Monstre m=new Monstre();
+		//Heros h = new Heros();
+		//h.toucher();
 		Carte c = new Carte("Carte.csv",10,8);
 		System.out.println(c.donnees[5][5]);
 		PacmanGame game = new PacmanGame("helpFilePacman.txt");
