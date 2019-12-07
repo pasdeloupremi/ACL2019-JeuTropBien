@@ -12,38 +12,54 @@ public class MainMenu implements Game {
 
 	private boolean quitFlag;
 	Rectangle boundingBoxStartButton; 
+	Rectangle boundingBoxQuitButton; 
+	
+	public int cursorPos;
+	private int maxCursorPos;
 	
 	public MainMenu()
 	{
 		quitFlag = false;
 		boundingBoxStartButton = new Rectangle(100,100,128,64);
+		boundingBoxQuitButton = new Rectangle(100+200,100,128,64);
+		cursorPos = 0;
+		maxCursorPos = 1;
 	}
 	
 	@Override
 	public void evolve(Cmd userCmd) {
 		// TODO Auto-generated method stub
-		
-		
-		//System.out.println("CLICK");
-		// && userCmd==Cmd.LEFTCLICK
-		if(hoveringStartButton() && userCmd==Cmd.SPACE)
-		{
-			System.out.println("StartGame");
-			quitFlag = true;
-		}
-		
-		
-	}
 
-	public boolean hoveringStartButton()
-	{
-		Point mousePos = MouseInfo.getPointerInfo().getLocation();
-		System.out.println(mousePos.toString());
-		if(boundingBoxStartButton.contains(mousePos))
+		if(userCmd==Cmd.DOWN && cursorPos != 0)
 		{
-			return true;
+			
+			cursorPos--;
 		}
-		return false;
+
+		if(userCmd==Cmd.UP && cursorPos < maxCursorPos)
+		{System.out.println(cursorPos);
+			cursorPos++;
+		}
+		
+
+		if(userCmd==Cmd.SPACE)
+		{
+			switch (cursorPos) {
+			case 0:
+				System.out.println("StartGame");
+				quitFlag = true;
+				break;
+			case 1:
+				System.out.println("QuitGame");
+				System.exit(0);
+				break;
+
+			default:
+				break;
+			}
+
+		}
+
 	}
 	
 	@Override

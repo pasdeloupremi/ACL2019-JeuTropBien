@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import engine.Cmd;
 import engine.Game;
 import engine.GamePainter;
 
@@ -24,12 +25,13 @@ public class MainMenuPainter implements GamePainter {
 	private MainMenu game;
 	
 	
-	BufferedImage startButtonImg;
+	BufferedImage startButtonImg,quitButtonImg;
 	public MainMenuPainter(MainMenu game)
 	{
 		this.game = game;
 		try {
 			startButtonImg = ImageIO.read(new File("StartButton.png"));
+			quitButtonImg = ImageIO.read(new File("QuitButton.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,25 +41,33 @@ public class MainMenuPainter implements GamePainter {
 	@Override
 	public void draw(BufferedImage image) {
 		Graphics2D graphics = (Graphics2D) image.getGraphics();
-		
 		Rectangle background =new Rectangle(0,0,10000,10000);
 		graphics.setColor(Color.black);
 		graphics.fill(background);
 		
-	    Font font = new Font("Serif", Font.PLAIN, 96);
+		graphics.setColor(Color.yellow);
+	    Font font = new Font("Serif", Font.PLAIN, 20);
 	    graphics.setFont(font);
-		graphics.drawString("hit space to confirm", 100, 100);
-	    
+		graphics.drawString("hit space to confirm", 100, 50);
+		
 		graphics.drawImage(startButtonImg, null, game.boundingBoxStartButton.x, game.boundingBoxStartButton.y);
+		graphics.drawImage(quitButtonImg, null, game.boundingBoxQuitButton.x, game.boundingBoxQuitButton.y);
 		//graphics.setColor(Color.yellow);
 		//graphics.draw(game.boundingBoxStartButton);
 		
-		if(game.hoveringStartButton())
-		{
-			graphics.setColor(Color.yellow);
-			graphics.draw(game.boundingBoxStartButton);
-			
-		}
+		graphics.setColor(Color.yellow);
+			switch (game.cursorPos) {
+			case 0:
+				graphics.draw(game.boundingBoxStartButton);
+				break;
+			case 1:
+				graphics.draw(game.boundingBoxQuitButton);
+				break;
+
+			default:
+				break;
+			}
+
 	}
 
 	@Override
