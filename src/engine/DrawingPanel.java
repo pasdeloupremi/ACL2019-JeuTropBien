@@ -93,4 +93,7 @@ public class DrawingPanel extends JPanel {
 				getWidth(), getHeight(), null);
 	}
 
+	public BufferedImage getNextImg() {
+		return this.nextImage;
+	}
 }

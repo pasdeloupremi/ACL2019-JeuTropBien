@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
 
 import javax.imageio.ImageIO;
 
@@ -24,8 +25,8 @@ public class Carte {
 	
 	public Carte(String fichier,int n,int m, int Tcase, String fichierTerrain) throws IOException {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		width = (int)screenSize.getWidth();
-		height = (int)screenSize.getHeight();
+		width = (int)screenSize.getWidth()/2;
+		height = (int)screenSize.getHeight()/2;
 		terrain = fichierTerrain;
 		taillecase=Tcase;
 		donnees=new int[n][m];
@@ -50,6 +51,7 @@ public class Carte {
 		}
 		listeNiveaux.add(this);
 	}
+	
 	
 	public static void Update(BufferedImage im,Graphics2D crayon) {
 		BufferedImage img=null;
@@ -80,18 +82,27 @@ public class Carte {
 				crayon.drawImage(img, t*i, t*j, t*(i+1), t*(j+1), caseX, caseY, caseX+t, caseY+t,null);			
 			}		
 		}
-		
 		//	AFFICHAGE DU HEROS
 		BufferedImage heros;
 		Heros h = Personnage.Joueur;
 		int x = (int)h.getCoordXY()[0];
 		int y = (int)h.getCoordXY()[1];
+		int n = h.getdirectionIMG();
+		int frame=h.getAnimation();
+		if(h.atkframe>0) {
+			Timer timer = new Timer();
+			Heros.AttakAnimation(crayon, img, h.atkframe-1);
+			h.atkframe++;
+			if(h.atkframe>3) {h.atkframe=0;}
+		}
+		else {
 		try {
 			heros = ImageIO.read(new File("heros72x48.png"));	
 			//		CHANGER LES 4 DERNIERS ARGUMENTS SELON LA DIRECTION DU HEROS
-			crayon.drawImage(heros,x, y, t+x, 72+y,0,0,t,72, null);
+			crayon.drawImage(heros,x, y, 48+x, 72+y,frame*48,n*72,48+frame*48,72+n*72, null);
 		} catch (IOException e) {
 			System.out.println("pas d'image pour le héros");
+		}
 		}
 		
 		//	AFFICHAGE DES MONSTRES
@@ -100,10 +111,12 @@ public class Carte {
 		for(Monstre m:listeM) {
 			x = (int)m.getCoordXY()[0];
 			y = (int)m.getCoordXY()[1];
+			n = m.getdirectionIMG();
+			frame = m.getAnimation();
 			try {
 				monstre = ImageIO.read(new File(m.getNom()));	
 				//	CHANGER LES 4 DERNIERS ARGUMENTS SELON LA DIRECTION DU MONSTRE
-				crayon.drawImage(monstre,x, y, t+x, t+y,0,0,t,t, null);
+				crayon.drawImage(monstre,x, y, 48+x, 48+y,frame*48,n*48,48+frame*48,48+n*48, null);
 			} catch (IOException e) {
 				System.out.println("pas d'image pour le mosntre : "+m.getNom());
 			}

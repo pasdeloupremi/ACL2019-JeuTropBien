@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import engine.Cmd;
 import engine.Game;
+import jeu.Heros;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -30,6 +31,21 @@ public class PacmanGame implements Game {
 	 */
 	@Override
 	public void evolve(Cmd commande) {
+		switch(commande) {
+		case UP:
+		case LEFT:
+		case RIGHT:
+		case DOWN:
+			Heros.deplacerjoueur(commande);
+			break;
+		case SPACE:
+			Heros.attaquer();
+			break;
+		case IDLE:
+			Heros.Joueur.surPlace();
+		default:
+			break;
+		}
 	}
 
 	/**
