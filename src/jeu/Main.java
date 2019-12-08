@@ -12,13 +12,16 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		Monstre m=new Monstre("monstre48.png", 0, 0, null, null, 0, 0);
+		int[] t1= {48,48};
+		Monstre m=new Monstre("monstre48.png", 100, 5, null, null, 10, 30,t1);
 		float[] mcoord= {48,96};
 		m.setCoordXY(mcoord);
+		m.setDirection(mcoord);
 		float[] hcoord= mcoord.clone();
 		hcoord[0]+=48;
 		hcoord[1]+=48;
-		Heros h = new Heros(null, 0, 0, hcoord, null, 0, 0, 0);
+		int[] t2= {48,72};
+		Heros h = new Heros("joueur1", 100, 20, hcoord, hcoord, 10, 13, 20,t2);
 		h.toucher();
 		Carte c = new Carte("Carte.csv",10,8,48,"terrain48.png");
 		System.out.println(c.donnees[5][5]);

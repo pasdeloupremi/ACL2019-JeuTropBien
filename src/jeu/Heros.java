@@ -17,8 +17,8 @@ public class Heros extends Personnage{
 	int atkframe;
 	
 	public Heros(String nom, int pV, int aTK, float[] coordXY, float[] direction, float vitesse,
-			float seuilContact, float porteeATK) {
-		super(nom, pV, aTK, coordXY, direction, vitesse, seuilContact);
+			float seuilContact, float porteeATK,int[] tailleImg) {
+		super(nom, pV, aTK, coordXY, direction, vitesse, seuilContact,tailleImg);
 		this.porteeATK = porteeATK;
 		Joueur=this;
 	}
@@ -35,36 +35,40 @@ public class Heros extends Personnage{
 		switch (c) {
 		// si on appuie sur 'q',commande joueur est gauche
 		case LEFT:
-			coordactuelle[0]=coordactuelle[0]-h.vitesse;
-			h.setDirection(coordactuelle);
+			float[] test1 = {coordactuelle[0]-h.vitesse,coordactuelle[1]};
+			h.setDirection(test1);
 			break;
 		case RIGHT:
-			coordactuelle[0]=coordactuelle[0]+h.vitesse;
-			h.setDirection(coordactuelle);
+			float[] test2 = {coordactuelle[0]+h.vitesse,coordactuelle[1]};
+			h.setDirection(test2);
 			break;
 		case DOWN:
-			coordactuelle[1]=coordactuelle[1]-h.vitesse;
-			h.setDirection(coordactuelle);
+			float[] test3 = {coordactuelle[0],coordactuelle[1]+h.vitesse};
+			h.setDirection(test3);
 			break;
 		case UP:
-			coordactuelle[1]=coordactuelle[1]+h.vitesse;
-			h.setDirection(coordactuelle);
+			float[] test4 = {coordactuelle[0],coordactuelle[1]-h.vitesse};
+			h.setDirection(test4);
 			break;
 		default:
 			break;
 		}
+		h.deplacer();	
 	}
 	
 	public static void attaquer() {
 		Heros h=Personnage.Joueur;
 		h.atkframe=1;
 		for(Monstre m: Personnage.listeMonstre) {
-			float xm=m.getCoordXY()[0];
-			float ym=m.getCoordXY()[1];
-			if(Math.sqrt(Math.pow((xm-h.getCoordXY()[0]),2)+Math.pow((ym-h.getCoordXY()[1]),2))<=h.porteeATK) {
+			float[] coord1= {(h.getSeuilImg()[0]+h.getSeuilImg()[1])/2,(h.getSeuilImg()[2]+h.getSeuilImg()[3])/2};
+			float[] coord2= {(m.getSeuilImg()[0]+m.getSeuilImg()[1])/2,(m.getSeuilImg()[2]+m.getSeuilImg()[3])/2};
+			if (distance(coord1,coord2)<=(m.getSeuilContact()+h.porteeATK)) {
 				m.setPV(m.getPV()-h.getATK());
 				if(m.getPV()<=0) {
 					listeMonstre.remove(m);
+					if(listeMonstre.isEmpty()) {
+						return ;
+					}
 				}
 			}
 		}

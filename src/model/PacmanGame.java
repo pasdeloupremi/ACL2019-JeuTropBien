@@ -7,6 +7,8 @@ import java.io.IOException;
 import engine.Cmd;
 import engine.Game;
 import jeu.Heros;
+import jeu.Monstre;
+import jeu.Personnage;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -45,6 +47,9 @@ public class PacmanGame implements Game {
 			Heros.Joueur.surPlace();
 		default:
 			break;
+		}
+		for(Monstre m:Personnage.listeMonstre) {
+			m.deplacer();
 		}
 	}
 

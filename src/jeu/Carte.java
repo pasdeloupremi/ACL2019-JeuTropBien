@@ -101,7 +101,7 @@ public class Carte {
 			//		CHANGER LES 4 DERNIERS ARGUMENTS SELON LA DIRECTION DU HEROS
 			crayon.drawImage(heros,x, y, 48+x, 72+y,frame*48,n*72,48+frame*48,72+n*72, null);
 		} catch (IOException e) {
-			System.out.println("pas d'image pour le héros");
+			System.out.println("pas d'image pour le hï¿½ros");
 		}
 		}
 		
@@ -142,5 +142,8 @@ public class Carte {
 		
 	}
 	
+	public static Carte getCarte () {
+		return listeNiveaux.get(niveau_actuel);
+	}
 	
 }

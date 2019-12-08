@@ -63,7 +63,7 @@ public class GameEngineGraphical {
 			// affiche le game
 			this.gui.paint();
 			// met en attente
-			Thread.sleep(50);
+			Thread.sleep(16);
 		}
 		
 		this.gui.closeWindow();

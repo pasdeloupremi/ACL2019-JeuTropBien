@@ -19,9 +19,10 @@ public class Personnage {
 	private float seuilContact;
 	public Cmd dirImg;
 	private int animation;
+	private int[] tailleImg;
 	
 	public Personnage(String nom, int pV, int aTK, float[] coordXY, float[] direction, float vitesse,
-			 float seuilContact) {
+			 float seuilContact, int[] tailleImg) {
 		super();
 		this.nom = nom;
 		PV = pV;
@@ -32,10 +33,66 @@ public class Personnage {
 		this.seuilContact = seuilContact;
 		this.dirImg=Cmd.DOWN;
 		this.animation=0;
+		this.tailleImg=tailleImg;
+	}
+	
+	public boolean contactPers(Personnage p) {
+		float[] coord1= {(this.getSeuilImg()[0]+this.getSeuilImg()[1])/2,(this.getSeuilImg()[2]+this.getSeuilImg()[3])/2};
+		float[] coord2= {(p.getSeuilImg()[0]+p.getSeuilImg()[1])/2,(p.getSeuilImg()[2]+p.getSeuilImg()[3])/2};
+		if (distance(coord1,coord2)<=(p.seuilContact+this.seuilContact)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean contactMur() {
+		int[][] tab=Carte.getCarte().donnees;
+		int t=Carte.taillecase;
+		int casex1=(int) this.getSeuilImg()[0]/t;
+		int casex2=(int) this.getSeuilImg()[1]/t;
+		int casey1=(int) this.getSeuilImg()[2]/t;
+		int casey2=(int) this.getSeuilImg()[3]/t;
+		if (tab[casex1][casey1]==1) {
+			return true;
+		}
+		else if (tab[casex2][casey1]==1) {
+			return true;
+		}
+		else if (tab[casex1][casey2]==1) {
+			return true;
+		}
+		else if (tab[casex2][casey2]==1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public float[] getSeuilImg() {
+		float[] Seuil = {0,0,0,0}; //gauche,droite,haut,bas de l'image
+		Seuil[0]=(float) (this.direction[0]+0.5*this.getTailleImg()[0]+this.seuilContact);
+		Seuil[1]=(float) (this.direction[0]+0.5*this.getTailleImg()[0]-this.seuilContact);
+		Seuil[2]=(float) (this.direction[1]+0.7*this.getTailleImg()[1]-this.seuilContact);
+		Seuil[3]=(float) (this.direction[1]+0.8*this.getTailleImg()[1]+this.seuilContact);
+		return Seuil;
 	}
 	
 	public void deplacer() {
-		
+		if (!this.contactMur()) {
+			this.coordXY=this.direction;
+		}
+		Heros h=Heros.Joueur;
+		if(this==h) {			
+		}
+		else {
+			if(this.contactPers(h)) {
+				h.setPV(h.getPV()-this.getATK());
+				System.out.println(h.getPV());
+			}
+		}
 	}
 	
 	public int getdirectionIMG() {
@@ -153,6 +210,16 @@ public class Personnage {
 	public void setSeuilContact(float seuilContact) {
 		this.seuilContact = seuilContact;
 	}
+	public static float distance(float[]coord1,float[]coord2) {
+		return (float) Math.sqrt(Math.pow((coord1[0]-coord2[0]),2)+Math.pow((coord1[1]-coord2[1]),2));
+	}
 
+	public int[] getTailleImg() {
+		return tailleImg;
+	}
+
+	public void setTailleImg(int[] tailleImg) {
+		this.tailleImg = tailleImg;
+	}
 	
 }
