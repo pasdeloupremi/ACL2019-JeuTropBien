@@ -98,7 +98,7 @@ public class Personnage {
 	public void deplacer() {
 		if (!this.contactMur()) {
 			this.coordXY=this.direction;
-		}
+		}		
 		Heros h=Heros.Joueur;
 		if(this==h) {			
 		}

@@ -113,7 +113,7 @@ public class PacmanGame implements Game {
 			
 			if(m.isAlive())//on ne met à jour que les monstres vivants 
 			{
-				m.deplacer();
+				m.deplacermonstre();
 			}
 			else
 			{
