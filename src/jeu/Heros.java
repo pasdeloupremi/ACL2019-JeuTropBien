@@ -17,10 +17,11 @@ public class Heros extends Personnage{
 	int atkframe;
 	
 	public Heros(String nom, int pV, int aTK, float[] coordXY, float[] direction, float vitesse,
-			float seuilContact, float porteeATK,int[] tailleImg) {
+			float seuilContact, float porteeATK,int[] tailleImg,ArrayList<Monstre> listeMonstre) {
 		super(nom, pV, aTK, coordXY, direction, vitesse, seuilContact,tailleImg);
 		this.porteeATK = porteeATK;
 		Joueur=this;
+		this.listeMonstre = listeMonstre;
 	}
 	
 	public void toucher() {

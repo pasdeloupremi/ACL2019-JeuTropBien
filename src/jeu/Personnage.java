@@ -34,7 +34,22 @@ public class Personnage {
 		this.dirImg=Cmd.DOWN;
 		this.animation=0;
 		this.tailleImg=tailleImg;
+		
 	}
+	
+	//renvoie TRUE quand plus de PV
+	public boolean isAlive()
+	{
+		if(PV <= 0)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
 	
 	public boolean contactPers(Personnage p) {
 		float[] coord1= {(this.getSeuilImg()[0]+this.getSeuilImg()[1])/2,(this.getSeuilImg()[2]+this.getSeuilImg()[3])/2};

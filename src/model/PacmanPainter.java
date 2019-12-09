@@ -24,6 +24,9 @@ import jeu.Personnage;
  */
 public class PacmanPainter implements GamePainter {
 
+	private boolean bAfficherEcranVictoire,bAfficherEcranDefaite;
+	private BufferedImage imgVictoire,imgDefaite;
+	
 	/**
 	 * la taille des cases
 	 */
@@ -35,7 +38,32 @@ public class PacmanPainter implements GamePainter {
 	 * @param game
 	 *            le jeutest a afficher
 	 */
-	public PacmanPainter() {		
+	public PacmanPainter() {	
+		bAfficherEcranVictoire = false;
+		bAfficherEcranDefaite = false;
+		
+		try {
+			imgVictoire = ImageIO.read(new File("Victoire.png"));
+			imgDefaite = ImageIO.read(new File("Defaite.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//liaison avec le PacmanGame
+	//PacmanGame appel cette fonction lorsque les objectifs sont remplis
+	public void afficherVictoire(boolean b)
+	{
+		bAfficherEcranVictoire = b;
+		
+	}
+	
+	//liaison avec le PacmanGame
+	//PacmanGame appel cette fonction lorsque le joueur est mort
+	public void afficherDefaite(boolean b)
+	{
+		bAfficherEcranDefaite = b;
 	}
 
 	/**
@@ -45,6 +73,15 @@ public class PacmanPainter implements GamePainter {
 	public void draw(BufferedImage im) {
 		Graphics2D crayon = (Graphics2D) im.getGraphics();
 		Carte.Update(im, crayon); // MISE A JOUR DE L'AFFICHAGE
+		
+		if(bAfficherEcranVictoire)
+		{
+			crayon.drawImage(imgVictoire, null, 0, 0);
+		}
+		if(bAfficherEcranDefaite)
+		{
+			crayon.drawImage(imgDefaite, null, 0, 0);
+		}
 	}
 
 	@Override

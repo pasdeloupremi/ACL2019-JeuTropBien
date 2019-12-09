@@ -8,4 +8,7 @@ public class Monstre extends Personnage{
 		super(nom, pV, aTK, coordXY, direction, vitesse, seuilContact,tailleImg);
 		listeMonstre.add(this);
 	}
+	
+	
+	
 }
