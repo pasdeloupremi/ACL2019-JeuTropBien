@@ -14,6 +14,8 @@ import engine.GameController;
  */
 public class PacmanController implements GameController {
 
+	boolean pressedEsc = false;
+	
 	/**
 	 * commande en cours
 	 */
@@ -41,7 +43,7 @@ public class PacmanController implements GameController {
 	 * met a jour les commandes en fonctions des touches appuyees
 	 */
 	public void keyPressed(KeyEvent e) {
-		
+		this.commandeEnCours = Cmd.IDLE;
 		switch (e.getKeyCode()) {
 		// si on appuie sur 'q',commande joueur est gauche
 		case KeyEvent.VK_Q:
@@ -58,6 +60,15 @@ public class PacmanController implements GameController {
 			break;
 		case KeyEvent.VK_SPACE:
 			this.commandeEnCours = Cmd.SPACE;
+			break;
+		case KeyEvent.VK_ESCAPE:
+			if(!pressedEsc)
+			{
+				this.commandeEnCours = Cmd.ESC;
+				pressedEsc = true;
+				//System.out.println("ESC");
+			}
+			break;
 		}
 
 	}
@@ -68,6 +79,15 @@ public class PacmanController implements GameController {
 	 */
 	public void keyReleased(KeyEvent e) {
 		this.commandeEnCours = Cmd.IDLE;
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_ESCAPE:
+
+			//this.commandeEnCours = Cmd.ESC;
+			pressedEsc = false;
+
+			break;
+		}
+
 	}
 
 	@Override
@@ -75,7 +95,8 @@ public class PacmanController implements GameController {
 	 * ne fait rien
 	 */
 	public void keyTyped(KeyEvent e) {
-
+		
+		//this.commandeEnCours = Cmd.IDLE;
 	}
 
 }
