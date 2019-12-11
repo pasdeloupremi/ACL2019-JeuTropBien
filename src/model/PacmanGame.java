@@ -21,12 +21,11 @@ import jeu.Personnage;
  */
 public class PacmanGame implements Game {
 
-	private boolean victoryFlag,gameOverFlag;
+	private boolean victoryFlag,gameOverFlag,pauseFlag;
 	private ArrayList<Monstre> listeMonstre;
 	private Heros joueur;
 	private PacmanPainter painter;
-	
-	
+
 	/**
 	 * constructeur avec fichier source pour le help
 	 * 
@@ -37,31 +36,55 @@ public class PacmanGame implements Game {
 		this.listeMonstre = listeMonstre;
 		this.joueur = joueur;
 		this.painter = painter;
+		pauseFlag = false;
 	}
 
-	
 	public void input(Cmd commande)
 	{
-		switch(commande) {
-		case UP:
-		case LEFT:
-		case RIGHT:
-		case DOWN:
-			Heros.deplacerjoueur(commande);
-			break;
-		case SPACE:
-			Heros.attaquer();
-			break;
-		case IDLE:
-			Heros.Joueur.surPlace();
-		default:
-			break;
+		
+		if(joueur.isAlive() && !pauseFlag)//on ne met à jour que les monstres vivants 
+		{
+			switch(commande) {
+			case UP:
+			case LEFT:
+			case RIGHT:
+			case DOWN:
+				Heros.deplacerjoueur(commande);
+				break;
+			case SPACE:
+				Heros.attaquer();
+				break;
+			case IDLE:
+				Heros.Joueur.surPlace();
+				break;
+			}
 		}
+		
+			switch(commande) {
+			case ESC:
+				//System.out.println("not fqlg");
+				if(pauseFlag)
+				{
+					//System.out.println("fqlg");
+					pauseFlag = false;
+					break;
+				}
+				else
+				{
+					//System.out.println("not fqlg");
+					pauseFlag = true;
+					break;
+				}
+			
+			default:
+				break;
+			}
+		
+
 	}
-	
+
 	public void conditionsDeVictoireDefaite()
 	{
-
 		if(gameOverFlag == true && victoryFlag == true)
 		{
 			//objectif remplit, mais joueur mort
@@ -70,20 +93,61 @@ public class PacmanGame implements Game {
 			painter.afficherDefaite(true);
 			painter.afficherVictoire(false);
 		}
-		
+
 		if(gameOverFlag == true)
 		{
 			painter.afficherDefaite(true);
 			painter.afficherVictoire(false);
 		}
-		
+
 		if(victoryFlag == true)
 		{
 			painter.afficherDefaite(false);
 			painter.afficherVictoire(true);
 		}
 	}
-	
+
+	public void update(Cmd commande)
+	{
+		//--------------------------
+		//Mise à jour du joueur
+		//--------------------------
+		if(joueur.isAlive())//on ne met à jour que les monstres vivants 
+		{
+			//faire des trucs
+		}
+		else
+		{
+			//le joueur est mort, on passe en état gameover
+			gameOverFlag = true;
+		}
+
+
+		//--------------------------
+		//Mise à jour des monstres
+		//--------------------------
+		for(Monstre m:listeMonstre) {
+
+			if(m.isAlive())//on ne met à jour que les monstres vivants 
+			{
+				m.deplacermonstre();
+			}
+			else
+			{
+				//on efface les monstre morts de la liste
+				listeMonstre.remove(m);
+			}
+		}
+
+
+		//victoire (tout les monstres sont morts)
+		if(listeMonstre.size() == 0)
+		{
+			victoryFlag = true;
+		}
+
+	}
+
 	/**
 	 * faire evoluer le jeu suite a une commande
 	 * 
@@ -92,46 +156,26 @@ public class PacmanGame implements Game {
 	@Override
 	public void evolve(Cmd commande) {
 
-		//--------------------------
-		//Mise à jour du joueur
-		//--------------------------
-		if(joueur.isAlive())//on ne met à jour que les monstres vivants 
+		input(commande);//gestion des commandes du joueurs
+
+		System.out.println(commande);
+		//jeu
+		if(!pauseFlag)
 		{
-			input(commande);//gestion des commandes du joueurs
+			painter.menuPause(false);
+			update(commande);
+
+			conditionsDeVictoireDefaite();
+
 		}
+		//Menu de Pause
 		else
 		{
-			//le joueur est mort, on passe en état gameover
-			gameOverFlag = true;
+			painter.menuPause(true);
 		}
-		
-		
-		//--------------------------
-		//Mise à jour des monstres
-		//--------------------------
-		for(Monstre m:listeMonstre) {
-			
-			if(m.isAlive())//on ne met à jour que les monstres vivants 
-			{
-				m.deplacermonstre();
-			}
-			else
-			{
-				//on efface les monstre morts de la liste
-				//listeMonstre.remove(m);
-			}
-		}
-		
-		//victoire (tout les monstres sont morts)
-		if(listeMonstre.size() == 0)
-		{
-			victoryFlag = true;
-		}
-		
 
-		conditionsDeVictoireDefaite();
-		
-		
+
+
 	}
 
 	/**
@@ -140,11 +184,11 @@ public class PacmanGame implements Game {
 	@Override
 	public boolean isFinished() {
 
-		
 
 
-		
-		
+
+
+
 		return false;
 	}
 

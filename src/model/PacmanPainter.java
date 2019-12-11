@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -24,7 +25,7 @@ import jeu.Personnage;
  */
 public class PacmanPainter implements GamePainter {
 
-	private boolean bAfficherEcranVictoire,bAfficherEcranDefaite;
+	private boolean bAfficherEcranVictoire,bAfficherEcranDefaite,bAfficherPause;
 	private BufferedImage imgVictoire,imgDefaite;
 	
 	/**
@@ -41,6 +42,7 @@ public class PacmanPainter implements GamePainter {
 	public PacmanPainter() {	
 		bAfficherEcranVictoire = false;
 		bAfficherEcranDefaite = false;
+		bAfficherPause = false;
 		
 		try {
 			imgVictoire = ImageIO.read(new File("Victoire.png"));
@@ -65,23 +67,46 @@ public class PacmanPainter implements GamePainter {
 	{
 		bAfficherEcranDefaite = b;
 	}
+	
+	//liaison avec le PacmanGame
+	//PacmanGame appel cette fonction quand on veut afficher le menu de pause
+	public void menuPause(boolean b)
+	{
+		bAfficherPause = b;
+		
+	}
 
 	/**
 	 * methode  redefinie de Afficheur retourne une image du jeu
 	 */
 	@Override
 	public void draw(BufferedImage im) {
-		Graphics2D crayon = (Graphics2D) im.getGraphics();
-		Carte.Update(im, crayon); // MISE A JOUR DE L'AFFICHAGE
+		Graphics2D graphics = (Graphics2D) im.getGraphics();
+		Carte.Update(im, graphics); // MISE A JOUR DE L'AFFICHAGE
 		
-		if(bAfficherEcranVictoire)
+		if(!bAfficherPause)
 		{
-			crayon.drawImage(imgVictoire, null, 0, 0);
+			if(bAfficherEcranVictoire)
+			{
+				graphics.drawImage(imgVictoire, null, 0, 0);
+			}
+			if(bAfficherEcranDefaite)
+			{
+				graphics.drawImage(imgDefaite, null, 0, 0);
+			}
 		}
-		if(bAfficherEcranDefaite)
+		
+		else
 		{
-			crayon.drawImage(imgDefaite, null, 0, 0);
+			//affichage du menu de pause
+			graphics.setColor(Color.white);
+		    Font font = new Font("Serif", Font.PLAIN, 20);
+		    graphics.setFont(font);
+			graphics.drawString("PAUSE", 100, 50);
 		}
+		
+	
+		
 	}
 
 	@Override

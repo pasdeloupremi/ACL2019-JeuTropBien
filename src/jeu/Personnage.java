@@ -106,7 +106,7 @@ public class Personnage {
 		else {
 			if(this.contactPers(h)) {
 				h.setPV(h.getPV()-this.getATK());
-				System.out.println(h.getPV());
+				//System.out.println(h.getPV());
 			}
 		}
 	}
