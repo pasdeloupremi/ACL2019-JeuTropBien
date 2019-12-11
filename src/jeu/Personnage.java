@@ -20,9 +20,10 @@ public class Personnage {
 	public Cmd dirImg;
 	private int animation;
 	private int[] tailleImg;
+	String fichierImg;
 	
 	public Personnage(String nom, int pV, int aTK, float[] coordXY, float[] direction, float vitesse,
-			 float seuilContact, int[] tailleImg) {
+			 float seuilContact, int[] tailleImg, String fichierImg) {
 		super();
 		this.nom = nom;
 		PV = pV;
@@ -34,7 +35,7 @@ public class Personnage {
 		this.dirImg=Cmd.DOWN;
 		this.animation=0;
 		this.tailleImg=tailleImg;
-		
+		this.fichierImg=fichierImg;
 	}
 	
 	//renvoie TRUE quand plus de PV

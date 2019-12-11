@@ -16,23 +16,17 @@ public class Main {
 
 		//MONSTRE
 		
-		//init du monstre 1
-		int[] t1= {48,48};
-		Monstre m=new Monstre("monstre48.png", 100, 5, null, null, 10, 30,t1);
+		//init du monstre 1,2
 		float[] mcoord= {48,96};
-		m.setCoordXY(mcoord);
-		m.setDirection(mcoord);
-		
-		//ajout a la liste
-		ArrayList<Monstre> listeMonstre = new ArrayList<Monstre>();
-		listeMonstre.add(m);
-
+		MinoBoss m1 = new MinoBoss(mcoord);
+		Minotaure m2 = new Minotaure(mcoord);
+		//il faudra gérer les collisions des monstres
 		//HERO
 		int[] t2= {48,72};
 		float[] hcoord= mcoord.clone();
-		hcoord[0]+=48;
-		hcoord[1]+=48;
-		Heros h = new Heros("joueur1", 100, 20, hcoord, hcoord, 10, 13, 20,t2,listeMonstre);
+		hcoord[0]+=96;
+		hcoord[1]+=96;
+		Heros h = new Heros("joueur1", 100, 20, hcoord, hcoord, 10, 13, 40,t2,Personnage.listeMonstre,"heros72x48.png");
 		h.toucher();
 
 		//CARTE
@@ -41,7 +35,7 @@ public class Main {
 
 		
 		PacmanPainter painter = new PacmanPainter();
-		PacmanGame game = new PacmanGame(listeMonstre,h,painter);
+		PacmanGame game = new PacmanGame(Personnage.listeMonstre,h,painter);
 		PacmanController controller = new PacmanController();
 		GameEngineGraphical engine = new GameEngineGraphical(game, painter, controller);
 		

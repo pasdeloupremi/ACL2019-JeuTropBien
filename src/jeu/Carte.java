@@ -97,26 +97,28 @@ public class Carte {
 		}
 		else {
 		try {
-			heros = ImageIO.read(new File("heros72x48.png"));	
+			heros = ImageIO.read(new File(h.fichierImg));	
 			//		CHANGER LES 4 DERNIERS ARGUMENTS SELON LA DIRECTION DU HEROS
 			crayon.drawImage(heros,x, y, 48+x, 72+y,frame*48,n*72,48+frame*48,72+n*72, null);
 		} catch (IOException e) {
-			System.out.println("pas d'image pour le h�ros");
+			System.out.println("pas d'image pour le heros");
 		}
 		}
 		
 		//	AFFICHAGE DES MONSTRES
 		BufferedImage monstre;
+		int[] tailleM;
 		ArrayList<Monstre> listeM = Personnage.listeMonstre;
 		for(Monstre m:listeM) {
 			x = (int)m.getCoordXY()[0];
 			y = (int)m.getCoordXY()[1];
 			n = m.getdirectionIMG();
 			frame = m.getAnimation();
+			tailleM = m.getTailleImg();
 			try {
-				monstre = ImageIO.read(new File(m.getNom()));	
+				monstre = ImageIO.read(new File(m.fichierImg));	
 				//	CHANGER LES 4 DERNIERS ARGUMENTS SELON LA DIRECTION DU MONSTRE
-				crayon.drawImage(monstre,x, y, 48+x, 48+y,frame*48,n*48,48+frame*48,48+n*48, null);
+				crayon.drawImage(monstre,x, y, tailleM[0]+x, tailleM[1]+y,frame*tailleM[0],n*tailleM[1],(frame+1)*tailleM[0],tailleM[1]*(n+1), null);
 			} catch (IOException e) {
 				System.out.println("pas d'image pour le mosntre : "+m.getNom());
 			}

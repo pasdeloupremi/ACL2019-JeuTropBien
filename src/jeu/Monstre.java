@@ -5,9 +5,10 @@ import engine.Cmd;
 public class Monstre extends Personnage{
 	 	
 	public Monstre(String nom, int pV, int aTK, float[] coordXY, float[] direction, float vitesse,
-			float seuilContact,int[] tailleImg) {
-		super(nom, pV, aTK, coordXY, direction, vitesse, seuilContact,tailleImg);
+			float seuilContact,int[] tailleImg,String fichierImg) {
+		super(nom, pV, aTK, coordXY, direction, vitesse, seuilContact,tailleImg,fichierImg);
 		listeMonstre.add(this);
+		
 	}
 	
 	public void deplacermonstre() {

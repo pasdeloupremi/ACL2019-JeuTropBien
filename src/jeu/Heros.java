@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
 
 import javax.imageio.ImageIO;
 
@@ -17,8 +18,8 @@ public class Heros extends Personnage{
 	int atkframe;
 	
 	public Heros(String nom, int pV, int aTK, float[] coordXY, float[] direction, float vitesse,
-			float seuilContact, float porteeATK,int[] tailleImg,ArrayList<Monstre> listeMonstre) {
-		super(nom, pV, aTK, coordXY, direction, vitesse, seuilContact,tailleImg);
+			float seuilContact, float porteeATK,int[] tailleImg,ArrayList<Monstre> listeMonstre,String fichierImg) {
+		super(nom, pV, aTK, coordXY, direction, vitesse, seuilContact,tailleImg,fichierImg);
 		this.porteeATK = porteeATK;
 		Joueur=this;
 		this.listeMonstre = listeMonstre;
@@ -65,6 +66,7 @@ public class Heros extends Personnage{
 			float[] coord2= {(m.getSeuilImg()[0]+m.getSeuilImg()[1])/2,(m.getSeuilImg()[2]+m.getSeuilImg()[3])/2};
 			if (distance(coord1,coord2)<=(m.getSeuilContact()+h.porteeATK)) {
 				m.setPV(m.getPV()-h.getATK());
+				System.out.println(m.getPV());
 				if(m.getPV()<=0) {
 					listeMonstre.remove(m);
 					if(listeMonstre.isEmpty()) {
@@ -73,6 +75,10 @@ public class Heros extends Personnage{
 				}
 			}
 		}
+	}
+	
+	public static void AffichageHeros(BufferedImage img,Graphics2D crayon) {
+
 	}
 	
 	
