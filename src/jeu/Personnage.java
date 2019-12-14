@@ -23,6 +23,8 @@ public class Personnage {
 	private int animation;
 	private int[] tailleImg;
 	String fichierImg;
+	int frameATK;
+	protected int delaiATK;
 	
 	public Personnage(String nom, int pV, int aTK, float[] coordXY, float[] direction, float vitesse,
 			 float seuilContact, int[] tailleImg, String fichierImg) {
@@ -100,17 +102,17 @@ public class Personnage {
 	}
 	
 	public void deplacer() {
-		if (!this.contactMur()) {
+		if (!this.contactMur() && this.frameATK==0) {
 			this.coordXY=this.direction;
 		}		
 		Heros h=Heros.Joueur;
 		if(this==h) {			
 		}
 		else {
-			if(this.contactPers(h)) {
+			if(this.contactPers(h) && this.frameATK==0) {
+				this.frameATK++;
 				h.setPV(h.getPV()-this.getATK());
-				Main.playSound("Blow1.wav", -18.0f);
-				//System.out.println(h.getPV());
+				Main.playSound("Blow1.wav", -2);
 			}
 		}
 	}
@@ -177,6 +179,13 @@ public class Personnage {
 	
 	public void debutAnimation() {
 		if(animation==0) {animation=1;}
+	}
+	
+	public void majATK() {
+		if(this.frameATK>0) {
+			this.frameATK++;
+			if(this.frameATK>this.delaiATK)this.frameATK=0;
+		}
 	}
 	
 	public void surPlace() {

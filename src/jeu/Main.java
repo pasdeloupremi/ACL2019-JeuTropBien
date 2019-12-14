@@ -75,14 +75,14 @@ public class Main {
 		Carte.AffichageDecors(crayon);
 	}
 
-	public static void playSound(String nom, float volume) {
+	public static void playSound(String nom, int volume) {
 		File f = new File("./"+nom);
 	    try {
 	    	AudioInputStream audioIn = AudioSystem.getAudioInputStream(f.toURI().toURL());
 	    	Clip clip = AudioSystem.getClip();
 	    	clip.open(audioIn);
 	    	FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-	    	gainControl.setValue(volume-10.0f);
+	    	gainControl.setValue((1-volume)*(-10.0f));
 			clip.start();
 		} catch (LineUnavailableException | IOException e) {
 			// TODO Auto-generated catch block

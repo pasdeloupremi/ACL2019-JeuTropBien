@@ -16,7 +16,7 @@ public class Monstre extends Personnage{
 			float seuilContact,int[] tailleImg,String fichierImg) {
 		super(nom, pV, aTK, coordXY, direction, vitesse, seuilContact,tailleImg,fichierImg);
 		listeMonstre.add(this);
-		
+		this.delaiATK=15;
 	}
 	
 	public void deplacermonstre() {
@@ -64,6 +64,7 @@ public class Monstre extends Personnage{
 		int[] tailleM;
 		ArrayList<Monstre> listeM = Personnage.listeMonstre;
 		for(Monstre m:listeM) {
+			m.majATK();
 			int x = (int)m.getCoordXY()[0];
 			int y = (int)m.getCoordXY()[1];
 			int n = m.getdirectionIMG();

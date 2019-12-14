@@ -23,6 +23,7 @@ public class Heros extends Personnage{
 		this.porteeATK = porteeATK;
 		Joueur=this;
 		this.listeMonstre = listeMonstre;
+		this.delaiATK=8;
 	}
 	
 	public void toucher() {
@@ -60,13 +61,15 @@ public class Heros extends Personnage{
 	
 	public static void attaquer() {
 		Heros h=Personnage.Joueur;
+		if(h.frameATK==0) {
 		h.atkframe=1;
+		h.frameATK++;
 		for(Monstre m: Personnage.listeMonstre) {
 			float[] coord1= {(h.getSeuilImg()[0]+h.getSeuilImg()[1])/2,(h.getSeuilImg()[2]+h.getSeuilImg()[3])/2};
 			float[] coord2= {(m.getSeuilImg()[0]+m.getSeuilImg()[1])/2,(m.getSeuilImg()[2]+m.getSeuilImg()[3])/2};
 			if (distance(coord1,coord2)<=(m.getSeuilContact()+h.porteeATK)) {
 				m.setPV(m.getPV()-h.getATK());
-				Main.playSound("Slash1.wav", -18.0f);
+				Main.playSound("Slash1.wav", -2);
 				if(m.getPV()<=0) {
 					listeMonstre.remove(m);
 					if(listeMonstre.isEmpty()) {
@@ -74,6 +77,7 @@ public class Heros extends Personnage{
 					}
 				}
 			}
+		}
 		}
 	}
 	
@@ -85,9 +89,8 @@ public class Heros extends Personnage{
 			int y = (int)h.getCoordXY()[1];
 			int n = h.getdirectionIMG();
 			int frame=h.getAnimation();
+			h.majATK();
 			if(h.atkframe>0) {
-				Timer timer = new Timer();
-				
 				Heros.AttakAnimation(crayon,h.atkframe-1);
 				h.atkframe++;
 				if(h.atkframe>3) {h.atkframe=0;}
@@ -102,7 +105,6 @@ public class Heros extends Personnage{
 			}
 			}
 			h.AffichageHPBar(crayon);
-
 	}
 	
 	
