@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 import engine.Game;
+import model.PacmanController;
 
 public class MainMenu implements Game {
 
@@ -14,32 +15,56 @@ public class MainMenu implements Game {
 
 	
 	public int cursorPos;
-	private int maxCursorPos;
+	private int buttonNumber;
+	private PacmanController controller;
 	
-	public MainMenu()
+	private boolean pressedUP, pressedDOWN;
+	public MainMenu(PacmanController controller)
 	{
 		quitFlag = false;
 
 		cursorPos = 0;
-		maxCursorPos = 1;
+		buttonNumber = 2;
+		pressedUP = false;
+		pressedDOWN = false;
+		this.controller = controller;
+		controller.switchControllerType(true);
+		
 	}
-	
+
 	@Override
 	public void evolve(Cmd userCmd) {
 
 		//-------------------
 		//deplacement du curseur sur les boutons
 		//--------------------
-		if(userCmd==Cmd.DOWN && cursorPos != 0)
-		{
+		switch(userCmd) {
+		case UP:
+			if(!pressedUP)
+			{
+				pressedUP = true;
+				cursorPos--;
+			}
+			break;
+		case DOWN:
+			if(!pressedDOWN)
+			{
+				pressedDOWN = true;
+				cursorPos++;
+			}
+			break;
+		case ReleaseDOWN:
+			pressedDOWN = false;
+			break;
+		case ReleaseUP:
+			pressedUP = false;
+			break;
+		default:
+			break;
 			
-			cursorPos--;
 		}
-		if(userCmd==Cmd.UP && cursorPos < maxCursorPos)
-		{System.out.println(cursorPos);
-			cursorPos++;
-		}
-
+		
+		cursorPos = Math.abs(cursorPos%buttonNumber);
 		//-------------------
 		//validation du choix au clavier
 		//--------------------
@@ -47,11 +72,9 @@ public class MainMenu implements Game {
 		{
 			switch (cursorPos) {
 			case 0:
-				System.out.println("StartGame");
 				quitFlag = true;
 				break;
 			case 1:
-				System.out.println("QuitGame");
 				System.exit(0);
 				break;
 

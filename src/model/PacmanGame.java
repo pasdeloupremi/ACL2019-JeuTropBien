@@ -21,28 +21,48 @@ import jeu.Personnage;
  */
 public class PacmanGame implements Game {
 
-	private boolean victoryFlag,gameOverFlag,pauseFlag;
+	//Partie jeu
+	private boolean victoryFlag,gameOverFlag,pauseFlag,quitGameFlag;
+
 	private ArrayList<Monstre> listeMonstre;
 	private Heros joueur;
 	private PacmanPainter painter;
+	private PacmanController controller;
 
-	/**
-	 * constructeur avec fichier source pour le help
-	 * 
-	 */
-	public PacmanGame(ArrayList<Monstre> listeMonstre, Heros joueur, PacmanPainter painter) {
+	//Partie menu pause
+	public int cursorPos;
+	private int buttonNumber;
+	private boolean pressedUP,pressedDOWN;
+	
+	//---------------------------
+	//Constructeur
+	//---------------------------
+	public PacmanGame(ArrayList<Monstre> listeMonstre, Heros joueur, PacmanPainter painter, PacmanController controller) {
+		//Partie jeu
 		victoryFlag = false;
 		gameOverFlag = false;
+		quitGameFlag = false;
+		pauseFlag = false;
 		this.listeMonstre = listeMonstre;
 		this.joueur = joueur;
 		this.painter = painter;
+		this.controller = controller;
+		
+		//Partie menu pause
 		pauseFlag = false;
+		pressedUP = false;
+		pressedDOWN = false;
+		cursorPos = 0;
+		buttonNumber = 2;
 	}
 
-	public void input(Cmd commande)
+	//---------------------------
+	//INPUTS
+	//---------------------------
+	public void inputJeux(Cmd commande)
 	{
-		
-		if(joueur.isAlive() && !pauseFlag)//on ne met à jour que les monstres vivants 
+		//mise à jour du joueur ssi vivant
+		if(joueur.isAlive())
 		{
 			switch(commande) {
 			case UP:
@@ -57,32 +77,78 @@ public class PacmanGame implements Game {
 			case IDLE:
 				Heros.Joueur.surPlace();
 				break;
-			}
-		}
-		
-			switch(commande) {
 			case ESC:
-				//System.out.println("not fqlg");
-				if(pauseFlag)
+				if(!pauseFlag)
 				{
-					//System.out.println("fqlg");
-					pauseFlag = false;
-					break;
-				}
-				else
-				{
-					//System.out.println("not fqlg");
+					//met le jeu en pause
 					pauseFlag = true;
-					break;
+					System.out.println("PAUSE");
 				}
-			
+				break;
 			default:
 				break;
 			}
+		}
+	}
+	
+	public void inputPause(Cmd commande)
+	{
+		//-------------------
+		//deplacement du curseur sur les boutons
+		//--------------------
+		switch(commande) {
+		case UP:
+			if(!pressedUP)
+			{
+				pressedUP = true;
+				cursorPos--;
+			}
+			break;
+		case DOWN:
+			if(!pressedDOWN)
+			{
+				pressedDOWN = true;
+				cursorPos++;
+			}
+			break;
+		case ReleaseDOWN:
+			pressedDOWN = false;
+			break;
+		case ReleaseUP:
+			pressedUP = false;
+			break;
+		default:
+			break;
+			
+		}
 		
+		cursorPos = Math.abs(cursorPos%buttonNumber);//on fait tourner les choix en boucle
+		
+		//-------------------
+		//validation du choix au clavier
+		//--------------------
+		if(commande==Cmd.SPACE)
+		{
+			switch (cursorPos) {
+			case 0:
+				System.out.println("Reprise du jeu");
+				pauseFlag = false;
+				break;
+			case 1:
+				System.out.println("Quitter le jeu");
+				quitGameFlag = true;
+				break;
 
+			default:
+				break;
+			}
+		}
 	}
 
+	//---------------------------
+	//Victoire et defaite
+	//examine les flags de victoire et defaite et réagit de façon appropriee
+	//---------------------------
 	public void conditionsDeVictoireDefaite()
 	{
 		if(gameOverFlag == true && victoryFlag == true)
@@ -107,7 +173,17 @@ public class PacmanGame implements Game {
 		}
 	}
 
-	public void update(Cmd commande)
+
+
+	@Override
+	public boolean isFinished() {
+		return quitGameFlag;
+	}
+	
+	//---------------------------
+	//UPDATE
+	//---------------------------
+	public void updateJeu(Cmd commande)
 	{
 		//--------------------------
 		//Mise à jour du joueur
@@ -139,8 +215,9 @@ public class PacmanGame implements Game {
 			}
 		}
 
-
-		//victoire (tout les monstres sont morts)
+		//--------------------------
+		//Victoire
+		//--------------------------
 		if(listeMonstre.size() == 0)
 		{
 			victoryFlag = true;
@@ -148,48 +225,33 @@ public class PacmanGame implements Game {
 
 	}
 
-	/**
-	 * faire evoluer le jeu suite a une commande
-	 * 
-	 * @param commande
-	 */
+	//--------------------------
+	//Fonction de Mise à jour Principale
+	//
+	//se scinde en deux partie: la partie jeu, et la partie menu
+	//--------------------------
 	@Override
 	public void evolve(Cmd commande) {
-
-		input(commande);//gestion des commandes du joueurs
-
-		System.out.println(commande);
+		
+		//on passe du controller menu au controller jeu suivant l'état du flag pause
+		controller.switchControllerType(pauseFlag);
+		
 		//jeu
 		if(!pauseFlag)
 		{
+			inputJeux(commande);//gestion des commandes du joueurs
 			painter.menuPause(false);
-			update(commande);
+			updateJeu(commande);
 
 			conditionsDeVictoireDefaite();
-
 		}
 		//Menu de Pause
 		else
 		{
+			inputPause(commande);//gestion des commandes du joueurs
+			painter.setCurrentButton(cursorPos);
 			painter.menuPause(true);
 		}
-
-
-
-	}
-
-	/**
-	 * verifier si le jeu est fini
-	 */
-	@Override
-	public boolean isFinished() {
-
-
-
-
-
-
-		return false;
 	}
 
 }

@@ -3,6 +3,8 @@ package model;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileReader;
@@ -27,7 +29,9 @@ public class PacmanPainter implements GamePainter {
 
 	private boolean bAfficherEcranVictoire,bAfficherEcranDefaite,bAfficherPause;
 	private BufferedImage imgVictoire,imgDefaite;
+	private Graphics2D graphics;
 	
+	private int currentButton;
 	/**
 	 * la taille des cases
 	 */
@@ -40,9 +44,12 @@ public class PacmanPainter implements GamePainter {
 	 *            le jeutest a afficher
 	 */
 	public PacmanPainter() {	
+		
 		bAfficherEcranVictoire = false;
 		bAfficherEcranDefaite = false;
 		bAfficherPause = false;
+		
+		currentButton = 0;
 		
 		try {
 			imgVictoire = ImageIO.read(new File("Victoire.png"));
@@ -76,12 +83,36 @@ public class PacmanPainter implements GamePainter {
 		
 	}
 
+	private void drawButton(Rectangle boundingBox,String Text)
+	{
+		
+		//Box
+		graphics.setColor(Color.GRAY);
+		graphics.fill(boundingBox);
+		
+		
+		//text
+		graphics.setColor(Color.white);
+		 Font font = new Font("Serif", Font.PLAIN, 20);
+		 graphics.setFont(font);
+		 graphics.drawString(Text,boundingBox.x, (int) (boundingBox.y  + (0.5*boundingBox.height)));
+
+	}
+	private void drawButtonHighLight(Rectangle boundingBox)
+	{
+			graphics.draw(boundingBox);
+	}
+	
+	
+
+	
+	
 	/**
 	 * methode  redefinie de Afficheur retourne une image du jeu
 	 */
 	@Override
 	public void draw(BufferedImage im) {
-		Graphics2D graphics = (Graphics2D) im.getGraphics();
+		graphics = (Graphics2D) im.getGraphics();
 		Carte.Update(im, graphics); // MISE A JOUR DE L'AFFICHAGE
 		
 		if(!bAfficherPause)
@@ -103,12 +134,36 @@ public class PacmanPainter implements GamePainter {
 		    Font font = new Font("Serif", Font.PLAIN, 20);
 		    graphics.setFont(font);
 			graphics.drawString("PAUSE", 100, 50);
+			
+			Rectangle R0 = new Rectangle(100,100,128,64);
+			Rectangle R1 = new Rectangle(100,200,128,64);
+
+			drawButton(R0,"reprendre");
+			drawButton(R1,"quitter");
+			
+			switch (currentButton) {
+			case 0:
+				drawButtonHighLight(R0);
+				break;
+			case 1:
+				drawButtonHighLight(R1);
+				break;
+
+			default:
+				break;
+			}
+			
 		}
 		
 	
 		
 	}
 
+	public void setCurrentButton(int button)
+	{
+		currentButton = button;
+	}
+	
 	@Override
 	public int getWidth() {
 		return Carte.width;

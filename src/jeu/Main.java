@@ -20,7 +20,7 @@ public class Main {
 		float[] mcoord= {48,96};
 		MinoBoss m1 = new MinoBoss(mcoord);
 		Minotaure m2 = new Minotaure(mcoord);
-		//il faudra gérer les collisions des monstres
+		//il faudra gï¿½rer les collisions des monstres
 		//HERO
 		int[] t2= {48,72};
 		float[] hcoord= mcoord.clone();
@@ -35,14 +35,14 @@ public class Main {
 
 		
 		PacmanPainter painter = new PacmanPainter();
-		PacmanGame game = new PacmanGame(Personnage.listeMonstre,h,painter);
 		PacmanController controller = new PacmanController();
+		PacmanGame game = new PacmanGame(Personnage.listeMonstre,h,painter,controller);
 		GameEngineGraphical engine = new GameEngineGraphical(game, painter, controller);
 		
 		//-------------------
 		//Main menu
 		//-------------------
-		MainMenu mainMenu = new MainMenu(); // game contenant le menu principal
+		MainMenu mainMenu = new MainMenu(controller); // game contenant le menu principal
 		MainMenuPainter mainMenuPainter = new MainMenuPainter(mainMenu);
 		GameEngineGraphical mainMenuEngine = new GameEngineGraphical(mainMenu,mainMenuPainter,controller);
 

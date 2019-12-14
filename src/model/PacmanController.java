@@ -13,8 +13,8 @@ import engine.GameController;
  * 
  */
 public class PacmanController implements GameController {
-
-	boolean pressedEsc = false;
+	
+	private boolean isMenuController;
 	
 	/**
 	 * commande en cours
@@ -25,7 +25,13 @@ public class PacmanController implements GameController {
 	 * construction du controleur par defaut le controleur n'a pas de commande
 	 */
 	public PacmanController() {
+		isMenuController = true;
 		this.commandeEnCours = Cmd.IDLE;
+	}
+	
+	public void switchControllerType(boolean isMenuType)
+	{
+		isMenuController = isMenuType;
 	}
 
 	/**
@@ -44,31 +50,46 @@ public class PacmanController implements GameController {
 	 */
 	public void keyPressed(KeyEvent e) {
 		this.commandeEnCours = Cmd.IDLE;
-		switch (e.getKeyCode()) {
-		// si on appuie sur 'q',commande joueur est gauche
-		case KeyEvent.VK_Q:
-			this.commandeEnCours = Cmd.LEFT;
-			break;
-		case KeyEvent.VK_D:
-			this.commandeEnCours = Cmd.RIGHT;
-			break;
-		case KeyEvent.VK_S:
-			this.commandeEnCours = Cmd.DOWN;
-			break;
-		case KeyEvent.VK_Z:
-			this.commandeEnCours = Cmd.UP;
-			break;
-		case KeyEvent.VK_SPACE:
-			this.commandeEnCours = Cmd.SPACE;
-			break;
-		case KeyEvent.VK_ESCAPE:
-			if(!pressedEsc)
-			{
+		
+		if(!isMenuController)//input jeu
+		{
+			switch (e.getKeyCode()) {
+			case KeyEvent.VK_Q:
+				this.commandeEnCours = Cmd.LEFT;
+				break;
+			case KeyEvent.VK_D:
+				this.commandeEnCours = Cmd.RIGHT;
+				break;
+			case KeyEvent.VK_S:
+				this.commandeEnCours = Cmd.DOWN;
+				break;
+			case KeyEvent.VK_Z:
+				this.commandeEnCours = Cmd.UP;
+				break;
+			case KeyEvent.VK_SPACE:
+				this.commandeEnCours = Cmd.SPACE;
+				break;
+			case KeyEvent.VK_ESCAPE:
 				this.commandeEnCours = Cmd.ESC;
-				pressedEsc = true;
-				//System.out.println("ESC");
+				break;
 			}
-			break;
+		}
+		
+		else//input menu
+		{
+			switch (e.getKeyCode()) {
+			case KeyEvent.VK_Z:
+				this.commandeEnCours = Cmd.UP;
+				break;
+			case KeyEvent.VK_S:
+				this.commandeEnCours = Cmd.DOWN;
+				break;
+			case KeyEvent.VK_SPACE:
+				this.commandeEnCours = Cmd.SPACE;
+				break;
+			}
+			
+		
 		}
 
 	}
@@ -79,15 +100,22 @@ public class PacmanController implements GameController {
 	 */
 	public void keyReleased(KeyEvent e) {
 		this.commandeEnCours = Cmd.IDLE;
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_ESCAPE:
-
-			//this.commandeEnCours = Cmd.ESC;
-			pressedEsc = false;
-
-			break;
+		if(!isMenuController)//input jeu
+		{
+			
 		}
-
+		
+		else//input menu
+		{
+			switch (e.getKeyCode()) {
+			case KeyEvent.VK_Z:
+				this.commandeEnCours = Cmd.ReleaseUP;
+				break;
+			case KeyEvent.VK_S:
+				this.commandeEnCours = Cmd.ReleaseDOWN;
+				break;
+			}
+		}
 	}
 
 	@Override
