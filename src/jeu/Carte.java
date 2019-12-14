@@ -6,8 +6,10 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Timer;
 
@@ -22,6 +24,7 @@ public class Carte {
 	public static ArrayList<Carte> listeNiveaux=new ArrayList<Carte>();
 	public int[][] donnees;
 	public String terrain;
+	public int[] ListeMurs;
 	
 	public Carte(String fichier,int n,int m, int Tcase, String fichierTerrain) throws IOException {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -37,10 +40,12 @@ public class Carte {
 			String ligne;
 			ligne = helpReader.readLine();
 			int k=0;
+			int numD;
 			do {
 				tab=ligne.split(";");
 				for(int j=0;j<m;j++) {
-					donnees[k][j]=Integer.parseInt(tab[j]);						
+					try {numD=Integer.parseInt(tab[j]);}catch(NumberFormatException e){numD=0;}
+					donnees[k][j]=numD;						
 				}
 				k++;
 			} while((ligne = helpReader.readLine()) != null);
@@ -52,15 +57,43 @@ public class Carte {
 		listeNiveaux.add(this);
 	}
 	
+	public static void generer() {
+		int numD;
+		int hauteur = 5 + (int)(Math.random()*20);
+		int largeur = 5 + (int)(Math.random()*20);
+		String nom = "carte"+listeNiveaux.size()+".csv";
+		StringBuilder sb = new StringBuilder();
+		try (PrintWriter writer = new PrintWriter(nom)) {
+			for(int i=0;i<hauteur;i++) {
+				for(int j=0;j<largeur;j++) {
+				if(i==0||i==hauteur-1||j==0||j==largeur-1) {numD=1;}
+				else {numD=0;}
+				sb.append(numD);
+				sb.append(';');
+				}
+				sb.append('\n');
+			}
+		      writer.write(sb.toString());
+
+		    } catch (FileNotFoundException e) {
+		      System.out.println(e.getMessage());
+		    }
+		try {
+			Carte c = new Carte(nom,hauteur,largeur,48,getCarte().terrain);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
-	public static void Update(BufferedImage im,Graphics2D crayon) {
+	public static void AffichageTerrain(Graphics2D crayon) {
 		BufferedImage img=null;
 		Carte carte = Carte.listeNiveaux.get(niveau_actuel);
 		int[][] donnees = carte.donnees;
 		int caseX=0;
 		int caseY=0;
-		int t = Carte.taillecase;
-		
+		int t = Carte.taillecase;	
 		//	AFFICHAGE DU TERRAIN
 		try {
 			img = ImageIO.read(new File(carte.terrain));
@@ -82,48 +115,15 @@ public class Carte {
 				crayon.drawImage(img, t*i, t*j, t*(i+1), t*(j+1), caseX, caseY, caseX+t, caseY+t,null);			
 			}		
 		}
-		//	AFFICHAGE DU HEROS
-		BufferedImage heros;
-		Heros h = Personnage.Joueur;
-		int x = (int)h.getCoordXY()[0];
-		int y = (int)h.getCoordXY()[1];
-		int n = h.getdirectionIMG();
-		int frame=h.getAnimation();
-		if(h.atkframe>0) {
-			Timer timer = new Timer();
-			Heros.AttakAnimation(crayon, img, h.atkframe-1);
-			h.atkframe++;
-			if(h.atkframe>3) {h.atkframe=0;}
-		}
-		else {
-		try {
-			heros = ImageIO.read(new File(h.fichierImg));	
-			//		CHANGER LES 4 DERNIERS ARGUMENTS SELON LA DIRECTION DU HEROS
-			crayon.drawImage(heros,x, y, 48+x, 72+y,frame*48,n*72,48+frame*48,72+n*72, null);
-		} catch (IOException e) {
-			System.out.println("pas d'image pour le heros");
-		}
-		}
-		
-		//	AFFICHAGE DES MONSTRES
-		BufferedImage monstre;
-		int[] tailleM;
-		ArrayList<Monstre> listeM = Personnage.listeMonstre;
-		for(Monstre m:listeM) {
-			x = (int)m.getCoordXY()[0];
-			y = (int)m.getCoordXY()[1];
-			n = m.getdirectionIMG();
-			frame = m.getAnimation();
-			tailleM = m.getTailleImg();
-			try {
-				monstre = ImageIO.read(new File(m.fichierImg));	
-				//	CHANGER LES 4 DERNIERS ARGUMENTS SELON LA DIRECTION DU MONSTRE
-				crayon.drawImage(monstre,x, y, tailleM[0]+x, tailleM[1]+y,frame*tailleM[0],n*tailleM[1],(frame+1)*tailleM[0],tailleM[1]*(n+1), null);
-			} catch (IOException e) {
-				System.out.println("pas d'image pour le mosntre : "+m.getNom());
-			}
-		}
-		
+	}
+	
+	public static void AffichageDecors(Graphics2D crayon) {
+		Carte carte = Carte.listeNiveaux.get(niveau_actuel);
+		int[][] donnees = carte.donnees;
+		int caseX=0;
+		int caseY=0;
+		int t = Carte.taillecase;	
+	
 		//	AFFICHAGE DU DECOR
 		BufferedImage decors=null;
 		try {

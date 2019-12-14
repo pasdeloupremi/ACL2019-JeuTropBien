@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 import engine.GamePainter;
 import jeu.Carte;
 import jeu.Heros;
+import jeu.Main;
 import jeu.Monstre;
 import jeu.Personnage;
 
@@ -113,7 +114,7 @@ public class PacmanPainter implements GamePainter {
 	@Override
 	public void draw(BufferedImage im) {
 		graphics = (Graphics2D) im.getGraphics();
-		Carte.Update(im, graphics); // MISE A JOUR DE L'AFFICHAGE
+		Main.Update(im, graphics); // MISE A JOUR DE L'AFFICHAGE
 		
 		if(!bAfficherPause)
 		{

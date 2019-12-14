@@ -5,9 +5,19 @@ import engine.GameEngineGraphical;
 import model.PacmanController;
 import model.PacmanGame;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 
 public class Main {
@@ -20,7 +30,7 @@ public class Main {
 		float[] mcoord= {48,96};
 		MinoBoss m1 = new MinoBoss(mcoord);
 		Minotaure m2 = new Minotaure(mcoord);
-		//il faudra g�rer les collisions des monstres
+		//il faudra gerer les collisions des monstres
 		//HERO
 		int[] t2= {48,72};
 		float[] hcoord= mcoord.clone();
@@ -32,7 +42,7 @@ public class Main {
 		//CARTE
 		Carte c = new Carte("Carte.csv",10,8,48,"terrain48.png");
 		System.out.println(c.donnees[5][5]);
-
+		Carte.generer();
 		
 		PacmanPainter painter = new PacmanPainter();
 		PacmanController controller = new PacmanController();
@@ -57,7 +67,31 @@ public class Main {
 		//Partie Quentin Menu Principal <--
 
 	}
+	
+	public static void Update(BufferedImage im,Graphics2D crayon) {
+		Carte.AffichageTerrain(crayon);
+		Monstre.AffichageMonstre(crayon);
+		Heros.AffichageHeros(crayon);
+		Carte.AffichageDecors(crayon);
+	}
 
+	public static void playSound(String nom, float volume) {
+		File f = new File("./"+nom);
+	    try {
+	    	AudioInputStream audioIn = AudioSystem.getAudioInputStream(f.toURI().toURL());
+	    	Clip clip = AudioSystem.getClip();
+	    	clip.open(audioIn);
+	    	FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+	    	gainControl.setValue(volume-10.0f);
+			clip.start();
+		} catch (LineUnavailableException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 
 }

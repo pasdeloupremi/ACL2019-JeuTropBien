@@ -1,6 +1,7 @@
 package jeu;
 import engine.Cmd;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class Personnage {
 	
 	private String nom;
 	protected int PV;
+	protected int PVMAX;
 	private int ATK;
 	private float[] coordXY;
 	protected float[] direction;
@@ -26,7 +28,8 @@ public class Personnage {
 			 float seuilContact, int[] tailleImg, String fichierImg) {
 		super();
 		this.nom = nom;
-		PV = pV;
+		PV = Math.max(0,pV);
+		PVMAX = Math.max(0,pV);
 		ATK = aTK;
 		this.coordXY = coordXY;
 		this.direction = direction;
@@ -106,6 +109,7 @@ public class Personnage {
 		else {
 			if(this.contactPers(h)) {
 				h.setPV(h.getPV()-this.getATK());
+				Main.playSound("Blow1.wav", -18.0f);
 				//System.out.println(h.getPV());
 			}
 		}
@@ -160,6 +164,15 @@ public class Personnage {
 			break;
 		}
 		return a;
+	}
+	public void AffichageHPBar(Graphics2D crayon) {
+		crayon.setColor(Color.black);
+		crayon.fillRect((int)(this.coordXY[0]), (int)(this.coordXY[1]-8), this.tailleImg[0], 6);
+		float PVf=this.PV;
+		float PVMAXf=this.PVMAX;
+		if(PVf/PVMAXf<0.5) {crayon.setColor(Color.orange);}
+		else {crayon.setColor(Color.green);}
+		crayon.fillRect((int)(this.coordXY[0]), (int)(this.coordXY[1]-8), Math.max(0,this.tailleImg[0]*this.PV/this.PVMAX), 6);
 	}
 	
 	public void debutAnimation() {

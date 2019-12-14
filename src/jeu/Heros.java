@@ -7,8 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
-
 import javax.imageio.ImageIO;
+
 
 import engine.Cmd;
 
@@ -66,7 +66,7 @@ public class Heros extends Personnage{
 			float[] coord2= {(m.getSeuilImg()[0]+m.getSeuilImg()[1])/2,(m.getSeuilImg()[2]+m.getSeuilImg()[3])/2};
 			if (distance(coord1,coord2)<=(m.getSeuilContact()+h.porteeATK)) {
 				m.setPV(m.getPV()-h.getATK());
-				System.out.println(m.getPV());
+				Main.playSound("Slash1.wav", -18.0f);
 				if(m.getPV()<=0) {
 					listeMonstre.remove(m);
 					if(listeMonstre.isEmpty()) {
@@ -77,12 +77,36 @@ public class Heros extends Personnage{
 		}
 	}
 	
-	public static void AffichageHeros(BufferedImage img,Graphics2D crayon) {
+	public static void AffichageHeros(Graphics2D crayon) {
+//		AFFICHAGE DU HEROS
+			BufferedImage heros;
+			Heros h = Personnage.Joueur;
+			int x = (int)h.getCoordXY()[0];
+			int y = (int)h.getCoordXY()[1];
+			int n = h.getdirectionIMG();
+			int frame=h.getAnimation();
+			if(h.atkframe>0) {
+				Timer timer = new Timer();
+				
+				Heros.AttakAnimation(crayon,h.atkframe-1);
+				h.atkframe++;
+				if(h.atkframe>3) {h.atkframe=0;}
+			}
+			else {
+			try {
+				heros = ImageIO.read(new File(h.fichierImg));	
+				//		CHANGER LES 4 DERNIERS ARGUMENTS SELON LA DIRECTION DU HEROS
+				crayon.drawImage(heros,x, y, 48+x, 72+y,frame*48,n*72,48+frame*48,72+n*72, null);
+			} catch (IOException e) {
+				System.out.println("pas d'image pour le heros");
+			}
+			}
+			h.AffichageHPBar(crayon);
 
 	}
 	
 	
-	public static void AttakAnimation(Graphics2D crayon, BufferedImage im, int frame) {
+	public static void AttakAnimation(Graphics2D crayon,int frame) {
 		Heros h=Personnage.Joueur;
 		int x=(int)h.getCoordXY()[0];
 		int y=(int)h.getCoordXY()[1];
