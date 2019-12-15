@@ -94,6 +94,32 @@ public class Personnage {
 		}
 		catch(ArrayIndexOutOfBoundsException e) {System.out.println("ERREUR DIRECTION MONSTRE");return true;}
 	}
+	
+	public boolean dansCoin() {
+		int[][] tab=Carte.getCarte().donnees;
+		int t=Carte.taillecase;
+		int casex1=(int) this.getSeuilImgCoord()[0]/t;
+		int casex2=(int) this.getSeuilImgCoord()[1]/t;
+		int casey1=(int) this.getSeuilImgCoord()[2]/t;
+		int casey2=(int) this.getSeuilImgCoord()[3]/t;
+		int k=0;
+		try {
+		if (tab[casex1-1][casey1-1]==1) {
+			k++;
+		}
+		if (tab[casex2+1][casey1-1]==1) {
+			k++;
+		}
+		if (tab[casex1-1][casey2+1]==1) {
+			k++;
+		}
+		if (tab[casex2+1][casey2+1]==1) {
+			k++;
+		}
+		return(k==3);
+		}
+		catch(ArrayIndexOutOfBoundsException e) {System.out.println("ERREUR DIRECTION MONSTRE");return true;}
+	}
 
 	public boolean contactTresor() {
 		int[][] tab=Carte.getCarte().donnees;
@@ -174,10 +200,9 @@ public class Personnage {
 				listePers.add(h);
 				boolean contact=false;
 				for(Personnage m:listePers) {
-					if (!(this==m) && this.contactPers(m)) {
+					if (!(this==m) && this.contactPers(m) && !(this.dansCoin())) {
 						dirP = this.getSeuilImg();//gauche,droite,haut,bas de l'image
 						dirM = m.getSeuilImg();
-						
 						switch(this.dirImg) {
 						case UP:
 							if(dirP[3]>dirM[3]) {contact=true;}
