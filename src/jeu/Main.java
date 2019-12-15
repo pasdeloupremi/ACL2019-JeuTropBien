@@ -43,6 +43,7 @@ public class Main {
 		Carte c = new Carte("Carte.csv",10,8,48,"terrain48.png");
 		System.out.println(c.donnees[5][5]);
 		Carte.generer();
+		Carte.niveauSuivant();
 		
 		PacmanPainter painter = new PacmanPainter();
 		PacmanController controller = new PacmanController();

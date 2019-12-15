@@ -98,8 +98,7 @@ public class Heros extends Personnage{
 			else {
 			try {
 				heros = ImageIO.read(new File(h.fichierImg));	
-				//		CHANGER LES 4 DERNIERS ARGUMENTS SELON LA DIRECTION DU HEROS
-				crayon.drawImage(heros,x, y, 48+x, 72+y,frame*48,n*72,48+frame*48,72+n*72, null);
+				crayon.drawImage(heros,Carte.decalX(x), Carte.decalY(y), Carte.decalX(48+x), Carte.decalY(72+y),frame*48,n*72,48+frame*48,72+n*72, null);
 			} catch (IOException e) {
 				System.out.println("pas d'image pour le heros");
 			}
@@ -131,7 +130,7 @@ public class Heros extends Personnage{
 		}
 		try {
 			BufferedImage atk = ImageIO.read(new File("attaque.png"));	
-			crayon.drawImage(atk,x, y, 48+x, 72+y,0+frame*48,0+n*72,48+frame*48,72+n*72, null);
+			crayon.drawImage(atk,Carte.decalX(x), Carte.decalY(y), Carte.decalX(48+x), Carte.decalY(72+y),0+frame*48,0+n*72,48+frame*48,72+n*72, null);
 		} catch (IOException e) {
 			System.out.println("pas d'image d'attaque");
 		}

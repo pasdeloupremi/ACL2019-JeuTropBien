@@ -73,7 +73,7 @@ public class Monstre extends Personnage{
 			try {
 				monstre = ImageIO.read(new File(m.fichierImg));	
 				//	CHANGER LES 4 DERNIERS ARGUMENTS SELON LA DIRECTION DU MONSTRE
-				crayon.drawImage(monstre,x, y, tailleM[0]+x, tailleM[1]+y,frame*tailleM[0],n*tailleM[1],(frame+1)*tailleM[0],tailleM[1]*(n+1), null);
+				crayon.drawImage(monstre,Carte.decalX(x), Carte.decalY(y), Carte.decalX(tailleM[0]+x), Carte.decalY(tailleM[1]+y),frame*tailleM[0],n*tailleM[1],(frame+1)*tailleM[0],tailleM[1]*(n+1), null);
 			} catch (IOException e) {
 				System.out.println("pas d'image pour le mosntre : "+m.getNom());
 			}

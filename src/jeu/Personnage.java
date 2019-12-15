@@ -75,6 +75,7 @@ public class Personnage {
 		int casex2=(int) this.getSeuilImg()[1]/t;
 		int casey1=(int) this.getSeuilImg()[2]/t;
 		int casey2=(int) this.getSeuilImg()[3]/t;
+		try {
 		if (tab[casex1][casey1]==1) {
 			return true;
 		}
@@ -90,6 +91,8 @@ public class Personnage {
 		else {
 			return false;
 		}
+		}
+		catch(ArrayIndexOutOfBoundsException e) {System.out.println("ERREUR DIRECTION MONSTRE");return true;}
 	}
 	
 	public float[] getSeuilImg() {
@@ -169,12 +172,12 @@ public class Personnage {
 	}
 	public void AffichageHPBar(Graphics2D crayon) {
 		crayon.setColor(Color.black);
-		crayon.fillRect((int)(this.coordXY[0]), (int)(this.coordXY[1]-8), this.tailleImg[0], 6);
+		crayon.fillRect(Carte.decalX((int)(this.coordXY[0])), Carte.decalY((int)(this.coordXY[1]-8)), this.tailleImg[0], 6);
 		float PVf=this.PV;
 		float PVMAXf=this.PVMAX;
 		if(PVf/PVMAXf<0.5) {crayon.setColor(Color.orange);}
 		else {crayon.setColor(Color.green);}
-		crayon.fillRect((int)(this.coordXY[0]), (int)(this.coordXY[1]-8), Math.max(0,this.tailleImg[0]*this.PV/this.PVMAX), 6);
+		crayon.fillRect(Carte.decalX((int)(this.coordXY[0])), Carte.decalY((int)(this.coordXY[1]-8)), Math.max(0,this.tailleImg[0]*this.PV/this.PVMAX), 6);
 	}
 	
 	public void debutAnimation() {
