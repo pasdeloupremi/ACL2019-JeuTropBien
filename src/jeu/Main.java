@@ -28,7 +28,7 @@ public class Main {
 		
 		//init du monstre 1,2
 		float[] mcoord= {48,96};
-		MinoBoss m1 = new MinoBoss(mcoord);
+		//MinoBoss m1 = new MinoBoss(mcoord);
 		Minotaure m2 = new Minotaure(mcoord);
 		//il faudra gerer les collisions des monstres
 		//HERO
@@ -36,14 +36,14 @@ public class Main {
 		float[] hcoord= mcoord.clone();
 		hcoord[0]+=96;
 		hcoord[1]+=96;
-		Heros h = new Heros("joueur1", 100, 20, hcoord, hcoord, 10, 13, 40,t2,Personnage.listeMonstre,"heros72x48.png");
+		Heros h = new Heros("joueur1", 1000, 20, hcoord, hcoord, 10, 13, 40,t2,Personnage.listeMonstre,"heros72x48.png");
 		h.toucher();
 
 		//CARTE
 		Carte c = new Carte("Carte.csv",10,8,48,"terrain48.png");
 		System.out.println(c.donnees[5][5]);
 		Carte.generer();
-		Carte.niveauSuivant();
+		//Carte.niveauSuivant();
 		
 		PacmanPainter painter = new PacmanPainter();
 		PacmanController controller = new PacmanController();
@@ -71,9 +71,9 @@ public class Main {
 	
 	public static void Update(BufferedImage im,Graphics2D crayon) {
 		Carte.AffichageTerrain(crayon);
+		Carte.AffichageDecors(crayon);
 		Monstre.AffichageMonstre(crayon);
 		Heros.AffichageHeros(crayon);
-		Carte.AffichageDecors(crayon);
 	}
 
 	public static void playSound(String nom, int volume) {

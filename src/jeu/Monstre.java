@@ -30,7 +30,6 @@ public class Monstre extends Personnage{
 		int c = 1+(int)(Math.random()*4);
 		this.debutAnimation();
 		switch (c) {
-		// si on appuie sur 'q',commande joueur est gauche
 		case 1:
 			float[] test1 = {coordactuelle[0]-this.vitesse/2+x,coordactuelle[1]+y};
 			this.setDirection(test1);

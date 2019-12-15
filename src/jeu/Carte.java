@@ -45,7 +45,7 @@ public class Carte {
 			do {
 				tab=ligne.split(";");
 				for(int j=0;j<m;j++) {
-					try {numD=Integer.parseInt(tab[j]);}catch(NumberFormatException e){numD=0;}
+					try {numD=Integer.parseInt(tab[j]);}catch(NumberFormatException e){System.out.println(tab[j]);numD=0;}
 					donnees[k][j]=numD;						
 				}
 				k++;
@@ -114,6 +114,10 @@ public class Carte {
 					caseX=2;
 					caseY=8*t;
 					break;
+				default:
+					caseX=t;
+					caseY=0;
+					break;
 				}
 				//crayon.drawImage(img, t*i, t*j, t*(i+1), t*(j+1), caseX, caseY, caseX+t, caseY+t,null);
 				crayon.drawImage(img, decalX(t*i), decalY(t*j), decalX(t*(i+1)), decalY(t*(j+1)), caseX, caseY, caseX+t, caseY+t,null);
@@ -127,19 +131,27 @@ public class Carte {
 		int caseX=0;
 		int caseY=0;
 		int t = Carte.taillecase;	
-	
 		//	AFFICHAGE DU DECOR
 		BufferedImage decors=null;
 		try {
-			decors = ImageIO.read(new File("decors48.png"));
+			decors = ImageIO.read(new File("Chest.png"));
 		} catch (IOException e) {
 			//System.out.println("pas d'image de decoration");
 		}
 		for(int i=0;i<donnees.length;i++) {
 			for(int j=0;j<donnees[0].length;j++) {
 				switch(donnees[i][j]) {
-				default :
-					decors=null;
+				case 2: // TRESOR
+					caseX=t;
+					caseY=0;
+					break;
+				case 3: // PIEGE
+					caseX=9*t;
+					caseY=2*t;
+					break;
+				default: // RIEN
+					caseX=0;
+					caseY=0;
 					break;
 				}
 				//crayon.drawImage(decors, t*i, t*j, t*(i+1), t*(j+1), caseX, caseY, caseX+t, caseY+t,null);
