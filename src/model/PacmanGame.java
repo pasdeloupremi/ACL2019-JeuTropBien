@@ -197,6 +197,11 @@ public class PacmanGame implements Game {
 			//le joueur est mort, on passe en état gameover
 			gameOverFlag = true;
 		}
+		
+		if(joueur.contactPiege())
+		{
+			joueur.setPV(joueur.getPV()-5);
+		}
 
 
 		//--------------------------
@@ -218,7 +223,7 @@ public class PacmanGame implements Game {
 		//--------------------------
 		//Victoire
 		//--------------------------
-		if(listeMonstre.size() == 0)
+		if(joueur.contactTresor())
 		{
 			victoryFlag = true;
 		}

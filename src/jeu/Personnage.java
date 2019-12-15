@@ -10,7 +10,7 @@ public class Personnage {
 
 	public static ArrayList<Monstre> listeMonstre=new ArrayList<Monstre>();
 	public static Heros Joueur;
-	
+
 	private String nom;
 	protected int PV;
 	protected int PVMAX;
@@ -25,9 +25,9 @@ public class Personnage {
 	String fichierImg;
 	int frameATK;
 	protected int delaiATK;
-	
+
 	public Personnage(String nom, int pV, int aTK, float[] coordXY, float[] direction, float vitesse,
-			 float seuilContact, int[] tailleImg, String fichierImg) {
+			float seuilContact, int[] tailleImg, String fichierImg) {
 		super();
 		this.nom = nom;
 		PV = Math.max(0,pV);
@@ -42,7 +42,7 @@ public class Personnage {
 		this.tailleImg=tailleImg;
 		this.fichierImg=fichierImg;
 	}
-	
+
 	//renvoie TRUE quand plus de PV
 	public boolean isAlive()
 	{
@@ -55,8 +55,8 @@ public class Personnage {
 			return true;
 		}
 	}
-	
-	
+
+
 	public boolean contactPers(Personnage p) {
 		float[] coord1= {(this.getSeuilImg()[0]+this.getSeuilImg()[1])/2,(this.getSeuilImg()[2]+this.getSeuilImg()[3])/2};
 		float[] coord2= {(p.getSeuilImg()[0]+p.getSeuilImg()[1])/2,(p.getSeuilImg()[2]+p.getSeuilImg()[3])/2};
@@ -67,7 +67,7 @@ public class Personnage {
 			return false;
 		}
 	}
-	
+
 	public boolean contactMur() {
 		int[][] tab=Carte.getCarte().donnees;
 		int t=Carte.taillecase;
@@ -91,7 +91,55 @@ public class Personnage {
 			return false;
 		}
 	}
-	
+
+	public boolean contactTresor() {
+		int[][] tab=Carte.getCarte().donnees;
+		int t=Carte.taillecase;
+		int casex1=(int) this.getSeuilImg()[0]/t;
+		int casex2=(int) this.getSeuilImg()[1]/t;
+		int casey1=(int) this.getSeuilImg()[2]/t;
+		int casey2=(int) this.getSeuilImg()[3]/t;
+		if (tab[casex1][casey1]==2) {
+			return true;
+		}
+		else if (tab[casex2][casey1]==2) {
+			return true;
+		}
+		else if (tab[casex1][casey2]==2) {
+			return true;
+		}
+		else if (tab[casex2][casey2]==2) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	public boolean contactPiege() {
+		int[][] tab=Carte.getCarte().donnees;
+		int t=Carte.taillecase;
+		int casex1=(int) this.getSeuilImg()[0]/t;
+		int casex2=(int) this.getSeuilImg()[1]/t;
+		int casey1=(int) this.getSeuilImg()[2]/t;
+		int casey2=(int) this.getSeuilImg()[3]/t;
+		if (tab[casex1][casey1]==3) {
+			return true;
+		}
+		else if (tab[casex2][casey1]==3) {
+			return true;
+		}
+		else if (tab[casex1][casey2]==3) {
+			return true;
+		}
+		else if (tab[casex2][casey2]==3) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 	public float[] getSeuilImg() {
 		float[] Seuil = {0,0,0,0}; //gauche,droite,haut,bas de l'image
 		Seuil[0]=(float) (this.direction[0]+0.5*this.getTailleImg()[0]+this.seuilContact);
@@ -100,10 +148,41 @@ public class Personnage {
 		Seuil[3]=(float) (this.direction[1]+0.8*this.getTailleImg()[1]+this.seuilContact);
 		return Seuil;
 	}
-	
+
+	public float[] getSeuilImgCoord() {
+		float[] Seuil = {0,0,0,0}; //gauche,droite,haut,bas de l'image
+		Seuil[0]=(float) (this.coordXY[0]+0.5*this.getTailleImg()[0]+this.seuilContact);
+		Seuil[1]=(float) (this.coordXY[0]+0.5*this.getTailleImg()[0]-this.seuilContact);
+		Seuil[2]=(float) (this.coordXY[1]+0.7*this.getTailleImg()[1]-this.seuilContact);
+		Seuil[3]=(float) (this.coordXY[1]+0.8*this.getTailleImg()[1]+this.seuilContact);
+		return Seuil;
+	}
+
 	public void deplacer() {
 		if (!this.contactMur() && this.frameATK==0) {
-			this.coordXY=this.direction;
+			if (listeMonstre.isEmpty()) {
+				this.coordXY=this.direction;
+			}
+			else {
+				for(Monstre m:listeMonstre) {
+					if (listeMonstre.contains(this) && (!this.contactPers(m))) {
+						this.coordXY=this.direction;
+					}
+					else {
+						float[] coorddir1= {(this.getSeuilImg()[0]+this.getSeuilImg()[1])/2,(this.getSeuilImg()[2]+this.getSeuilImg()[3])/2};
+						float[] coorddir2= {(m.getSeuilImg()[0]+m.getSeuilImg()[1])/2,(m.getSeuilImg()[2]+m.getSeuilImg()[3])/2};
+						float[] coord1= {(this.getSeuilImgCoord()[0]+this.getSeuilImgCoord()[1])/2,(this.getSeuilImgCoord()[2]+this.getSeuilImgCoord()[3])/2};
+						float[] coord2= {(m.getSeuilImgCoord()[0]+m.getSeuilImgCoord()[1])/2,(m.getSeuilImgCoord()[2]+m.getSeuilImgCoord()[3])/2};
+						if ((this.contactPers(m)) && (distance(coord1,coord2)>=distance(coorddir1,coorddir2))) {
+							this.direction=this.coordXY;
+						}
+						else {
+							this.coordXY=this.direction;
+						}
+					}
+				}
+			}
+
 		}		
 		Heros h=Heros.Joueur;
 		if(this==h) {			
@@ -112,11 +191,11 @@ public class Personnage {
 			if(this.contactPers(h) && this.frameATK==0) {
 				this.frameATK++;
 				h.setPV(h.getPV()-this.getATK());
-				Main.playSound("Blow1.wav", -2);
+				Main.playSound("Blow1.wav", -2);	
 			}
 		}
 	}
-	
+
 	public int getdirectionIMG() {
 		int n=0;
 		switch(dirImg) {
@@ -137,7 +216,7 @@ public class Personnage {
 		}
 		return n;
 	}
-	
+
 	public int getAnimation() { //0:sur place, 1:pas droit, 2:milieu, 3:pas gauche, 4:milieu
 		int a;
 		switch(animation) {
@@ -176,18 +255,18 @@ public class Personnage {
 		else {crayon.setColor(Color.green);}
 		crayon.fillRect((int)(this.coordXY[0]), (int)(this.coordXY[1]-8), Math.max(0,this.tailleImg[0]*this.PV/this.PVMAX), 6);
 	}
-	
+
 	public void debutAnimation() {
 		if(animation==0) {animation=1;}
 	}
-	
+
 	public void majATK() {
 		if(this.frameATK>0) {
 			this.frameATK++;
 			if(this.frameATK>this.delaiATK)this.frameATK=0;
 		}
 	}
-	
+
 	public void surPlace() {
 		animation=0;
 	}
@@ -259,5 +338,5 @@ public class Personnage {
 	public void setTailleImg(int[] tailleImg) {
 		this.tailleImg = tailleImg;
 	}
-	
+
 }

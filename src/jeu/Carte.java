@@ -111,6 +111,13 @@ public class Carte {
 					caseX=2;
 					caseY=8*t;
 					break;
+				case 2: // TRESOR
+					caseX=4; //à remplir
+					caseY=4*t;
+					break;
+				case 3: // PIEGE
+					caseX=13*t; //à remplir
+					caseY=12*t;
 				}
 				crayon.drawImage(img, t*i, t*j, t*(i+1), t*(j+1), caseX, caseY, caseX+t, caseY+t,null);			
 			}		

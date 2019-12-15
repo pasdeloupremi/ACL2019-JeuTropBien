@@ -28,7 +28,7 @@ public class Main {
 		
 		//init du monstre 1,2
 		float[] mcoord= {48,96};
-		MinoBoss m1 = new MinoBoss(mcoord);
+		//MinoBoss m1 = new MinoBoss(mcoord);
 		Minotaure m2 = new Minotaure(mcoord);
 		//il faudra gerer les collisions des monstres
 		//HERO
