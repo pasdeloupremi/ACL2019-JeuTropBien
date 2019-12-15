@@ -75,7 +75,11 @@ public class Personnage {
 		int casex2=(int) this.getSeuilImg()[1]/t;
 		int casey1=(int) this.getSeuilImg()[2]/t;
 		int casey2=(int) this.getSeuilImg()[3]/t;
-		if (tab[casex1][casey1]==1) {
+		try {
+		if (this.nom.contains("Fantome")) {
+			return false; //il faudra gérer quand même les bords de map
+		}
+		else if (tab[casex1][casey1]==1) {
 			return true;
 		}
 		else if (tab[casex2][casey1]==1) {
@@ -90,6 +94,8 @@ public class Personnage {
 		else {
 			return false;
 		}
+		}
+		catch(ArrayIndexOutOfBoundsException e) {System.out.println("ERREUR DIRECTION MONSTRE");return true;}
 	}
 
 	public boolean contactTresor() {
@@ -141,7 +147,7 @@ public class Personnage {
 	}
 
 	public float[] getSeuilImg() {
-		float[] Seuil = {0,0,0,0}; //gauche,droite,haut,bas de l'image
+		float[] Seuil = {0,0,0,0}; //gauche,droite,haut,bas de l'image aux coords futurs dans direction
 		Seuil[0]=(float) (this.direction[0]+0.5*this.getTailleImg()[0]+this.seuilContact);
 		Seuil[1]=(float) (this.direction[0]+0.5*this.getTailleImg()[0]-this.seuilContact);
 		Seuil[2]=(float) (this.direction[1]+0.7*this.getTailleImg()[1]-this.seuilContact);
@@ -150,7 +156,7 @@ public class Personnage {
 	}
 
 	public float[] getSeuilImgCoord() {
-		float[] Seuil = {0,0,0,0}; //gauche,droite,haut,bas de l'image
+		float[] Seuil = {0,0,0,0}; //gauche,droite,haut,bas de l'image aux coords actuelles
 		Seuil[0]=(float) (this.coordXY[0]+0.5*this.getTailleImg()[0]+this.seuilContact);
 		Seuil[1]=(float) (this.coordXY[0]+0.5*this.getTailleImg()[0]-this.seuilContact);
 		Seuil[2]=(float) (this.coordXY[1]+0.7*this.getTailleImg()[1]-this.seuilContact);
@@ -248,12 +254,12 @@ public class Personnage {
 	}
 	public void AffichageHPBar(Graphics2D crayon) {
 		crayon.setColor(Color.black);
-		crayon.fillRect((int)(this.coordXY[0]), (int)(this.coordXY[1]-8), this.tailleImg[0], 6);
+		crayon.fillRect(Carte.decalX((int)(this.coordXY[0])), Carte.decalY((int)(this.coordXY[1]-8)), this.tailleImg[0], 6);
 		float PVf=this.PV;
 		float PVMAXf=this.PVMAX;
 		if(PVf/PVMAXf<0.5) {crayon.setColor(Color.orange);}
 		else {crayon.setColor(Color.green);}
-		crayon.fillRect((int)(this.coordXY[0]), (int)(this.coordXY[1]-8), Math.max(0,this.tailleImg[0]*this.PV/this.PVMAX), 6);
+		crayon.fillRect(Carte.decalX((int)(this.coordXY[0])), Carte.decalY((int)(this.coordXY[1]-8)), Math.max(0,this.tailleImg[0]*this.PV/this.PVMAX), 6);
 	}
 
 	public void debutAnimation() {

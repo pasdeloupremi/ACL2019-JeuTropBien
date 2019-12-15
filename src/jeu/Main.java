@@ -27,9 +27,10 @@ public class Main {
 		//MONSTRE
 		
 		//init du monstre 1,2
-		float[] mcoord= {48,96};
+		float[] mcoord= {55,96};
 		//MinoBoss m1 = new MinoBoss(mcoord);
 		Minotaure m2 = new Minotaure(mcoord);
+		//Fantome f1 = new Fantome(mcoord);
 		//il faudra gerer les collisions des monstres
 		//HERO
 		int[] t2= {48,72};
@@ -40,9 +41,10 @@ public class Main {
 		h.toucher();
 
 		//CARTE
-		Carte c = new Carte("Carte.csv",10,8,48,"terrain48.png");
+		Carte c = new Carte("Carte.csv",21,8,48,"terrain48.png");
 		System.out.println(c.donnees[5][5]);
 		Carte.generer();
+		//Carte.niveauSuivant();
 		
 		PacmanPainter painter = new PacmanPainter();
 		PacmanController controller = new PacmanController();

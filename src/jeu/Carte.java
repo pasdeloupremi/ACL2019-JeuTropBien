@@ -1,5 +1,6 @@
 package jeu;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
@@ -89,6 +90,8 @@ public class Carte {
 	
 	public static void AffichageTerrain(Graphics2D crayon) {
 		BufferedImage img=null;
+		crayon.setColor(Color.black);
+		crayon.fillRect(0, 0, width, height);
 		Carte carte = Carte.listeNiveaux.get(niveau_actuel);
 		int[][] donnees = carte.donnees;
 		int caseX=0;
@@ -119,7 +122,8 @@ public class Carte {
 					caseX=13*t; //à remplir
 					caseY=12*t;
 				}
-				crayon.drawImage(img, t*i, t*j, t*(i+1), t*(j+1), caseX, caseY, caseX+t, caseY+t,null);			
+				//crayon.drawImage(img, t*i, t*j, t*(i+1), t*(j+1), caseX, caseY, caseX+t, caseY+t,null);
+				crayon.drawImage(img, decalX(t*i), decalY(t*j), decalX(t*(i+1)), decalY(t*(j+1)), caseX, caseY, caseX+t, caseY+t,null);
 			}		
 		}
 	}
@@ -145,7 +149,8 @@ public class Carte {
 					decors=null;
 					break;
 				}
-				crayon.drawImage(decors, t*i, t*j, t*(i+1), t*(j+1), caseX, caseY, caseX+t, caseY+t,null);			
+				//crayon.drawImage(decors, t*i, t*j, t*(i+1), t*(j+1), caseX, caseY, caseX+t, caseY+t,null);
+				crayon.drawImage(decors, decalX(t*i), decalY(t*j), decalX(t*(i+1)), decalY(t*(j+1)), caseX, caseY, caseX+t, caseY+t,null);
 			}		
 		}	
 		
@@ -155,4 +160,19 @@ public class Carte {
 		return listeNiveaux.get(niveau_actuel);
 	}
 	
+	public static void niveauSuivant() {
+		listeNiveaux.remove(0);
+	}
+	
+	public static int decalX(int c) {
+		Heros h = Heros.Joueur;
+		float D=c-h.getCoordXY()[0];
+		return (int)(width/2+D);
+	}
+	
+	public static int decalY(int c) {
+		Heros h = Heros.Joueur;
+		float D=c-h.getCoordXY()[1];
+		return (int)(height/2+D);
+	}
 }

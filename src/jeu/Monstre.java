@@ -11,53 +11,180 @@ import javax.imageio.ImageIO;
 import engine.Cmd;
 
 public class Monstre extends Personnage{
-	 	
+
 	public Monstre(String nom, int pV, int aTK, float[] coordXY, float[] direction, float vitesse,
 			float seuilContact,int[] tailleImg,String fichierImg) {
 		super(nom, pV, aTK, coordXY, direction, vitesse, seuilContact,tailleImg,fichierImg);
 		listeMonstre.add(this);
 		this.delaiATK=15;
 	}
-	
+
 	public void deplacermonstre() {
 		float[] coordactuelle = this.getCoordXY();
 		float[] coordheros = Heros.Joueur.getCoordXY();
-		float xdif = coordactuelle[0] - coordheros[0]; 
-		float ydif = coordactuelle[1] - coordheros[1]; 
-		float dif = Math.abs(xdif + ydif);
-		float x = -xdif/dif*(vitesse/2);
-		float y = -ydif/dif*(vitesse/2);
-		int c = 1+(int)(Math.random()*4);
+		float distanceactuelle=distance(coordactuelle, coordheros);
+		int c=0;
+		float[] meilleurcoord = {0,0};
+		for (int i=0;i<4;i++) {
+			float[] coordfutur = {0,0};
+			if (i==0) { //gauche
+				coordfutur[0] = coordactuelle[0]-this.vitesse;
+				coordfutur[1] = coordactuelle[1];
+			}
+			else if (i==1) { //droite
+				coordfutur[0] = coordactuelle[0]+this.vitesse;
+				coordfutur[1] = coordactuelle[1];			}
+			else if (i==2) { //bas
+				coordfutur[0] = coordactuelle[0];
+				coordfutur[1] = coordactuelle[1]-this.vitesse;			}
+			else if (i==3) { //haut
+				coordfutur[0] = coordactuelle[0];
+				coordfutur[1] = coordactuelle[1]+this.vitesse;			}
+			float nouvelledistance=distance(coordheros,coordfutur);
+			if (distanceactuelle>nouvelledistance) {
+				distanceactuelle=nouvelledistance;
+				meilleurcoord[0] = coordfutur[0];
+				meilleurcoord[1] = coordfutur[1];
+				c=i+1;
+			}
+		}
+		//int c = 1+(int)(Math.random()*4);
 		this.debutAnimation();
 		switch (c) {
 		// si on appuie sur 'q',commande joueur est gauche
 		case 1:
-			float[] test1 = {coordactuelle[0]-this.vitesse/2+x,coordactuelle[1]+y};
+			float[] test1 = {meilleurcoord[0],meilleurcoord[1]};
 			this.setDirection(test1);
 			this.dirImg = Cmd.LEFT;
 			break;
 		case 2:
-			float[] test2 = {coordactuelle[0]+this.vitesse/2+x,coordactuelle[1]+y};
+			float[] test2 = {meilleurcoord[0],meilleurcoord[1]};
 			this.setDirection(test2);
 			this.dirImg = Cmd.RIGHT;
 			break;
 		case 3:
-			float[] test3 = {coordactuelle[0]+x,coordactuelle[1]+this.vitesse/2+y};
+			float[] test3 = {meilleurcoord[0],meilleurcoord[1]};
 			this.setDirection(test3);
 			this.dirImg = Cmd.DOWN;
 			break;
 		case 4:
-			float[] test4 = {coordactuelle[0]+x,coordactuelle[1]-this.vitesse/2+y};
+			float[] test4 = {meilleurcoord[0],meilleurcoord[1]};
 			this.setDirection(test4);
 			this.dirImg = Cmd.UP;
 			break;
 		default:
 			break;
 		}
+		if (this.contactMur()) { //si je touche un mur (à améliorer)
+			distanceactuelle=distance(coordactuelle, coordheros);
+			float[] coordfutur = {0,0};
+			if (c==1) { //si le mur est à gauche
+				for (int i=3;i<5;i++) {
+					if (i==3) { //bas
+						coordfutur[0] = coordactuelle[0];
+						coordfutur[1] = coordactuelle[1]-this.vitesse;
+					}
+					else if (i==4) { //haut
+						coordfutur[0] = coordactuelle[0];
+						coordfutur[1] = coordactuelle[1]+this.vitesse;			}
+
+					float nouvelledistance=distance(coordheros,coordfutur);
+					if (distanceactuelle>nouvelledistance) {
+						distanceactuelle=nouvelledistance;
+						meilleurcoord[0] = coordfutur[0];
+						meilleurcoord[1] = coordfutur[1];
+						c=i;
+					}
+				}
+			}
+			else if (c==2) { //si le mur est à droite
+				for (int i=3;i<5;i++) {
+					if (i==3) { //bas
+						coordfutur[0] = coordactuelle[0];
+						coordfutur[1] = coordactuelle[1]-this.vitesse;
+					}
+					else if (i==4) { //haut
+						coordfutur[0] = coordactuelle[0];
+						coordfutur[1] = coordactuelle[1]+this.vitesse;			}
+
+					float nouvelledistance=distance(coordheros,coordfutur);
+					if (distanceactuelle>nouvelledistance) {
+						distanceactuelle=nouvelledistance;
+						meilleurcoord[0] = coordfutur[0];
+						meilleurcoord[1] = coordfutur[1];
+						c=i;
+					}
+				}
+			}
+			else if (c==3) { //si le mur est en bas
+				for (int i=1;i<3;i++) {
+					if (i==1) { //gauche
+						coordfutur[0] = coordactuelle[0]-this.vitesse;
+						coordfutur[1] = coordactuelle[1];
+					}
+					else if (i==2) { //droite
+						coordfutur[0] = coordactuelle[0]+this.vitesse;
+						coordfutur[1] = coordactuelle[1];			}
+
+					float nouvelledistance=distance(coordheros,coordfutur);
+					if (distanceactuelle>nouvelledistance) {
+						distanceactuelle=nouvelledistance;
+						meilleurcoord[0] = coordfutur[0];
+						meilleurcoord[1] = coordfutur[1];
+						c=i;
+					}
+				}
+			}
+			else if (c==4) { //si le mur est en haut
+				for (int i=1;i<3;i++) {
+					if (i==1) { //gauche
+						coordfutur[0] = coordactuelle[0]-this.vitesse;
+						coordfutur[1] = coordactuelle[1];
+					}
+					else if (i==2) { //droite
+						coordfutur[0] = coordactuelle[0]+this.vitesse;
+						coordfutur[1] = coordactuelle[1];			}
+
+					float nouvelledistance=distance(coordheros,coordfutur);
+					if (distanceactuelle>nouvelledistance) {
+						distanceactuelle=nouvelledistance;
+						meilleurcoord[0] = coordfutur[0];
+						meilleurcoord[1] = coordfutur[1];
+						c=i;
+					}
+				}
+			} 
+			this.setDirection(meilleurcoord);
+			switch (c) {
+			// si on appuie sur 'q',commande joueur est gauche
+			case 1:
+				float[] test1 = {meilleurcoord[0],meilleurcoord[1]};
+				this.setDirection(test1);
+				this.dirImg = Cmd.LEFT;
+				break;
+			case 2:
+				float[] test2 = {meilleurcoord[0],meilleurcoord[1]};
+				this.setDirection(test2);
+				this.dirImg = Cmd.RIGHT;
+				break;
+			case 3:
+				float[] test3 = {meilleurcoord[0],meilleurcoord[1]};
+				this.setDirection(test3);
+				this.dirImg = Cmd.DOWN;
+				break;
+			case 4:
+				float[] test4 = {meilleurcoord[0],meilleurcoord[1]};
+				this.setDirection(test4);
+				this.dirImg = Cmd.UP;
+				break;
+			default:
+				break;
+			}
+		}
 		this.deplacer();	
 	}
-	
-	
+
+
 	public static void AffichageMonstre(Graphics2D crayon) {
 		//	AFFICHAGE DES MONSTRES
 		BufferedImage monstre;
@@ -73,12 +200,12 @@ public class Monstre extends Personnage{
 			try {
 				monstre = ImageIO.read(new File(m.fichierImg));	
 				//	CHANGER LES 4 DERNIERS ARGUMENTS SELON LA DIRECTION DU MONSTRE
-				crayon.drawImage(monstre,x, y, tailleM[0]+x, tailleM[1]+y,frame*tailleM[0],n*tailleM[1],(frame+1)*tailleM[0],tailleM[1]*(n+1), null);
+				crayon.drawImage(monstre,Carte.decalX(x), Carte.decalY(y), Carte.decalX(tailleM[0]+x), Carte.decalY(tailleM[1]+y),frame*tailleM[0],n*tailleM[1],(frame+1)*tailleM[0],tailleM[1]*(n+1), null);
 			} catch (IOException e) {
 				System.out.println("pas d'image pour le mosntre : "+m.getNom());
 			}
 			m.AffichageHPBar(crayon);
 		}
 	}
-	
+
 }
