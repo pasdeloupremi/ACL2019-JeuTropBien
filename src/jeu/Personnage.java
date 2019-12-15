@@ -76,7 +76,10 @@ public class Personnage {
 		int casey1=(int) this.getSeuilImg()[2]/t;
 		int casey2=(int) this.getSeuilImg()[3]/t;
 		try {
-		if (tab[casex1][casey1]==1) {
+		if (this.getClass()==Fantome.class) {
+			return false; //il faudra gérer quand même les bords de map
+		}
+		else if (tab[casex1][casey1]==1) {
 			return true;
 		}
 		else if (tab[casex2][casey1]==1) {
@@ -148,10 +151,10 @@ public class Personnage {
 	public boolean contactPiege() {
 		int[][] tab=Carte.getCarte().donnees;
 		int t=Carte.taillecase;
-		int casex1=(int) this.getSeuilImg()[0]/t;
-		int casex2=(int) this.getSeuilImg()[1]/t;
-		int casey1=(int) this.getSeuilImg()[2]/t;
-		int casey2=(int) this.getSeuilImg()[3]/t;
+		int casex1=(int) this.getSeuilImgCoord()[0]/t;
+		int casex2=(int) this.getSeuilImgCoord()[1]/t;
+		int casey1=(int) this.getSeuilImgCoord()[2]/t;
+		int casey2=(int) this.getSeuilImgCoord()[3]/t;
 		if (tab[casex1][casey1]==3) {
 			return true;
 		}
@@ -170,7 +173,7 @@ public class Personnage {
 	}
 
 	public float[] getSeuilImg() {
-		float[] Seuil = {0,0,0,0}; //gauche,droite,haut,bas de l'image
+		float[] Seuil = {0,0,0,0}; //gauche,droite,haut,bas de l'image aux coords futurs dans direction
 		Seuil[0]=(float) (this.direction[0]+0.5*this.getTailleImg()[0]+this.seuilContact);
 		Seuil[1]=(float) (this.direction[0]+0.5*this.getTailleImg()[0]-this.seuilContact);
 		Seuil[2]=(float) (this.direction[1]+0.7*this.getTailleImg()[1]-this.seuilContact);
@@ -179,7 +182,7 @@ public class Personnage {
 	}
 
 	public float[] getSeuilImgCoord() {
-		float[] Seuil = {0,0,0,0}; //gauche,droite,haut,bas de l'image
+		float[] Seuil = {0,0,0,0}; //gauche,droite,haut,bas de l'image aux coords actuelles
 		Seuil[0]=(float) (this.coordXY[0]+0.5*this.getTailleImg()[0]+this.seuilContact);
 		Seuil[1]=(float) (this.coordXY[0]+0.5*this.getTailleImg()[0]-this.seuilContact);
 		Seuil[2]=(float) (this.coordXY[1]+0.7*this.getTailleImg()[1]-this.seuilContact);
@@ -190,7 +193,7 @@ public class Personnage {
 	public void deplacer() {
 		Heros h=Heros.Joueur;
 		if (!this.contactMur() && this.frameATK==0) {
-			if (listeMonstre.isEmpty()) {
+			if ((listeMonstre.isEmpty()) || (this.contactMur())) {
 				this.coordXY=this.direction;
 			}
 			else {

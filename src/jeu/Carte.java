@@ -53,7 +53,7 @@ public class Carte {
 			
 			helpReader.close();
 		} catch (IOException e) {
-			System.out.println("Help not available");
+			System.out.println("pas de fichier carte");
 		}
 		listeNiveaux.add(this);
 	}
