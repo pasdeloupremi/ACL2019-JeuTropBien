@@ -160,7 +160,7 @@ public class Personnage {
 
 	public void deplacer() {
 		if (!this.contactMur() && this.frameATK==0) {
-			if (listeMonstre.isEmpty()) {
+			if ((listeMonstre.isEmpty()) || (this.contactMur())) {
 				this.coordXY=this.direction;
 			}
 			else {
@@ -173,7 +173,7 @@ public class Personnage {
 						float[] coorddir2= {(m.getSeuilImg()[0]+m.getSeuilImg()[1])/2,(m.getSeuilImg()[2]+m.getSeuilImg()[3])/2};
 						float[] coord1= {(this.getSeuilImgCoord()[0]+this.getSeuilImgCoord()[1])/2,(this.getSeuilImgCoord()[2]+this.getSeuilImgCoord()[3])/2};
 						float[] coord2= {(m.getSeuilImgCoord()[0]+m.getSeuilImgCoord()[1])/2,(m.getSeuilImgCoord()[2]+m.getSeuilImgCoord()[3])/2};
-						if ((this.contactPers(m)) && (distance(coord1,coord2)>=distance(coorddir1,coorddir2))) {
+						if ((this.contactPers(m)) && (distance(coord1,coord2)>=distance(coorddir1,coorddir2)) &&(m!=this)) {
 							this.direction=this.coordXY;
 						}
 						else {
