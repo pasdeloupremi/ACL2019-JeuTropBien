@@ -88,9 +88,9 @@ public class Heros extends Personnage{
 	}
 	
 	public static void lancersort1() {
-		mtouches=new ArrayList<Monstre>();
 		Heros h=Personnage.Joueur;
 		if(h.spellframe==0) {
+		mtouches=new ArrayList<Monstre>();
 		h.spellframe=1;
 		h.frameATK++;
 		int seuilSort=80;
