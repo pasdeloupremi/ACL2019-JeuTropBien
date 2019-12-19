@@ -74,6 +74,9 @@ public class PacmanGame implements Game {
 			case SPACE:
 				Heros.attaquer();
 				break;
+			case SORT1:
+				Heros.lancersort1();
+				break;
 			case IDLE:
 				Heros.Joueur.surPlace();
 				break;
@@ -224,8 +227,18 @@ public class PacmanGame implements Game {
 		//Victoire
 		//--------------------------
 		if(joueur.contactTresor())
-		{
+		{	
+			if(victoryFlag==true) {
+				try {
+					Thread.sleep(800);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			quitGameFlag = true;
+			}
 			victoryFlag = true;
+			
 		}
 
 	}

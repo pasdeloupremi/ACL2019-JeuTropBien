@@ -55,6 +55,21 @@ public class Personnage {
 			return true;
 		}
 	}
+	
+	public float[] initCoord() {
+		ArrayList<Personnage> listePers=(ArrayList<Personnage>) listeMonstre.clone();
+		listePers.add(Heros.Joueur);
+		boolean contact = false;
+		do {
+			
+			for(Personnage p:listePers) {
+			if(!(this==p)&&this.contactPers(p)) {
+				
+				}
+			}
+		}while(contact==true);
+		return this.coordXY;
+	}
 
 
 	public boolean contactPers(Personnage p) {

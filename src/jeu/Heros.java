@@ -16,6 +16,8 @@ public class Heros extends Personnage{
 
 	private float porteeATK;
 	int atkframe;
+	int spellframe;
+	static ArrayList<Monstre> mtouches;
 	
 	public Heros(String nom, int pV, int aTK, float[] coordXY, float[] direction, float vitesse,
 			float seuilContact, float porteeATK,int[] tailleImg,ArrayList<Monstre> listeMonstre,String fichierImg) {
@@ -64,6 +66,7 @@ public class Heros extends Personnage{
 		if(h.frameATK==0) {
 		h.atkframe=1;
 		h.frameATK++;
+		ArrayList<Monstre> monstresmorts=new ArrayList<Monstre>();
 		for(Monstre m: Personnage.listeMonstre) {
 			float[] coord1= {(h.getSeuilImg()[0]+h.getSeuilImg()[1])/2,(h.getSeuilImg()[2]+h.getSeuilImg()[3])/2};
 			float[] coord2= {(m.getSeuilImg()[0]+m.getSeuilImg()[1])/2,(m.getSeuilImg()[2]+m.getSeuilImg()[3])/2};
@@ -71,12 +74,44 @@ public class Heros extends Personnage{
 				m.setPV(m.getPV()-h.getATK());
 				Main.playSound("Slash1.wav", -2);
 				if(m.getPV()<=0) {
-					listeMonstre.remove(m);
+					monstresmorts.add(m);
 					if(listeMonstre.isEmpty()) {
 						return ;
 					}
 				}
 			}
+		}
+		for(Monstre m:monstresmorts) {
+			listeMonstre.remove(m);
+		}
+		}
+	}
+	
+	public static void lancersort1() {
+		mtouches=new ArrayList<Monstre>();
+		Heros h=Personnage.Joueur;
+		if(h.spellframe==0) {
+		h.spellframe=1;
+		h.frameATK++;
+		int seuilSort=80;
+		ArrayList<Monstre> monstresmorts=new ArrayList<Monstre>();
+		for(Monstre m: Personnage.listeMonstre) {
+			float[] coord1= {(h.getSeuilImg()[0]+h.getSeuilImg()[1])/2,(h.getSeuilImg()[2]+h.getSeuilImg()[3])/2};
+			float[] coord2= {(m.getSeuilImg()[0]+m.getSeuilImg()[1])/2,(m.getSeuilImg()[2]+m.getSeuilImg()[3])/2};
+			if (distance(coord1,coord2)<=(m.getSeuilContact()+h.porteeATK+seuilSort)) {
+				m.setPV(m.getPV()-h.getATK()*2);
+				mtouches.add(m);
+				Main.playSound("Blow1.wav", -2);
+				if(m.getPV()<=0) {
+					monstresmorts.add(m);
+					if(listeMonstre.isEmpty()) {
+						return ;
+					}
+				}
+			}
+		}
+		for(Monstre m:monstresmorts) {
+			listeMonstre.remove(m);
 		}
 		}
 	}
@@ -99,11 +134,21 @@ public class Heros extends Personnage{
 			try {
 				heros = ImageIO.read(new File(h.fichierImg));	
 				crayon.drawImage(heros,Carte.decalX(x), Carte.decalY(y), Carte.decalX(48+x), Carte.decalY(72+y),frame*48,n*72,48+frame*48,72+n*72, null);
+				
 			} catch (IOException e) {
 				System.out.println("pas d'image pour le heros");
 			}
 			}
 			h.AffichageHPBar(crayon);
+	}
+	
+	public static void AffichageSorts(Graphics2D crayon) {
+		Heros h = Personnage.Joueur;
+		if(h.spellframe>0) {
+			Heros.Spell1Animation(crayon,h.spellframe);
+			h.spellframe++;
+			if(h.spellframe>10) {h.spellframe=0;}
+		}
 	}
 	
 	
@@ -133,6 +178,26 @@ public class Heros extends Personnage{
 			crayon.drawImage(atk,Carte.decalX(x), Carte.decalY(y), Carte.decalX(48+x), Carte.decalY(72+y),0+frame*48,0+n*72,48+frame*48,72+n*72, null);
 		} catch (IOException e) {
 			System.out.println("pas d'image d'attaque");
+		}
+		
+	}
+	
+	public static void Spell1Animation(Graphics2D crayon,float frame) {
+		Heros h=Personnage.Joueur;
+		System.out.println(Heros.mtouches.size());
+		int x;
+		int y;
+		try {
+		if(!Heros.mtouches.isEmpty()) {
+			for(Monstre m : mtouches) {
+				x=(int)((1-frame/10)*h.getCoordXY()[0]+(frame/10)*m.getCoordXY()[0]);
+				y=(int)((1-frame/10)*h.getCoordXY()[1]+(frame/10)*m.getCoordXY()[1]);
+				BufferedImage spell = ImageIO.read(new File("fire.png"));	
+				crayon.drawImage(spell,Carte.decalX(x), Carte.decalY(y), Carte.decalX(m.getTailleImg()[0]+x), Carte.decalY(m.getTailleImg()[1]+y),791,190,791+160,190+160, null);
+			}
+		}		
+		} catch (IOException e) {
+			System.out.println("pas d'image de sort");
 		}
 		
 	}

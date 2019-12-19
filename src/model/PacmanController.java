@@ -72,6 +72,9 @@ public class PacmanController implements GameController {
 			case KeyEvent.VK_ESCAPE:
 				this.commandeEnCours = Cmd.ESC;
 				break;
+			case KeyEvent.VK_R:
+				this.commandeEnCours = Cmd.SORT1;
+				break;
 			}
 		}
 		

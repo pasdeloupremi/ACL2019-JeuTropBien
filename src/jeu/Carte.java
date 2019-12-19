@@ -166,7 +166,9 @@ public class Carte {
 	}
 	
 	public static void niveauSuivant() {
-		listeNiveaux.remove(0);
+		if(listeNiveaux.size()>1) {
+			listeNiveaux.remove(0);
+		}
 	}
 	
 	public static int decalX(int c) {

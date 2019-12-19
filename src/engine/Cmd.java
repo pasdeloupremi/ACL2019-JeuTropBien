@@ -5,5 +5,5 @@ package engine;
  *
  */
 public enum Cmd {
-	 LEFT,RIGHT,UP,ReleaseUP,DOWN,ReleaseDOWN,IDLE,SPACE,ESC; 
+	 LEFT,RIGHT,UP,ReleaseUP,DOWN,ReleaseDOWN,IDLE,SPACE,ESC,SORT1; 
 }
