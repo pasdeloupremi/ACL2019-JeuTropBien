@@ -245,6 +245,15 @@ public class PacmanGame implements Game {
 				dureeouvertureporte++;
 			}
 			
+			if (listeMonstre.isEmpty()) {
+				for (int i=0;i<memoire.donnees.length;i++) {
+					for (int j=0;j<memoire.donnees[0].length;j++) {
+						if (memoire.donnees[i][j]==7) {
+							memoire.donnees[i][j]=0;
+						}
+					}
+				}
+			}
 		}
 		else
 		{
