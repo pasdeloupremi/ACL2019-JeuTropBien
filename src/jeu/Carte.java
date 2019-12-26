@@ -136,7 +136,7 @@ public class Carte {
 		try {
 			decors = ImageIO.read(new File("Chest.png"));
 		} catch (IOException e) {
-			//System.out.println("pas d'image de decoration");
+			System.out.println("pas d'image de decoration");
 		}
 		for(int i=0;i<donnees.length;i++) {
 			for(int j=0;j<donnees[0].length;j++) {
@@ -148,6 +148,10 @@ public class Carte {
 				case 3: // PIEGE
 					caseX=9*t;
 					caseY=2*t;
+					break;
+				case 4: //ITEM SPEED
+					caseX=0;
+					caseY=4*t;
 					break;
 				default: // RIEN
 					caseX=0;

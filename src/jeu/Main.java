@@ -30,7 +30,7 @@ public class Main {
 		float[] mcoord= {55,150};
 		//MinoBoss m1 = new MinoBoss(mcoord);
 		float[] fcoord= {155,90};
-		Minotaure m2 = new Minotaure(mcoord);
+		//Minotaure m2 = new Minotaure(mcoord);
 		Fantome f1 = new Fantome(fcoord);
 		//il faudra gerer les collisions des monstres
 		//HERO

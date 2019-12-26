@@ -21,6 +21,7 @@ import jeu.Sort1Autoguidee;
  * 
  */
 public class PacmanGame implements Game {
+	
 
 	//Partie jeu
 	private boolean victoryFlag,gameOverFlag,pauseFlag,quitGameFlag;
@@ -29,6 +30,8 @@ public class PacmanGame implements Game {
 	private Heros joueur;
 	private PacmanPainter painter;
 	private PacmanController controller;
+	private float vitesseinitiale;
+	private int dureeitemspeed=0;
 
 	//Partie menu pause
 	public int cursorPos;
@@ -194,7 +197,24 @@ public class PacmanGame implements Game {
 		//--------------------------
 		if(joueur.isAlive())//on ne met à jour que les monstres vivants 
 		{
-			//faire des trucs
+			if(joueur.contactPiege())
+			{
+				joueur.setPV(joueur.getPV()-3);
+			}
+			
+			if((joueur.contactItem()) &&(dureeitemspeed==0)) {
+				vitesseinitiale=joueur.getVitesse();
+				joueur.setVitesse(joueur.getVitesse()+5);
+				dureeitemspeed=1;
+			}
+			if (dureeitemspeed>50) {
+				dureeitemspeed=0;
+				joueur.setVitesse(vitesseinitiale);
+			}
+			else if (dureeitemspeed>0) {
+					dureeitemspeed++;
+			}
+			
 		}
 		else
 		{
@@ -202,11 +222,6 @@ public class PacmanGame implements Game {
 			gameOverFlag = true;
 		}
 		
-		if(joueur.contactPiege())
-		{
-			joueur.setPV(joueur.getPV()-5);
-		}
-
 
 		//--------------------------
 		//Mise à jour des monstres

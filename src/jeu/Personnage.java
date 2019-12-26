@@ -186,6 +186,30 @@ public class Personnage {
 			return false;
 		}
 	}
+	
+	public boolean contactItem() {
+		int[][] tab=Carte.getCarte().donnees;
+		int t=Carte.taillecase;
+		int casex1=(int) this.getSeuilImg()[0]/t;
+		int casex2=(int) this.getSeuilImg()[1]/t;
+		int casey1=(int) this.getSeuilImg()[2]/t;
+		int casey2=(int) this.getSeuilImg()[3]/t;
+		if (tab[casex1][casey1]==4) {
+			return true;
+		}
+		else if (tab[casex2][casey1]==4) {
+			return true;
+		}
+		else if (tab[casex1][casey2]==4) {
+			return true;
+		}
+		else if (tab[casex2][casey2]==4) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
 	public float[] getSeuilImg() {
 		float[] Seuil = {0,0,0,0}; //gauche,droite,haut,bas de l'image aux coords futurs dans direction
