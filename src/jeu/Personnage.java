@@ -138,78 +138,32 @@ public class Personnage {
 		}
 		catch(ArrayIndexOutOfBoundsException e) {System.out.println("ERREUR DIRECTION MONSTRE");return true;}
 	}
-
-	public boolean contactTresor() {
-		int[][] tab=Carte.getCarte().donnees;
-		int t=Carte.taillecase;
-		int casex1=(int) this.getSeuilImg()[0]/t;
-		int casex2=(int) this.getSeuilImg()[1]/t;
-		int casey1=(int) this.getSeuilImg()[2]/t;
-		int casey2=(int) this.getSeuilImg()[3]/t;
-		if (tab[casex1][casey1]==2) {
-			return true;
-		}
-		else if (tab[casex2][casey1]==2) {
-			return true;
-		}
-		else if (tab[casex1][casey2]==2) {
-			return true;
-		}
-		else if (tab[casex2][casey2]==2) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	public boolean contactPiege() {
-		int[][] tab=Carte.getCarte().donnees;
-		int t=Carte.taillecase;
-		int casex1=(int) this.getSeuilImgCoord()[0]/t;
-		int casex2=(int) this.getSeuilImgCoord()[1]/t;
-		int casey1=(int) this.getSeuilImgCoord()[2]/t;
-		int casey2=(int) this.getSeuilImgCoord()[3]/t;
-		if (tab[casex1][casey1]==3) {
-			return true;
-		}
-		else if (tab[casex2][casey1]==3) {
-			return true;
-		}
-		else if (tab[casex1][casey2]==3) {
-			return true;
-		}
-		else if (tab[casex2][casey2]==3) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
 	
-	public boolean contactItem() {
+	public boolean contactCase(int numeroCase) {
 		int[][] tab=Carte.getCarte().donnees;
 		int t=Carte.taillecase;
 		int casex1=(int) this.getSeuilImg()[0]/t;
 		int casex2=(int) this.getSeuilImg()[1]/t;
 		int casey1=(int) this.getSeuilImg()[2]/t;
 		int casey2=(int) this.getSeuilImg()[3]/t;
-		if (tab[casex1][casey1]==4) {
+		if (tab[casex1][casey1]==numeroCase) {
 			return true;
 		}
-		else if (tab[casex2][casey1]==4) {
+		else if (tab[casex2][casey1]==numeroCase) {
 			return true;
 		}
-		else if (tab[casex1][casey2]==4) {
+		else if (tab[casex1][casey2]==numeroCase) {
 			return true;
 		}
-		else if (tab[casex2][casey2]==4) {
+		else if (tab[casex2][casey2]==numeroCase) {
 			return true;
 		}
 		else {
 			return false;
 		}
 	}
+
+	
 
 	public float[] getSeuilImg() {
 		float[] Seuil = {0,0,0,0}; //gauche,droite,haut,bas de l'image aux coords futurs dans direction

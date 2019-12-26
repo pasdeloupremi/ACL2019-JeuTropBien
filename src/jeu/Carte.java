@@ -114,6 +114,18 @@ public class Carte {
 					caseX=2;
 					caseY=8*t;
 					break;
+				case 5: //  INTERRUPTEUR TEMPORAIRE PORTE 
+					caseX=0;
+					caseY=10*t;
+					break;
+				case 6: //PORTE DE L'INTERRUPTEUR
+					caseX=6*t;
+					caseY=11*t;
+					break;
+				case 7: //PORTE LIEE AUX MONSTRES 
+					caseX=6*t;
+					caseY=13*t;
+					break;
 				default:
 					caseX=t;
 					caseY=0;

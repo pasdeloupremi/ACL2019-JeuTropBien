@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import engine.Cmd;
 import engine.Game;
+import jeu.Carte;
 import jeu.Heros;
 import jeu.Monstre;
 import jeu.Personnage;
@@ -32,11 +33,14 @@ public class PacmanGame implements Game {
 	private PacmanController controller;
 	private float vitesseinitiale;
 	private int dureeitemspeed=0;
-
+	private int dureeouvertureporte=0;
+	private int [] memoirecase= new int[2];
 	//Partie menu pause
 	public int cursorPos;
 	private int buttonNumber;
 	private boolean pressedUP,pressedDOWN;
+	private Carte memoire = Carte.getCarte();
+
 	
 	//---------------------------
 	//Constructeur
@@ -197,12 +201,15 @@ public class PacmanGame implements Game {
 		//--------------------------
 		if(joueur.isAlive())//on ne met à jour que les monstres vivants 
 		{
-			if(joueur.contactPiege())
+			
+			//PIEGE
+			if(joueur.contactCase(3))
 			{
 				joueur.setPV(joueur.getPV()-3);
 			}
 			
-			if((joueur.contactItem()) &&(dureeitemspeed==0)) {
+			//SPEED BOOST
+			if((joueur.contactCase(4)) &&(dureeitemspeed==0)) {
 				vitesseinitiale=joueur.getVitesse();
 				joueur.setVitesse(joueur.getVitesse()+5);
 				dureeitemspeed=1;
@@ -213,6 +220,29 @@ public class PacmanGame implements Game {
 			}
 			else if (dureeitemspeed>0) {
 					dureeitemspeed++;
+			}
+			
+			//INTERRUPTEUR PORTE
+			if(joueur.contactCase(5)) {
+				//Carte memoire = Carte.getCarte();
+				dureeouvertureporte=1;
+				for (int i=0;i<memoire.donnees.length;i++) {
+					for (int j=0;j<memoire.donnees[0].length;j++) {
+						if (memoire.donnees[i][j]==6) {
+							memoirecase[0]= i;
+							memoirecase[1]= j;
+							memoire.donnees[i][j]=0;
+						}
+					}
+				}
+			}
+			if (dureeouvertureporte>30) {
+				dureeouvertureporte=0;
+				memoire.donnees[memoirecase[0]][memoirecase[1]]=6;
+				
+			}
+			else if (dureeouvertureporte>0) {
+				dureeouvertureporte++;
 			}
 			
 		}
@@ -242,7 +272,7 @@ public class PacmanGame implements Game {
 		//--------------------------
 		//Victoire
 		//--------------------------
-		if(joueur.contactTresor())
+		if(joueur.contactCase(2))
 		{	
 			if(victoryFlag==true) {
 				try {
