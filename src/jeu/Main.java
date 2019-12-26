@@ -74,7 +74,7 @@ public class Main {
 		Carte.AffichageDecors(crayon);
 		Monstre.AffichageMonstre(crayon);
 		Heros.AffichageHeros(crayon);
-		Heros.AffichageSorts(crayon);
+		Sort1Autoguidee.AffichageSorts(crayon);
 	}
 
 	public static void playSound(String nom, int volume) {

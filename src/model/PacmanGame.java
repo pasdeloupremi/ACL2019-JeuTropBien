@@ -11,6 +11,7 @@ import engine.Game;
 import jeu.Heros;
 import jeu.Monstre;
 import jeu.Personnage;
+import jeu.Sort1Autoguidee;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -75,7 +76,7 @@ public class PacmanGame implements Game {
 				Heros.attaquer();
 				break;
 			case SORT1:
-				Heros.lancersort1();
+				Sort1Autoguidee.lancersort1();
 				break;
 			case IDLE:
 				Heros.Joueur.surPlace();
