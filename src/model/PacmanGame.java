@@ -9,6 +9,7 @@ import java.util.Vector;
 import engine.Cmd;
 import engine.Game;
 import jeu.Carte;
+import jeu.Fantome;
 import jeu.Heros;
 import jeu.Monstre;
 import jeu.Personnage;
@@ -35,6 +36,7 @@ public class PacmanGame implements Game {
 	private int dureeitemspeed=0;
 	private int dureeouvertureporte=0;
 	private int [] memoirecase= new int[2];
+	Heros h = Personnage.Joueur;
 	//Partie menu pause
 	public int cursorPos;
 	private int buttonNumber;
@@ -224,7 +226,6 @@ public class PacmanGame implements Game {
 			
 			//INTERRUPTEUR PORTE
 			if(joueur.contactCase(5)) {
-				//Carte memoire = Carte.getCarte();
 				dureeouvertureporte=1;
 				for (int i=0;i<memoire.donnees.length;i++) {
 					for (int j=0;j<memoire.donnees[0].length;j++) {
@@ -236,15 +237,44 @@ public class PacmanGame implements Game {
 					}
 				}
 			}
+			
 			if (dureeouvertureporte>30) {
+				boolean test=false;
+				int t=Carte.taillecase;
+				int casex1=(int) h.getSeuilImg()[0]/t;
+				int casex2=(int) h.getSeuilImg()[1]/t;
+				int casey1=(int) h.getSeuilImg()[2]/t;
+				int casey2=(int) h.getSeuilImg()[3]/t;
+				try {
+					if ((casex1==memoirecase[0]) && (casey1==memoirecase[1])) {
+						test=true;
+					}
+					else if ((casex1==memoirecase[0]) && (casey2==memoirecase[1])){
+						test=true;
+					}
+					else if ((casex2==memoirecase[0]) && (casey1==memoirecase[1])) {
+						test=true;
+					}
+					else if ((casex2==memoirecase[0]) && (casey2==memoirecase[1])) {
+						test=true;
+					}
+					else {
+						test=false;
+					}
+					}
+					catch(ArrayIndexOutOfBoundsException e) {
+						System.out.println("ERREUR DIRECTION MONSTRE");
+						}
+				if (!test) {
 				dureeouvertureporte=0;
 				memoire.donnees[memoirecase[0]][memoirecase[1]]=6;
-				
+				}
 			}
 			else if (dureeouvertureporte>0) {
 				dureeouvertureporte++;
 			}
 			
+			//PORTE QUI OUVRE QUAND TOUT LES MONSTRES SONT MORTS
 			if (listeMonstre.isEmpty()) {
 				for (int i=0;i<memoire.donnees.length;i++) {
 					for (int j=0;j<memoire.donnees[0].length;j++) {
