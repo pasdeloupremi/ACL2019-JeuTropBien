@@ -41,6 +41,7 @@ public class Personnage {
 		this.animation=0;
 		this.tailleImg=tailleImg;
 		this.fichierImg=fichierImg;
+		this.initCoord();
 	}
 
 	//renvoie TRUE quand plus de PV
@@ -59,15 +60,34 @@ public class Personnage {
 	public float[] initCoord() {
 		ArrayList<Personnage> listePers=(ArrayList<Personnage>) listeMonstre.clone();
 		listePers.add(Heros.Joueur);
-		boolean contact = false;
+		int t=Carte.taillecase;
+		this.coordXY[0]=(this.coordXY[0]/t)*t;
+		this.coordXY[1]=(this.coordXY[1]/t)*t;
+		float[] coordbase=this.coordXY.clone();
+		boolean contact;
+		int[] coeff= {0,0,1,-1,1,1,-1,-1,
+				1,-1,0,0,1,-1,1,-1};
+		int k=0;
+		int c=1;
 		do {
-			
-			for(Personnage p:listePers) {
-			if(!(this==p)&&this.contactPers(p)) {
-				
-				}
+			contact = false;
+			if(this.contactMur()) {
+				contact=true;
 			}
-		}while(contact==true);
+			for(Personnage p:listePers) {
+				if(p!=null) {
+				if(!(this==p)&&this.contactPers(p)) {
+					contact=true;
+				}}
+			}
+			if(contact && coordbase[0]+coeff[k]*c*t>0 && coordbase[1]+coeff[k+8]*c*t>0 
+					&& coordbase[0]+coeff[k]*c*t<Carte.width && coordbase[1]+coeff[k+8]*c*t<Carte.height) {
+				this.coordXY[0]=coordbase[0]+coeff[k]*c*t;
+				this.coordXY[1]=coordbase[1]+coeff[k+8]*c*t;
+			}
+			k+=1;
+			if(k==8) {c+=1;k=0;}
+		}while(contact==true && c<12);
 		return this.coordXY;
 	}
 
