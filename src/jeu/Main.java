@@ -41,10 +41,12 @@ public class Main {
 		Heros h = new Heros("joueur1", 100, 20, hcoord, hcoord, 10, 13, 40,t2,Personnage.listeMonstre,"heros72x48.png");
 		
 		//MONSTRE
-		float[] mcoord= {55,150};
-		//MinoBoss m1 = new MinoBoss(mcoord);
+		float[] mcoord= {500,150};
+		MinoBoss m1 = new MinoBoss(mcoord.clone());
+		MinoBoss m2 = new MinoBoss(mcoord.clone());
+		MinoBoss m3 = new MinoBoss(mcoord.clone());
 		float[] fcoord= {155,90};
-		Minotaure m2 = new Minotaure(mcoord);
+		Minotaure m4 = new Minotaure(mcoord);
 		Fantome f1 = new Fantome(fcoord);
 
 		

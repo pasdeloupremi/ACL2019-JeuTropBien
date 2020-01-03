@@ -44,7 +44,7 @@ public class Personnage {
 		this.initCoord();
 	}
 
-	//renvoie TRUE quand plus de PV
+	//renvoie TRUE quand en vie
 	public boolean isAlive()
 	{
 		if(PV <= 0)
@@ -64,6 +64,8 @@ public class Personnage {
 		this.coordXY[0]=(this.coordXY[0]/t)*t;
 		this.coordXY[1]=(this.coordXY[1]/t)*t;
 		float[] coordbase=this.coordXY.clone();
+		int largeur = (Carte.getCarte().donnees.length-1)*t;
+		int hauteur = (Carte.getCarte().donnees[0].length-1)*t;
 		boolean contact;
 		int[] coeff= {0,0,1,-1,1,1,-1,-1,
 				1,-1,0,0,1,-1,1,-1};
@@ -81,7 +83,7 @@ public class Personnage {
 				}}
 			}
 			if(contact && coordbase[0]+coeff[k]*c*t>0 && coordbase[1]+coeff[k+8]*c*t>0 
-					&& coordbase[0]+coeff[k]*c*t<Carte.width && coordbase[1]+coeff[k+8]*c*t<Carte.height) {
+					&& coordbase[0]+coeff[k]*c*t<largeur && coordbase[1]+coeff[k+8]*c*t<hauteur) {
 				this.coordXY[0]=coordbase[0]+coeff[k]*c*t;
 				this.coordXY[1]=coordbase[1]+coeff[k+8]*c*t;
 			}
@@ -138,7 +140,7 @@ public class Personnage {
 			return false;
 		}
 		}
-		catch(ArrayIndexOutOfBoundsException e) {System.out.println("ERREUR DIRECTION MONSTRE");return true;}
+		catch(ArrayIndexOutOfBoundsException e) {return true;}
 	}
 	
 	public boolean dansCoin() {

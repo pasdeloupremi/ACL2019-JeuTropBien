@@ -64,12 +64,12 @@ public class Monstre extends Personnage{
 		case 3:
 			float[] test3 = {meilleurcoord[0],meilleurcoord[1]};
 			this.setDirection(test3);
-			this.dirImg = Cmd.DOWN;
+			this.dirImg = Cmd.UP;
 			break;
 		case 4:
 			float[] test4 = {meilleurcoord[0],meilleurcoord[1]};
 			this.setDirection(test4);
-			this.dirImg = Cmd.UP;
+			this.dirImg = Cmd.DOWN;
 			break;
 		default:
 			break;
@@ -155,7 +155,6 @@ public class Monstre extends Personnage{
 			} 
 			this.setDirection(meilleurcoord);
 			switch (c) {
-			// si on appuie sur 'q',commande joueur est gauche
 			case 1:
 				float[] test1 = {meilleurcoord[0],meilleurcoord[1]};
 				this.setDirection(test1);

@@ -16,12 +16,11 @@ public class Sort1Autoguidee extends Sort {
 	private static ArrayList<Monstre> monstresmorts=new ArrayList<Monstre>();
 	private static int ATK=15;
 	int spellframe;
-
+	private static BufferedImage spell;
+	
 	public Sort1Autoguidee() {
 		super("Fireball",ATK);
-		this.porteeAtk=50;
-		
-
+		this.porteeAtk=50;	
 
 		// TODO Auto-generated constructor stub
 	}
@@ -29,6 +28,11 @@ public class Sort1Autoguidee extends Sort {
 	public static void lancersort1() {
 		Heros h=Personnage.Joueur;
 		if(h.spellframe==0) {
+			try {
+				spell = ImageIO.read(new File("fire.png"));
+			} catch (IOException e) {
+				System.out.println("pas d'image du sort 1");
+			}
 			mtouches=new ArrayList<Monstre>();
 			h.spellframe=1;
 			h.frameATK++;
@@ -48,7 +52,12 @@ public class Sort1Autoguidee extends Sort {
 	public static void AffichageSorts(Graphics2D crayon) {
 		Heros h = Personnage.Joueur;
 		if(h.spellframe>0) {
-			Spell1Animation(crayon,h.spellframe);
+			try {
+				Spell1Animation(crayon,h.spellframe);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			h.spellframe++;
 			if(h.spellframe>10) {
 				h.spellframe=0;
@@ -68,23 +77,16 @@ public class Sort1Autoguidee extends Sort {
 		}
 	}
 
-	public static void Spell1Animation(Graphics2D crayon,float frame) {
+	public static void Spell1Animation(Graphics2D crayon,float frame) throws IOException {
 		Heros h=Personnage.Joueur;
-		//System.out.println(Heros.mtouches.size());
 		int x;
 		int y;
-		try {
 			if(!mtouches.isEmpty()) {
 				for(Monstre m : mtouches) {
 					x=(int)((1-frame/10)*h.getCoordXY()[0]+(frame/10)*m.getCoordXY()[0]);
 					y=(int)((1-frame/10)*h.getCoordXY()[1]+(frame/10)*m.getCoordXY()[1]);
-					BufferedImage spell = ImageIO.read(new File("fire.png"));	
 					crayon.drawImage(spell,Carte.decalX(x), Carte.decalY(y), Carte.decalX(m.getTailleImg()[0]+x), Carte.decalY(m.getTailleImg()[1]+y),791,190,791+160,190+160, null);
 				}
 			}		
-		} catch (IOException e) {
-			System.out.println("pas d'image de sort");
-		}
-
 	}
 }
