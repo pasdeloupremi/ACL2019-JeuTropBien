@@ -71,7 +71,7 @@ public class Heros extends Personnage{
 			for(Monstre m: Personnage.listeMonstre) {
 				float[] coord1= {(h.getSeuilImg()[0]+h.getSeuilImg()[1])/2,(h.getSeuilImg()[2]+h.getSeuilImg()[3])/2};
 				float[] coord2= {(m.getSeuilImg()[0]+m.getSeuilImg()[1])/2,(m.getSeuilImg()[2]+m.getSeuilImg()[3])/2};
-				if (distance(coord1,coord2)<=(m.getSeuilContact()+h.porteeATK)) {
+				if ((distance(coord1,coord2)<=(m.getSeuilContact()+h.porteeATK)) && h.regardeVersPers(m)) {
 					m.setPV(m.getPV()-h.getATK());
 					Main.playSound("Slash1.wav", -2);
 					if(m.getPV()<=0) {

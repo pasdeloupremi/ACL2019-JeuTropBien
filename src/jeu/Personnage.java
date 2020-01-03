@@ -90,6 +90,14 @@ public class Personnage {
 		}while(contact==true && c<12);
 		return this.coordXY;
 	}
+	
+	public boolean regardeVersPers(Personnage p) {
+		if(this.coordXY[0]<p.coordXY[0]&&(this.dirImg==Cmd.RIGHT))return true;
+		if(this.coordXY[0]>p.coordXY[0]&&(this.dirImg==Cmd.LEFT))return true;
+		if(this.coordXY[1]<p.coordXY[1]&&(this.dirImg==Cmd.DOWN))return true;
+		if(this.coordXY[1]>p.coordXY[1]&&(this.dirImg==Cmd.UP))return true;
+		return false;
+	}
 
 
 	public boolean contactPers(Personnage p) {
