@@ -165,6 +165,10 @@ public class Carte {
 					caseX=0;
 					caseY=4*t;
 					break;
+				case 8: //ITEM HP
+					caseX=3*t;
+					caseY=4*t;
+					break;
 				default: // RIEN
 					caseX=0;
 					caseY=0;
