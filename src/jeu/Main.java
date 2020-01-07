@@ -22,6 +22,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Main {
 
+	public static int PVheros=100;
 	public static void main(String[] args) throws IOException, InterruptedException {
 
 		//MONSTRE
@@ -36,7 +37,8 @@ public class Main {
 		//HERO
 		int[] t2= {48,72};
 		float[] hcoord= {55,250};
-		Heros h = new Heros("joueur1", 100, 20, hcoord, hcoord, 10, 13, 40,t2,Personnage.listeMonstre,"heros72x48.png");
+		
+		Heros h = new Heros("joueur1", PVheros, 20, hcoord, hcoord, 10, 13, 40,t2,Personnage.listeMonstre,"heros72x48.png");
 		h.toucher();
 
 		//CARTE
