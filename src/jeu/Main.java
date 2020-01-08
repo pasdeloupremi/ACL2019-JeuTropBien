@@ -29,7 +29,7 @@ public class Main {
 	}
 	public static void Initialisation() throws InterruptedException, IOException {
 		//CARTE
-		Carte c = new Carte("Carte.csv",10,12,48,"terrain48.png");
+		Carte c = new Carte("Carte.csv",33,10,48,"terrain48.png");
 		System.out.println(c.donnees[5][5]);
 		Carte.generer();
 		//Carte.niveauSuivant();
@@ -41,13 +41,18 @@ public class Main {
 		Heros h = new Heros("joueur1", 100, 20, hcoord, hcoord, 10, 13, 40,t2,Personnage.listeMonstre,"heros72x48.png");
 		
 		//MONSTRE
-		float[] mcoord= {500,150};
-		MinoBoss m1 = new MinoBoss(mcoord.clone());
-		MinoBoss m2 = new MinoBoss(mcoord.clone());
-		MinoBoss m3 = new MinoBoss(mcoord.clone());
+		float[] mcoord= {1500,150};
+		//MinoBoss m1 = new MinoBoss(mcoord.clone());
+		//MinoBoss m2 = new MinoBoss(mcoord.clone());
+		//MinoBoss m3 = new MinoBoss(mcoord.clone());
 		float[] fcoord= {155,90};
-		Minotaure m4 = new Minotaure(mcoord);
-		Fantome f1 = new Fantome(fcoord);
+		float[] m4coord= {1500,100};
+		float[] m5coord= {1650,150};
+		float[] m6coord= {1700,150};
+		//Minotaure m4 = new Minotaure(m4coord);
+		//Minotaure m5 = new Minotaure(m5coord);
+		//Minotaure m6 = new Minotaure(m6coord);
+		//Fantome f1 = new Fantome(fcoord);
 
 		
 		//-------------------
