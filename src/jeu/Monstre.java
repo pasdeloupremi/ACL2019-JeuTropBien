@@ -11,6 +11,8 @@ import javax.imageio.ImageIO;
 import engine.Cmd;
 
 public class Monstre extends Personnage{
+	
+	private int[] tabIA= {0,0};//{direction du detour, etape ou frame}
 
 	public Monstre(String nom, int pV, int aTK, float[] coordXY, float[] direction, float vitesse,
 			float seuilContact,int[] tailleImg,String fichierImg) {
@@ -48,7 +50,6 @@ public class Monstre extends Personnage{
 				c=i+1;
 			}
 		}
-		//int c = 1+(int)(Math.random()*4);
 		this.debutAnimation();
 		switch (c) {
 		case 1:

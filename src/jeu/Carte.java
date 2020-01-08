@@ -27,29 +27,38 @@ public class Carte {
 	public String terrain;
 	public int[] ListeMurs;
 	
-	public Carte(String fichier,int n,int m, int Tcase, String fichierTerrain) throws IOException {
+	public Carte(String fichier, int Tcase, String fichierTerrain) throws IOException {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		width = (int)screenSize.getWidth()/2;
 		height = (int)screenSize.getHeight()/2;
 		terrain = fichierTerrain;
 		taillecase=Tcase;
-		donnees=new int[n][m];
 		BufferedReader helpReader;
 		String[] tab;
 		try {
 			helpReader = new BufferedReader(new FileReader(fichier));
 			String ligne;
 			ligne = helpReader.readLine();
+			int hauteur=ligne.split(";").length;
+			int largeur = 1;
+			try {
+			while(!(helpReader.readLine()==null)) {
+				largeur++;
+			}
+			} catch (IOException e) {}
+			helpReader = new BufferedReader(new FileReader(fichier));
+			this.donnees=new int[hauteur][largeur];
 			int k=0;
 			int numD;
-			do {
+			while(k<largeur) {
+				ligne = helpReader.readLine();
 				tab=ligne.split(";");
-				for(int j=0;j<m;j++) {
+				for(int j=0;j<hauteur;j++) {
 					try {numD=Integer.parseInt(tab[j]);}catch(NumberFormatException e){System.out.println(tab[j]);numD=0;}
-					donnees[k][j]=numD;						
+					donnees[j][k]=numD;	
 				}
 				k++;
-			} while((ligne = helpReader.readLine()) != null);
+			}
 			
 			helpReader.close();
 		} catch (IOException e) {
@@ -80,10 +89,10 @@ public class Carte {
 		      System.out.println(e.getMessage());
 		    }
 		try {
-			Carte c = new Carte(nom,hauteur,largeur,48,getCarte().terrain);
+			//Carte c = new Carte(nom,hauteur,largeur,48,getCarte().terrain);
+			Carte c = new Carte(nom,48,"terrain48.png");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("pas de fichier de terrain");
 		}
 		
 	}

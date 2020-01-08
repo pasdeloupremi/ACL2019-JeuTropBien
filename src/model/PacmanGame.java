@@ -24,7 +24,7 @@ import jeu.Sort1Autoguidee;
  * 
  */
 public class PacmanGame implements Game {
-	
+
 
 	//Partie jeu
 	private boolean victoryFlag,gameOverFlag,pauseFlag,quitGameFlag;
@@ -37,6 +37,7 @@ public class PacmanGame implements Game {
 	private int dureeitemspeed=0;
 	private int soins=50;
 	private int dureeouvertureporte=0;
+	private ArrayList<int[]> memoirecases = new ArrayList<int[]>();
 	private int [] memoirecase= new int[2];
 	Heros h = Personnage.Joueur;
 	//Partie menu pause
@@ -45,7 +46,7 @@ public class PacmanGame implements Game {
 	private boolean pressedUP,pressedDOWN;
 	private Carte memoire = Carte.getCarte();
 
-	
+
 	//---------------------------
 	//Constructeur
 	//---------------------------
@@ -59,7 +60,7 @@ public class PacmanGame implements Game {
 		this.joueur = joueur;
 		this.painter = painter;
 		this.controller = controller;
-		
+
 		//Partie menu pause
 		pauseFlag = false;
 		pressedUP = false;
@@ -105,7 +106,7 @@ public class PacmanGame implements Game {
 			}
 		}
 	}
-	
+
 	public void inputPause(Cmd commande)
 	{
 		//-------------------
@@ -134,11 +135,11 @@ public class PacmanGame implements Game {
 			break;
 		default:
 			break;
-			
+
 		}
-		
+
 		cursorPos = Math.abs(cursorPos%buttonNumber);//on fait tourner les choix en boucle
-		
+
 		//-------------------
 		//validation du choix au clavier
 		//--------------------
@@ -194,7 +195,7 @@ public class PacmanGame implements Game {
 	public boolean isFinished() {
 		return quitGameFlag;
 	}
-	
+
 	//---------------------------
 	//UPDATE
 	//---------------------------
@@ -205,12 +206,13 @@ public class PacmanGame implements Game {
 		//--------------------------
 		if(joueur.isAlive())//on ne met à jour que les monstres vivants 
 		{
-			
+
 			//PIEGE
 			if(joueur.contactCase(3))
 			{
-				joueur.setPV(joueur.getPV()-3);
+				joueur.setPV(joueur.getPV()-2);
 			}
+
 			
 			//POTION HP 
 			
@@ -252,6 +254,7 @@ public class PacmanGame implements Game {
 				
 			}
 			
+
 			//SPEED BOOST
 			if((joueur.contactCase(4)) &&(dureeitemspeed==0)) {
 				vitesseinitiale=joueur.getVitesse();
@@ -263,23 +266,25 @@ public class PacmanGame implements Game {
 				joueur.setVitesse(vitesseinitiale);
 			}
 			else if (dureeitemspeed>0) {
-					dureeitemspeed++;
+				dureeitemspeed++;
 			}
-			
+
 			//INTERRUPTEUR PORTE
 			if(joueur.contactCase(5)) {
 				dureeouvertureporte=1;
 				for (int i=0;i<memoire.donnees.length;i++) {
 					for (int j=0;j<memoire.donnees[0].length;j++) {
 						if (memoire.donnees[i][j]==6) {
+							memoirecase = new int[2];
 							memoirecase[0]= i;
 							memoirecase[1]= j;
+							memoirecases.add(memoirecase);
 							memoire.donnees[i][j]=0;
 						}
 					}
 				}
 			}
-			
+
 			if (dureeouvertureporte>30) {
 				boolean test=false;
 				int t=Carte.taillecase;
@@ -287,35 +292,41 @@ public class PacmanGame implements Game {
 				int casex2=(int) h.getSeuilImg()[1]/t;
 				int casey1=(int) h.getSeuilImg()[2]/t;
 				int casey2=(int) h.getSeuilImg()[3]/t;
-				try {
-					if ((casex1==memoirecase[0]) && (casey1==memoirecase[1])) {
-						test=true;
-					}
-					else if ((casex1==memoirecase[0]) && (casey2==memoirecase[1])){
-						test=true;
-					}
-					else if ((casex2==memoirecase[0]) && (casey1==memoirecase[1])) {
-						test=true;
-					}
-					else if ((casex2==memoirecase[0]) && (casey2==memoirecase[1])) {
-						test=true;
-					}
-					else {
-						test=false;
-					}
+				for (int j=0;j<memoirecases.size();j++) {
+					try {
+						if ((casex1==memoirecases.get(j)[0]) && (casey1==memoirecases.get(j)[1])) {
+							test=true;
+						}
+						else if ((casex1==memoirecases.get(j)[0]) && (casey2==memoirecases.get(j)[1])){
+							test=true;
+						}
+						else if ((casex2==memoirecases.get(j)[0]) && (casey1==memoirecases.get(j)[1])) {
+							test=true;
+						}
+						else if ((casex2==memoirecases.get(j)[0]) && (casey2==memoirecases.get(j)[1])) {
+							test=true;
+						}
+						else {
+							test=false;
+						}
 					}
 					catch(ArrayIndexOutOfBoundsException e) {
 						System.out.println("ERREUR DIRECTION MONSTRE");
-						}
-				if (!test) {
-				dureeouvertureporte=0;
-				memoire.donnees[memoirecase[0]][memoirecase[1]]=6;
+					}
+					if (!test) {
+						
+						memoire.donnees[memoirecases.get(j)[0]][memoirecases.get(j)[1]]=6;
+					}
+					if (memoirecases.isEmpty()) {
+						dureeouvertureporte=0;
+					}
 				}
+
 			}
 			else if (dureeouvertureporte>0) {
 				dureeouvertureporte++;
 			}
-			
+
 			//PORTE QUI OUVRE QUAND TOUT LES MONSTRES SONT MORTS
 			if (listeMonstre.isEmpty()) {
 				for (int i=0;i<memoire.donnees.length;i++) {
@@ -332,7 +343,7 @@ public class PacmanGame implements Game {
 			//le joueur est mort, on passe en état gameover
 			gameOverFlag = true;
 		}
-		
+
 
 		//--------------------------
 		//Mise à jour des monstres
@@ -362,10 +373,10 @@ public class PacmanGame implements Game {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			quitGameFlag = true;
+				quitGameFlag = true;
 			}
 			victoryFlag = true;
-			
+
 		}
 
 	}
@@ -377,10 +388,10 @@ public class PacmanGame implements Game {
 	//--------------------------
 	@Override
 	public void evolve(Cmd commande) {
-		
+
 		//on passe du controller menu au controller jeu suivant l'état du flag pause
 		controller.switchControllerType(pauseFlag);
-		
+
 		//jeu
 		if(!pauseFlag)
 		{
