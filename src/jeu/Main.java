@@ -22,9 +22,26 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Main {
 
+	public static int PVheros=100;
 	public static void main(String[] args) throws IOException, InterruptedException {
 		Initialisation();
 
+
+		//MONSTRE
+		
+		//init du monstre 1,2
+		float[] mcoord= {55,150};
+		//MinoBoss m1 = new MinoBoss(mcoord);
+		float[] fcoord= {155,90};
+		Minotaure m2 = new Minotaure(mcoord);
+		Fantome f1 = new Fantome(fcoord);
+		//il faudra gerer les collisions des monstres
+		//HERO
+		int[] t2= {48,72};
+		float[] hcoord= {55,250};
+		
+		Heros h = new Heros("joueur1", PVheros, 20, hcoord, hcoord, 10, 13, 40,t2,Personnage.listeMonstre,"heros72x48.png");
+		h.toucher();
 
 	}
 	public static void Initialisation() throws InterruptedException, IOException {

@@ -11,6 +11,7 @@ import engine.Game;
 import jeu.Carte;
 import jeu.Fantome;
 import jeu.Heros;
+import jeu.Main;
 import jeu.Monstre;
 import jeu.Personnage;
 import jeu.Sort1Autoguidee;
@@ -34,6 +35,7 @@ public class PacmanGame implements Game {
 	private PacmanController controller;
 	private float vitesseinitiale;
 	private int dureeitemspeed=0;
+	private int soins=50;
 	private int dureeouvertureporte=0;
 	private int [] memoirecase= new int[2];
 	Heros h = Personnage.Joueur;
@@ -208,6 +210,46 @@ public class PacmanGame implements Game {
 			if(joueur.contactCase(3))
 			{
 				joueur.setPV(joueur.getPV()-3);
+			}
+			
+			//POTION HP 
+			
+			if(joueur.contactCase(8)) {
+				int test=0;
+				
+				if (joueur.getPV()==Main.PVheros) {
+					test=0;
+				}
+				else if (joueur.getPV()+soins>Main.PVheros) {
+					joueur.setPV(Main.PVheros);
+					test=1;
+				}
+				else  {
+					joueur.setPV(joueur.getPV()+soins);
+					test=1;
+				}
+				if (test==1) {
+					int[][] tab=Carte.getCarte().donnees;
+					int t=Carte.taillecase;
+					int casex1=(int) joueur.getSeuilImg()[0]/t;
+					int casex2=(int) joueur.getSeuilImg()[1]/t;
+					int casey1=(int) joueur.getSeuilImg()[2]/t;
+					int casey2=(int) joueur.getSeuilImg()[3]/t;
+					if (tab[casex1][casey1]==8) {
+						tab[casex1][casey1]=0;
+					}
+					else if (tab[casex2][casey1]==8) {
+						tab[casex2][casey1]=0;
+						}
+					else if (tab[casex1][casey2]==8) {
+						tab[casex1][casey2]=0;
+						}
+					else if (tab[casex2][casey2]==8) {
+						tab[casex2][casey2]=0;
+						}
+					test=0;
+				}
+				
 			}
 			
 			//SPEED BOOST
