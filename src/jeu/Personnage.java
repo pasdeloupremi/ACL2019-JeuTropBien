@@ -61,14 +61,14 @@ public class Personnage {
 		ArrayList<Personnage> listePers=(ArrayList<Personnage>) listeMonstre.clone();
 		listePers.add(Heros.Joueur);
 		int t=Carte.taillecase;
-		this.coordXY[0]=(this.coordXY[0]/t)*t;
-		this.coordXY[1]=(this.coordXY[1]/t)*t;
-		float[] coordbase=this.coordXY.clone();
 		int largeur = (Carte.getCarte().donnees.length-1)*t;
 		int hauteur = (Carte.getCarte().donnees[0].length-1)*t;
+		this.coordXY[0]=Math.min((this.coordXY[0]/t)*t, largeur);
+		this.coordXY[1]=Math.min((this.coordXY[1]/t)*t, hauteur);
+		float[] coordbase=this.coordXY.clone();
 		boolean contact;
 		int[] coeff= {0,0,1,-1,1,1,-1,-1,
-				1,-1,0,0,1,-1,1,-1};
+					  1,-1,0,0,1,-1,1,-1};
 		int k=0;
 		int c=1;
 		do {
@@ -89,7 +89,8 @@ public class Personnage {
 			}
 			k+=1;
 			if(k==8) {c+=1;k=0;}
-		}while(contact==true && c<12);
+		}while(contact==true && c<20);
+		if(c>=20)System.out.println("initialisatioin échouée");
 		return this.coordXY;
 	}
 	

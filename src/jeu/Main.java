@@ -22,7 +22,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Main {
 
-	public static int PVheros=100;
+	public static int PVheros=1000;
 	public static void main(String[] args) throws IOException, InterruptedException {
 		Initialisation();
 
@@ -46,14 +46,14 @@ public class Main {
 	}
 	public static void Initialisation() throws InterruptedException, IOException {
 		//CARTE
-		//Carte c = new Carte("Carte.csv",48,"terrain48.png");
-		Carte.generer();
+		Carte c = new Carte("Carte.csv",48,"terrain48.png");
+		//Carte.generer();
 		
 		
 		//HERO
 		int[] t2= {48,72};
 		float[] hcoord= {0,0};
-		Heros h = new Heros("joueur1", 100, 20, hcoord, hcoord, 10, 13, 40,t2,Personnage.listeMonstre,"heros72x48.png");
+		Heros h = new Heros("joueur1", PVheros, 20, hcoord, hcoord, 10, 13, 40,t2,Personnage.listeMonstre,"heros72x48.png");
 		
 		//MONSTRE
 		float[] mcoord= {1500,150};
@@ -61,10 +61,10 @@ public class Main {
 		//MinoBoss m2 = new MinoBoss(mcoord.clone());
 		//MinoBoss m3 = new MinoBoss(mcoord.clone());
 		float[] fcoord= {155,90};
-		float[] m4coord= {1500,100};
+		float[] m4coord= {80,200};
 		float[] m5coord= {1650,150};
 		float[] m6coord= {1700,150};
-		//Minotaure m4 = new Minotaure(m4coord);
+		Minotaure m4 = new Minotaure(m4coord);
 		//Minotaure m5 = new Minotaure(m5coord);
 		//Minotaure m6 = new Minotaure(m6coord);
 		//Fantome f1 = new Fantome(fcoord);

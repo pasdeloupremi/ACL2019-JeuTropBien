@@ -12,7 +12,7 @@ import engine.Cmd;
 
 public class Monstre extends Personnage{
 	
-	private int[] tabIA= {0,0};//{direction du detour, etape ou frame}
+	private float[] tabIA= {0,0,0,0,1,0,0};//{direction du detour, etape ou frame,dirX,dirY,1-aller 2-retour,blocage,blocagePrecedent}
 
 	public Monstre(String nom, int pV, int aTK, float[] coordXY, float[] direction, float vitesse,
 			float seuilContact,int[] tailleImg,String fichierImg) {
@@ -32,16 +32,19 @@ public class Monstre extends Personnage{
 			if (i==0) { //gauche
 				coordfutur[0] = coordactuelle[0]-this.vitesse;
 				coordfutur[1] = coordactuelle[1];
-			}
+				if(tabIA[0]-1==i) {tabIA[2]=coordfutur[0];tabIA[3]=coordfutur[1];}}
 			else if (i==1) { //droite
 				coordfutur[0] = coordactuelle[0]+this.vitesse;
-				coordfutur[1] = coordactuelle[1];			}
+				coordfutur[1] = coordactuelle[1];
+				if(tabIA[0]-1==i) {tabIA[2]=coordfutur[0];tabIA[3]=coordfutur[1];}}		
 			else if (i==2) { //bas
 				coordfutur[0] = coordactuelle[0];
-				coordfutur[1] = coordactuelle[1]-this.vitesse;			}
+				coordfutur[1] = coordactuelle[1]-this.vitesse;	
+				if(tabIA[0]-1==i) {tabIA[2]=coordfutur[0];tabIA[3]=coordfutur[1];}}
 			else if (i==3) { //haut
 				coordfutur[0] = coordactuelle[0];
-				coordfutur[1] = coordactuelle[1]+this.vitesse;			}
+				coordfutur[1] = coordactuelle[1]+this.vitesse;	
+				if(tabIA[0]-1==i) {tabIA[2]=coordfutur[0];tabIA[3]=coordfutur[1];}}
 			float nouvelledistance=distance(coordheros,coordfutur);
 			if (distanceactuelle>nouvelledistance) {
 				distanceactuelle=nouvelledistance;
@@ -51,6 +54,7 @@ public class Monstre extends Personnage{
 			}
 		}
 		this.debutAnimation();
+		if(tabIA[0]>0) {meilleurcoord[0] =tabIA[2];meilleurcoord[1] =tabIA[3];c=(int)tabIA[0];}
 		switch (c) {
 		case 1:
 			float[] test1 = {meilleurcoord[0],meilleurcoord[1]};
@@ -93,7 +97,7 @@ public class Monstre extends Personnage{
 						distanceactuelle=nouvelledistance;
 						meilleurcoord[0] = coordfutur[0];
 						meilleurcoord[1] = coordfutur[1];
-						c=i;
+						c=i;					
 					}
 				}
 			}
@@ -153,7 +157,16 @@ public class Monstre extends Personnage{
 						c=i;
 					}
 				}
-			} 
+			}
+			if(tabIA[0]>0) {
+				if(tabIA[4]==2){tabIA[0]=0;tabIA[4]=1;}
+				else {if(tabIA[5]<5) {}
+				else{tabIA[0]=DirOp((int)tabIA[0]);tabIA[5]=0;}
+				tabIA[4]=2;}
+			}
+			else {tabIA[0]=c;
+			if(tabIA[6]==c) {tabIA[5]++;}
+			else{tabIA[6]=c;}}
 			this.setDirection(meilleurcoord);
 			switch (c) {
 			case 1:
@@ -169,20 +182,35 @@ public class Monstre extends Personnage{
 			case 3:
 				float[] test3 = {meilleurcoord[0],meilleurcoord[1]};
 				this.setDirection(test3);
-				this.dirImg = Cmd.DOWN;
+				this.dirImg = Cmd.UP;
 				break;
 			case 4:
 				float[] test4 = {meilleurcoord[0],meilleurcoord[1]};
 				this.setDirection(test4);
-				this.dirImg = Cmd.UP;
+				this.dirImg = Cmd.DOWN;
 				break;
 			default:
 				break;
 			}
 		}
+		if(tabIA[1]++>tabIA[4]*200) {tabIA[0]=0;tabIA[1]=0;tabIA[4]=1;}
 		this.deplacer();	
 	}
 
+	public static int DirOp(int c) {
+		switch(c) {
+		case 1:
+			return(2);
+		case 2: 
+			return(1);
+		case 3:
+			return(4);
+		case 4:
+			return(3);
+		default:
+			return(0);
+		}
+	}
 
 	public static void AffichageMonstre(Graphics2D crayon) {
 		//	AFFICHAGE DES MONSTRES
