@@ -362,9 +362,13 @@ public class PacmanGame implements Game {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			quitGameFlag = true;
+			if(Carte.listeNiveaux.size()<2) {
+			quitGameFlag = true;}
 			}
-			victoryFlag = true;
+			else {
+				Carte.niveauSuivant();	
+			}
+			victoryFlag=true;
 			
 		}
 

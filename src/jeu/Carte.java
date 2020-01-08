@@ -188,6 +188,11 @@ public class Carte {
 	public static void niveauSuivant() {
 		if(listeNiveaux.size()>1) {
 			listeNiveaux.remove(0);
+			ArrayList<Personnage> listePers=(ArrayList<Personnage>) Personnage.listeMonstre.clone();
+			listePers.add(Heros.Joueur);
+			for(Personnage p:listePers) {
+				p.initCoord();
+			}
 		}
 	}
 	

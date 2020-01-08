@@ -33,8 +33,8 @@ public class Main {
 		float[] mcoord= {55,150};
 		//MinoBoss m1 = new MinoBoss(mcoord);
 		float[] fcoord= {155,90};
-		Minotaure m2 = new Minotaure(mcoord);
-		Fantome f1 = new Fantome(fcoord);
+		//Minotaure m2 = new Minotaure(mcoord);
+		//Fantome f1 = new Fantome(fcoord);
 		//il faudra gerer les collisions des monstres
 		//HERO
 		int[] t2= {48,72};
@@ -59,12 +59,12 @@ public class Main {
 		
 		//MONSTRE
 		float[] mcoord= {500,150};
-		MinoBoss m1 = new MinoBoss(mcoord.clone());
-		MinoBoss m2 = new MinoBoss(mcoord.clone());
-		MinoBoss m3 = new MinoBoss(mcoord.clone());
+		//MinoBoss m1 = new MinoBoss(mcoord.clone());
+		//MinoBoss m2 = new MinoBoss(mcoord.clone());
+		//MinoBoss m3 = new MinoBoss(mcoord.clone());
 		float[] fcoord= {155,90};
 		Minotaure m4 = new Minotaure(mcoord);
-		Fantome f1 = new Fantome(fcoord);
+		//Fantome f1 = new Fantome(fcoord);
 
 		
 		//-------------------
