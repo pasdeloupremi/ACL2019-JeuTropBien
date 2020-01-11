@@ -17,6 +17,7 @@ public class MainMenu implements Game {
 	public int cursorPos;
 	private int buttonNumber;
 	private PacmanController controller;
+	private Graphics2D graphics;
 	
 	private boolean pressedUP, pressedDOWN;
 	public MainMenu(PacmanController controller)

@@ -24,10 +24,18 @@ public class Main {
 
 	public static int PVheros=1000;
 	public static void main(String[] args) throws IOException, InterruptedException {
-		Initialisation();
+		
+		while(true)//fait boucler le jeux et le menu principal
+		{
+			//j'aimerai que quand je relance le jeux, ça le reset
+			Initialisation();
+		}
 
 
 		//MONSTRE
+		
+		/*///Je comprend pas à quoi ça sert, ca faisait des interractions cheloux mon code. ça m'empèche de reset le jeux 
+		
 		
 		//init du monstre 1,2
 		float[] mcoord= {55,150};
@@ -41,7 +49,7 @@ public class Main {
 		float[] hcoord= {55,250};
 		
 		Heros h = new Heros("joueur1", PVheros, 20, hcoord, hcoord, 10, 13, 40,t2,Personnage.listeMonstre,"heros72x48.png");
-		h.toucher();
+		h.toucher();*/
 
 	}
 	public static void Initialisation() throws InterruptedException, IOException {
@@ -84,9 +92,13 @@ public class Main {
 		MainMenu mainMenu = new MainMenu(controller); // game contenant le menu principal
 		MainMenuPainter mainMenuPainter = new MainMenuPainter(mainMenu);
 		GameEngineGraphical mainMenuEngine = new GameEngineGraphical(mainMenu,mainMenuPainter,controller);
+		
 		mainMenuEngine.run();
 		System.out.println("Demarrer partie");
 		engine.run();
+		
+		
+		
 	}
 	
 	public static void Update(BufferedImage im,Graphics2D crayon) {

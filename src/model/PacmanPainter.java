@@ -86,18 +86,26 @@ public class PacmanPainter implements GamePainter {
 
 	private void drawButton(Rectangle boundingBox,String Text)
 	{
-		
+
 		//Box
 		graphics.setColor(Color.GRAY);
 		graphics.fill(boundingBox);
 		
 		
 		//text
+		int sizeFont = 20;
 		graphics.setColor(Color.white);
-		 Font font = new Font("Serif", Font.PLAIN, 20);
+		 Font font = new Font("Serif", Font.PLAIN, sizeFont);
 		 graphics.setFont(font);
-		 graphics.drawString(Text,boundingBox.x, (int) (boundingBox.y  + (0.5*boundingBox.height)));
-
+		 
+		 
+		 
+		 int sizeTextX = graphics.getFontMetrics().stringWidth(Text);
+		 int sizeTextY = graphics.getFontMetrics().getHeight();
+		 int blankSpaceX = Math.abs(boundingBox.width - sizeTextX);
+		 int blankSpaceY = Math.abs(boundingBox.height - sizeTextY);
+		 
+		 graphics.drawString(Text,boundingBox.x + blankSpaceX/2, boundingBox.y + blankSpaceY);
 	}
 	private void drawButtonHighLight(Rectangle boundingBox)
 	{
@@ -136,11 +144,13 @@ public class PacmanPainter implements GamePainter {
 		    graphics.setFont(font);
 			graphics.drawString("PAUSE", 100, 50);
 			
-			Rectangle R0 = new Rectangle(100,100,128,64);
-			Rectangle R1 = new Rectangle(100,200,128,64);
+			Rectangle R0 = new Rectangle(100,100,150,64);
+			Rectangle R1 = new Rectangle(100,200,150,64);
+			Rectangle R2 = new Rectangle(100,300,150,64);
 
 			drawButton(R0,"reprendre");
-			drawButton(R1,"quitter");
+			drawButton(R2,"quitter");
+			drawButton(R1,"Retour Menu");
 			
 			switch (currentButton) {
 			case 0:
@@ -149,6 +159,10 @@ public class PacmanPainter implements GamePainter {
 			case 1:
 				drawButtonHighLight(R1);
 				break;
+			case 2:
+				drawButtonHighLight(R2);
+				break;
+
 
 			default:
 				break;

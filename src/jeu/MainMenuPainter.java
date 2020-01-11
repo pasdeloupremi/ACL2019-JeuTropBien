@@ -30,6 +30,7 @@ public class MainMenuPainter implements GamePainter {
 	Rectangle highlightQuit;
 	
 	private MainMenu game;
+	private Graphics2D graphics;
 	
 	
 	BufferedImage startButtonImg,quitButtonImg;
@@ -51,9 +52,37 @@ public class MainMenuPainter implements GamePainter {
 		}
 	}
 	
+	private void drawButton(Rectangle boundingBox,String Text)
+	{
+		
+		//Box
+		graphics.setColor(Color.GRAY);
+		graphics.fill(boundingBox);
+		
+		
+		//text
+		int sizeFont = 20;
+		graphics.setColor(Color.white);
+		 Font font = new Font("Serif", Font.PLAIN, sizeFont);
+		 graphics.setFont(font);
+		 
+		 int sizeTextX = graphics.getFontMetrics().stringWidth(Text);
+		 int sizeTextY = graphics.getFontMetrics().getHeight();
+		 int blankSpaceX = Math.abs(boundingBox.width - sizeTextX);
+		 int blankSpaceY = Math.abs(boundingBox.height - sizeTextY);
+		 
+		 graphics.drawString(Text,boundingBox.x + blankSpaceX/2, boundingBox.y + blankSpaceY);
+
+	}
+	
+	private void drawButtonHighLight(Rectangle boundingBox)
+	{
+			graphics.draw(boundingBox);
+	}
+	
 	@Override
 	public void draw(BufferedImage image) {
-		Graphics2D graphics = (Graphics2D) image.getGraphics();
+		graphics = (Graphics2D) image.getGraphics();
 		
 		//background noir
 		Rectangle background =new Rectangle(0,0,10000,10000);
@@ -61,23 +90,24 @@ public class MainMenuPainter implements GamePainter {
 		graphics.fill(background);
 		
 		//affichage du menu
-		graphics.setColor(Color.white);
-	    Font font = new Font("Serif", Font.PLAIN, 20);
-	    graphics.setFont(font);
-		graphics.drawString("hit space to confirm", 100, 50);
+		Rectangle R0 = new Rectangle(positionStartButton.x,positionStartButton.y,128,64);
+		Rectangle R1 = new Rectangle(positionQuitButton.x,positionQuitButton.y,128,64);
+
+		drawButton(R0,"START");
+		drawButton(R1,"QUIT");
 		
-		graphics.drawImage(startButtonImg, null,positionStartButton.x,positionStartButton.y);
-		graphics.drawImage(quitButtonImg, null, positionQuitButton.x,positionQuitButton.y);
+		//graphics.drawImage(startButtonImg, null,positionStartButton.x,positionStartButton.y);
+		//graphics.drawImage(quitButtonImg, null, positionQuitButton.x,positionQuitButton.y);
 
 		//effet de surbrillance sur la selection
 		
 		graphics.setColor(Color.white);
 		switch (game.cursorPos) {
 			case 0:
-				graphics.draw(highlightStart);
+				drawButtonHighLight(R0);
 				break;
 			case 1:
-				graphics.draw(highlightQuit);
+				drawButtonHighLight(R1);
 				break;
 	
 			default:
