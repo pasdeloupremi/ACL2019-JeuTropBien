@@ -31,6 +31,7 @@ public class PacmanPainter implements GamePainter {
 	private boolean bAfficherEcranVictoire,bAfficherEcranDefaite,bAfficherPause;
 	private BufferedImage imgVictoire,imgDefaite;
 	private Graphics2D graphics;
+
 	
 	private int currentButton;
 	/**
@@ -51,6 +52,7 @@ public class PacmanPainter implements GamePainter {
 		bAfficherPause = false;
 		
 		currentButton = 0;
+		
 		
 		try {
 			imgVictoire = ImageIO.read(new File("Victoire.png"));
@@ -178,6 +180,7 @@ public class PacmanPainter implements GamePainter {
 	{
 		currentButton = button;
 	}
+
 	
 	@Override
 	public int getWidth() {

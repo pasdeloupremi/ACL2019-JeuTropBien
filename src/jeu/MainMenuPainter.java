@@ -33,6 +33,9 @@ public class MainMenuPainter implements GamePainter {
 	private Graphics2D graphics;
 	
 	
+	private boolean flagSetting;
+	
+	
 	BufferedImage startButtonImg,quitButtonImg;
 	public MainMenuPainter(MainMenu game)
 	{
@@ -89,33 +92,78 @@ public class MainMenuPainter implements GamePainter {
 		graphics.setColor(Color.black);
 		graphics.fill(background);
 		
-		//affichage du menu
-		Rectangle R0 = new Rectangle(positionStartButton.x,positionStartButton.y,128,64);
-		Rectangle R1 = new Rectangle(positionQuitButton.x,positionQuitButton.y,128,64);
-
-		drawButton(R0,"START");
-		drawButton(R1,"QUIT");
 		
-		//graphics.drawImage(startButtonImg, null,positionStartButton.x,positionStartButton.y);
-		//graphics.drawImage(quitButtonImg, null, positionQuitButton.x,positionQuitButton.y);
+		if(game.flagSetting)
+		{
 
-		//effet de surbrillance sur la selection
+			//affichage du menu
+			Rectangle R0 = new Rectangle(positionStartButton.x,positionStartButton.y,128,64);
+			Rectangle R1 = new Rectangle(positionQuitButton.x,positionQuitButton.y,128,64);
+			
+			Rectangle VolumeUp = new Rectangle(positionStartButton.x + 128 + 10,positionStartButton.y,32,64);
+			Rectangle VolumeDown = new Rectangle(positionStartButton.x + 128 + 10 + 32 +10,positionStartButton.y,32,64);
+			
+
+			drawButton(R0,"Volume = " + Main.VolumeSon);
+			drawButton(R1,"QUIT");
+			drawButton(VolumeUp,"+");
+			drawButton(VolumeDown,"-");
+			
+			//graphics.drawImage(startButtonImg, null,positionStartButton.x,positionStartButton.y);
+			//graphics.drawImage(quitButtonImg, null, positionQuitButton.x,positionQuitButton.y);
+
+			//effet de surbrillance sur la selection
+			
+			graphics.setColor(Color.white);
+			switch (game.cursorPos) {
+				case 0:
+					drawButtonHighLight(R1);
+					break;
+				case 1:
+					drawButtonHighLight(VolumeUp);
+					break;
+				case 2:
+					drawButtonHighLight(VolumeDown);
+					break;
 		
-		graphics.setColor(Color.white);
-		switch (game.cursorPos) {
-			case 0:
-				drawButtonHighLight(R0);
-				break;
-			case 1:
-				drawButtonHighLight(R1);
-				break;
-	
-			default:
-				break;
+				default:
+					break;
+			}
 		}
+		else
+		{
+			//affichage du menu
+			Rectangle R0 = new Rectangle(positionStartButton.x,positionStartButton.y,128,64);
+			Rectangle R2 = new Rectangle(positionQuitButton.x,positionQuitButton.y,128,64);
+			Rectangle R1 = new Rectangle(positionStartButton.x,positionStartButton.y+100,128,64);
+			
+			
+			drawButton(R0,"START");
+			drawButton(R1,"SETINGS");
+			drawButton(R2,"QUIT");
+			
+			//effet de surbrillance sur la selection
+			
+			graphics.setColor(Color.white);
+			switch (game.cursorPos) {
+				case 0:
+					drawButtonHighLight(R0);
+					break;
+				case 1:
+					drawButtonHighLight(R1);
+					break;
+				case 2:
+					drawButtonHighLight(R2);
+					break;
+		
+				default:
+					break;
+			}
+		}
+		
 
 	}
-
+	
 	@Override
 	public int getWidth() {
 		// TODO Auto-generated method stub

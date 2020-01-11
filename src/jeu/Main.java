@@ -23,7 +23,10 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Main {
 
 	public static int PVheros=1000;
+	public static int VolumeSon = 2;
 	public static void main(String[] args) throws IOException, InterruptedException {
+		
+
 		
 		while(true)//fait boucler le jeux et le menu principal
 		{
@@ -111,12 +114,14 @@ public class Main {
 
 	public static void playSound(String nom, int volume) {
 		File f = new File("./"+nom);
+		
 	    try {
 	    	AudioInputStream audioIn = AudioSystem.getAudioInputStream(f.toURI().toURL());
 	    	Clip clip = AudioSystem.getClip();
 	    	clip.open(audioIn);
 	    	FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-	    	gainControl.setValue((1-volume)*(-10.0f));
+	    	//gainControl.setValue((1-volume)*(-10.0f));
+	    	gainControl.setValue(volume);
 			clip.start();
 		} catch (LineUnavailableException | IOException e) {
 			// TODO Auto-generated catch block
