@@ -19,11 +19,11 @@ public class Personnage {
 	protected float[] direction;
 	protected float vitesse;
 	private float seuilContact;
-	public Cmd dirImg;
+	protected Cmd dirImg;
 	private int animation;
 	private int[] tailleImg;
-	String fichierImg;
-	int frameATK;
+	protected String fichierImg;
+	protected int frameATK;
 	protected int delaiATK;
 
 	public Personnage(String nom, int pV, int aTK, float[] coordXY, float[] direction, float vitesse,

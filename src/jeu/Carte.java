@@ -18,19 +18,18 @@ import javax.imageio.ImageIO;
 
 public class Carte {
 	
-	public static int width;
-	public static int height;
+	private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	public final static int width= (int)screenSize.getWidth()/2;;
+	public final static int height= (int)screenSize.getHeight()/2;;
 	public static int taillecase;
-	public static int niveau_actuel=0;
+	static int niveau_actuel=0;
 	public static ArrayList<Carte> listeNiveaux=new ArrayList<Carte>();
 	public int[][] donnees;
-	public String terrain;
+	private String terrain;
 	public int[] ListeMurs;
 	
 	public Carte(String fichier, int Tcase, String fichierTerrain) throws IOException {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		width = (int)screenSize.getWidth()/2;
-		height = (int)screenSize.getHeight()/2;
 		terrain = fichierTerrain;
 		taillecase=Tcase;
 		BufferedReader helpReader;

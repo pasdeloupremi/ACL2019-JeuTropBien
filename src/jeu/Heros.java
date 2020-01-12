@@ -15,7 +15,7 @@ import engine.Cmd;
 public class Heros extends Personnage{
 
 	private float porteeATK;
-	int atkframe;
+	private int atkframe;
 	int spellframe;
 	private static ArrayList<Monstre> mtouches;
 	private static ArrayList<Monstre> monstresmorts;
