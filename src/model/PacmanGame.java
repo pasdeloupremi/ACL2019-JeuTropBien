@@ -123,6 +123,7 @@ public class PacmanGame implements Game {
 			{
 				pressedUP = true;
 				cursorPos--;
+				Main.playSound("cursor.wav", Main.VolumeSon);
 			}
 			break;
 		case DOWN:
@@ -130,6 +131,7 @@ public class PacmanGame implements Game {
 			{
 				pressedDOWN = true;
 				cursorPos++;
+				Main.playSound("cursor.wav", Main.VolumeSon);
 			}
 			break;
 		case ReleaseDOWN:

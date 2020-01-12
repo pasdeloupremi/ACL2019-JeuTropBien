@@ -51,7 +51,6 @@ public class MainMenu implements Game {
 	@Override
 	public void evolve(Cmd userCmd) {
 		
-		
 		if(flagSetting)
 		{
 			buttonNumber = buttonNumberSettings;
@@ -70,9 +69,11 @@ public class MainMenu implements Game {
 						break;
 					case 1:
 						Main.VolumeSon = Main.VolumeSon + 1;
+						Main.playSound("cursor.wav", Main.VolumeSon);
 						break;
 					case 2:
 						Main.VolumeSon = Main.VolumeSon - 1;
+						Main.playSound("cursor.wav", Main.VolumeSon);
 						break;
 
 					default:
@@ -104,6 +105,7 @@ public class MainMenu implements Game {
 					switch (cursorPos) {
 					case 0:
 						quitFlag = true;
+						Main.playSound("Dungeon1.wav", Main.VolumeSon-2);
 						break;
 					case 1:
 						flagSetting = true;
@@ -136,6 +138,7 @@ public class MainMenu implements Game {
 				pressedUP = true;
 				if(cursorPos == 0) cursorPos=buttonNumber-1;
 				else cursorPos--;
+				Main.playSound("cursor.wav", Main.VolumeSon);
 				
 
 			}
@@ -146,6 +149,7 @@ public class MainMenu implements Game {
 				pressedDOWN = true;
 				
 				cursorPos++;
+				Main.playSound("cursor.wav", Main.VolumeSon);
 			}
 			break;
 		case SPACE:

@@ -29,10 +29,6 @@ public class Heros extends Personnage{
 		this.delaiATK=8;
 	}
 
-	public void toucher() {
-		listeMonstre.get(0);
-	}
-
 	public static void deplacerjoueur(Cmd c) {
 		Heros h=Heros.Joueur;
 		h.debutAnimation();
@@ -73,7 +69,7 @@ public class Heros extends Personnage{
 				float[] coord2= {(m.getSeuilImg()[0]+m.getSeuilImg()[1])/2,(m.getSeuilImg()[2]+m.getSeuilImg()[3])/2};
 				if ((distance(coord1,coord2)<=(m.getSeuilContact()+h.porteeATK)) && h.regardeVersPers(m)) {
 					m.setPV(m.getPV()-h.getATK());
-					Main.playSound("Slash1.wav", -2);
+					Main.playSound("Slash1.wav", Main.VolumeSon);
 					if(m.getPV()<=0) {
 						monstresmorts.add(m);
 						if(listeMonstre.isEmpty()) {

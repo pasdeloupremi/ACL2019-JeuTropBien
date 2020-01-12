@@ -260,7 +260,7 @@ public class Personnage {
 			if(this.contactPers(h) && this.frameATK==0) {
 				this.frameATK++;
 				h.setPV(h.getPV()-this.getATK());
-				Main.playSound("Blow1.wav", -2);	
+				Main.playSound("Blow1.wav", Main.VolumeSon);	
 			}
 		}
 	}

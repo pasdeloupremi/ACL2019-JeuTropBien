@@ -30,6 +30,7 @@ public class Sort1Autoguidee extends Sort {
 		if(h.spellframe==0) {
 			try {
 				spell = ImageIO.read(new File("fire.png"));
+				Main.playSound("Fire2.wav", Main.VolumeSon);
 			} catch (IOException e) {
 				System.out.println("pas d'image du sort 1");
 			}
@@ -63,7 +64,7 @@ public class Sort1Autoguidee extends Sort {
 				h.spellframe=0;
 				for(Monstre m: mtouches) {
 					m.setPV(m.getPV()-ATK);
-					Main.playSound("Blow1.wav", -2);
+					
 					if(m.getPV()<=0) {
 						monstresmorts.add(m);
 					}

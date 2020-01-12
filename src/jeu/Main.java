@@ -23,7 +23,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Main {
 
 	public static int PVheros=1000;
-	public static int VolumeSon = 2;
+	public static int VolumeSon = -4;
 	public static void main(String[] args) throws IOException, InterruptedException {
 		
 
@@ -121,7 +121,7 @@ public class Main {
 	    	clip.open(audioIn);
 	    	FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 	    	//gainControl.setValue((1-volume)*(-10.0f));
-	    	gainControl.setValue(volume);
+	    	gainControl.setValue(volume*(5.0f));
 			clip.start();
 		} catch (LineUnavailableException | IOException e) {
 			// TODO Auto-generated catch block
