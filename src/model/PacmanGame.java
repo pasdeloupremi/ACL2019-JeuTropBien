@@ -66,7 +66,7 @@ public class PacmanGame implements Game {
 		pressedUP = false;
 		pressedDOWN = false;
 		cursorPos = 0;
-		buttonNumber = 2;
+		buttonNumber = 3;
 	}
 
 	//---------------------------
@@ -78,32 +78,37 @@ public class PacmanGame implements Game {
 		if(joueur.isAlive())
 		{
 			switch(commande) {
-			case UP:
-			case LEFT:
-			case RIGHT:
-			case DOWN:
-				Heros.deplacerjoueur(commande);
-				break;
-			case SPACE:
-				Heros.attaquer();
-				break;
-			case SORT1:
-				Sort1Autoguidee.lancersort1();
-				break;
-			case IDLE:
-				Heros.Joueur.surPlace();
-				break;
-			case ESC:
-				if(!pauseFlag)
-				{
-					//met le jeu en pause
-					pauseFlag = true;
-					System.out.println("PAUSE");
-				}
-				break;
-			default:
-				break;
+				case UP:
+				case LEFT:
+				case RIGHT:
+				case DOWN:
+					Heros.deplacerjoueur(commande);
+					break;
+				case SPACE:
+					Heros.attaquer();
+					break;
+				case SORT1:
+					Sort1Autoguidee.lancersort1();
+					break;
+				case IDLE:
+					Heros.Joueur.surPlace();
+					break;
+				default:
+					break;
 			}
+		}
+		
+		switch(commande) {
+		case ESC:
+			if(!pauseFlag)
+			{
+				//met le jeu en pause
+				pauseFlag = true;
+				System.out.println("PAUSE");
+			}
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -153,6 +158,10 @@ public class PacmanGame implements Game {
 			case 1:
 				System.out.println("Quitter le jeu");
 				quitGameFlag = true;
+				break;
+			case 2:
+				System.out.println("Retour Menu Principal");
+				System.exit(0);
 				break;
 
 			default:
@@ -204,7 +213,7 @@ public class PacmanGame implements Game {
 		//--------------------------
 		//Mise à jour du joueur
 		//--------------------------
-		if(joueur.isAlive())//on ne met à jour que les monstres vivants 
+		if(joueur.isAlive())
 		{
 
 			//PIEGE

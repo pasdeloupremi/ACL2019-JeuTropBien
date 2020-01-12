@@ -30,6 +30,10 @@ public class MainMenuPainter implements GamePainter {
 	Rectangle highlightQuit;
 	
 	private MainMenu game;
+	private Graphics2D graphics;
+	
+	
+	private boolean flagSetting;
 	
 	
 	BufferedImage startButtonImg,quitButtonImg;
@@ -51,41 +55,115 @@ public class MainMenuPainter implements GamePainter {
 		}
 	}
 	
+	private void drawButton(Rectangle boundingBox,String Text)
+	{
+		
+		//Box
+		graphics.setColor(Color.GRAY);
+		graphics.fill(boundingBox);
+		
+		
+		//text
+		int sizeFont = 20;
+		graphics.setColor(Color.white);
+		 Font font = new Font("Serif", Font.PLAIN, sizeFont);
+		 graphics.setFont(font);
+		 
+		 int sizeTextX = graphics.getFontMetrics().stringWidth(Text);
+		 int sizeTextY = graphics.getFontMetrics().getHeight();
+		 int blankSpaceX = Math.abs(boundingBox.width - sizeTextX);
+		 int blankSpaceY = Math.abs(boundingBox.height - sizeTextY);
+		 
+		 graphics.drawString(Text,boundingBox.x + blankSpaceX/2, boundingBox.y + blankSpaceY);
+
+	}
+	
+	private void drawButtonHighLight(Rectangle boundingBox)
+	{
+			graphics.draw(boundingBox);
+	}
+	
 	@Override
 	public void draw(BufferedImage image) {
-		Graphics2D graphics = (Graphics2D) image.getGraphics();
+		graphics = (Graphics2D) image.getGraphics();
 		
 		//background noir
 		Rectangle background =new Rectangle(0,0,10000,10000);
 		graphics.setColor(Color.black);
 		graphics.fill(background);
 		
-		//affichage du menu
-		graphics.setColor(Color.white);
-	    Font font = new Font("Serif", Font.PLAIN, 20);
-	    graphics.setFont(font);
-		graphics.drawString("hit space to confirm", 100, 50);
 		
-		graphics.drawImage(startButtonImg, null,positionStartButton.x,positionStartButton.y);
-		graphics.drawImage(quitButtonImg, null, positionQuitButton.x,positionQuitButton.y);
+		if(game.flagSetting)
+		{
 
-		//effet de surbrillance sur la selection
+			//affichage du menu
+			Rectangle R0 = new Rectangle(positionStartButton.x,positionStartButton.y,128,64);
+			Rectangle R1 = new Rectangle(positionQuitButton.x,positionQuitButton.y,128,64);
+			
+			Rectangle VolumeUp = new Rectangle(positionStartButton.x + 128 + 10,positionStartButton.y,32,64);
+			Rectangle VolumeDown = new Rectangle(positionStartButton.x + 128 + 10 + 32 +10,positionStartButton.y,32,64);
+			
+
+			drawButton(R0,"Volume = " + Main.VolumeSon);
+			drawButton(R1,"QUIT");
+			drawButton(VolumeUp,"+");
+			drawButton(VolumeDown,"-");
+			
+			//graphics.drawImage(startButtonImg, null,positionStartButton.x,positionStartButton.y);
+			//graphics.drawImage(quitButtonImg, null, positionQuitButton.x,positionQuitButton.y);
+
+			//effet de surbrillance sur la selection
+			
+			graphics.setColor(Color.white);
+			switch (game.cursorPos) {
+				case 0:
+					drawButtonHighLight(R1);
+					break;
+				case 1:
+					drawButtonHighLight(VolumeUp);
+					break;
+				case 2:
+					drawButtonHighLight(VolumeDown);
+					break;
 		
-		graphics.setColor(Color.white);
-		switch (game.cursorPos) {
-			case 0:
-				graphics.draw(highlightStart);
-				break;
-			case 1:
-				graphics.draw(highlightQuit);
-				break;
-	
-			default:
-				break;
+				default:
+					break;
+			}
 		}
+		else
+		{
+			//affichage du menu
+			Rectangle R0 = new Rectangle(positionStartButton.x,positionStartButton.y,128,64);
+			Rectangle R2 = new Rectangle(positionQuitButton.x,positionQuitButton.y,128,64);
+			Rectangle R1 = new Rectangle(positionStartButton.x,positionStartButton.y+100,128,64);
+			
+			
+			drawButton(R0,"START");
+			drawButton(R1,"SETINGS");
+			drawButton(R2,"QUIT");
+			
+			//effet de surbrillance sur la selection
+			
+			graphics.setColor(Color.white);
+			switch (game.cursorPos) {
+				case 0:
+					drawButtonHighLight(R0);
+					break;
+				case 1:
+					drawButtonHighLight(R1);
+					break;
+				case 2:
+					drawButtonHighLight(R2);
+					break;
+		
+				default:
+					break;
+			}
+		}
+		
 
 	}
-
+	
 	@Override
 	public int getWidth() {
 		// TODO Auto-generated method stub
