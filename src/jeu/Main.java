@@ -23,7 +23,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Main {
 
 	public static int PVheros=1000;
-	public static int VolumeSon = -4;
+	public static int VolumeSon = 5;
 	public static Clip musiquefond;
 	public static void main(String[] args) throws IOException, InterruptedException {
 		
@@ -112,7 +112,7 @@ public class Main {
 		Personnage.Joueur=null;
 	}
 	
-	public static void Update(BufferedImage im,Graphics2D crayon) {
+	public static void Update(Graphics2D crayon) {
 		Carte.AffichageTerrain(crayon);
 		Carte.AffichageDecors(crayon);
 		Monstre.AffichageMonstre(crayon);
@@ -131,14 +131,16 @@ public class Main {
 	    	}
 	    	FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 	    	//gainControl.setValue((1-volume)*(-10.0f));
-	    	gainControl.setValue(volume*(5.0f));
+	    	gainControl.setValue(volume*(4.0f)-40.0f);
 			clip.start();
+	    } catch (IllegalArgumentException e) {
+	    	System.out.println("son trop fort/faible");
+	    	if(Main.VolumeSon>10)Main.VolumeSon=10;
+	    	if(Main.VolumeSon<-10)Main.VolumeSon=-10;
 		} catch (LineUnavailableException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("erreur son");
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("pas de fichier son");
 		}
 	}
 

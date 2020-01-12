@@ -14,7 +14,7 @@ public class Sort1Autoguidee extends Sort {
 	//private float vitesse;
 	private static ArrayList<Monstre> mtouches;
 	private static ArrayList<Monstre> monstresmorts=new ArrayList<Monstre>();
-	private static int ATK=15;
+	private static int ATK=35;
 	int spellframe;
 	private static BufferedImage spell;
 	
@@ -30,7 +30,6 @@ public class Sort1Autoguidee extends Sort {
 		if(h.spellframe==0) {
 			try {
 				spell = ImageIO.read(new File("fire.png"));
-				Main.playSound("Fire2.wav", Main.VolumeSon);
 			} catch (IOException e) {
 				System.out.println("pas d'image du sort 1");
 			}
@@ -46,6 +45,7 @@ public class Sort1Autoguidee extends Sort {
 					mtouches.add(m);
 					}
 				}
+			if (!mtouches.isEmpty())Main.playSound("Fire2.wav", Main.VolumeSon);
 			}
 			
 	}
@@ -54,14 +54,14 @@ public class Sort1Autoguidee extends Sort {
 		Heros h = Personnage.Joueur;
 		if(h.spellframe>0) {
 			try {
-				Spell1Animation(crayon,h.spellframe);
+				if(h.spellframe<11)Spell1Animation(crayon,h.spellframe);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			h.spellframe++;
-			if(h.spellframe>10) {
-				h.spellframe=0;
+			if(mtouches.isEmpty()) {h.spellframe=0;}
+			if(h.spellframe==11) {
 				for(Monstre m: mtouches) {
 					m.setPV(m.getPV()-ATK);
 					
@@ -69,6 +69,10 @@ public class Sort1Autoguidee extends Sort {
 						monstresmorts.add(m);
 					}
 				}
+			}
+			if(h.spellframe>80) {
+				h.spellframe=0;
+				System.out.println("Sort 1 prêt");
 			}
 		}
 		if (!monstresmorts.isEmpty()) {

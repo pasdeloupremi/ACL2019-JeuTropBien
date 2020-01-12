@@ -124,7 +124,7 @@ public class PacmanPainter implements GamePainter {
 	@Override
 	public void draw(BufferedImage im) {
 		graphics = (Graphics2D) im.getGraphics();
-		Main.Update(im, graphics); // MISE A JOUR DE L'AFFICHAGE
+		Main.Update(graphics); // MISE A JOUR DE L'AFFICHAGE
 		
 		if(!bAfficherPause)
 		{
