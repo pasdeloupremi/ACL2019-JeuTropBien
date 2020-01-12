@@ -61,13 +61,13 @@ public class Main {
 		//MinoBoss m2 = new MinoBoss(mcoord.clone());
 		//MinoBoss m3 = new MinoBoss(mcoord.clone());
 		float[] fcoord= {155,90};
-		float[] m4coord= {80,200};
+		float[] m4coord= {800,400};
 		float[] m5coord= {1650,150};
 		float[] m6coord= {1700,150};
 		Minotaure m4 = new Minotaure(m4coord);
-		//Minotaure m5 = new Minotaure(m5coord);
-		//Minotaure m6 = new Minotaure(m6coord);
-		//Fantome f1 = new Fantome(fcoord);
+		Minotaure m5 = new Minotaure(m5coord);
+		Minotaure m6 = new Minotaure(m6coord);
+		Fantome f1 = new Fantome(fcoord);
 
 		
 		//-------------------

@@ -193,7 +193,7 @@ public class Monstre extends Personnage{
 				break;
 			}
 		}
-		if(tabIA[1]++>tabIA[4]*200) {tabIA[0]=0;tabIA[1]=0;tabIA[4]=1;}
+		if(tabIA[1]++>tabIA[4]*100) {tabIA[0]=0;tabIA[1]=0;tabIA[4]=1;}
 		this.deplacer();	
 	}
 

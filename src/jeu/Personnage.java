@@ -71,6 +71,7 @@ public class Personnage {
 					  1,-1,0,0,1,-1,1,-1};
 		int k=0;
 		int c=1;
+		int m=0;
 		do {
 			contact = false;
 			if(this.contactMur()) {
@@ -82,15 +83,18 @@ public class Personnage {
 					contact=true;
 				}}
 			}
-			if(contact && coordbase[0]+coeff[k]*c*t>0 && coordbase[1]+coeff[k+8]*c*t>0 
-					&& coordbase[0]+coeff[k]*c*t<largeur && coordbase[1]+coeff[k+8]*c*t<hauteur) {
-				this.coordXY[0]=coordbase[0]+coeff[k]*c*t;
-				this.coordXY[1]=coordbase[1]+coeff[k+8]*c*t;
+			if(contact && coordbase[0]+coeff[k]*c*t+m*t>0 && coordbase[1]+coeff[k+8]*c*t+m*t>0 
+					&& coordbase[0]+coeff[k]*c*t+m*t<largeur && coordbase[1]+coeff[k+8]*c*t+m*t<hauteur) {
+				this.coordXY[0]=coordbase[0]+coeff[k]*c*t+m*t;
+				this.coordXY[1]=coordbase[1]+coeff[k+8]*c*t-m*t;
 			}
 			k+=1;
+			m=-m;
+			if(c==29 && m==0) {m++;c=0;}
+			if(m!=0) {m++;}
 			if(k==8) {c+=1;k=0;}
-		}while(contact==true && c<20);
-		if(c>=20)System.out.println("initialisatioin échouée");
+		}while(contact==true && c<30);
+		if(c>=20)System.out.println("Monstre : "+this.getNom()+" dans un mur");
 		return this.coordXY;
 	}
 	
@@ -227,7 +231,7 @@ public class Personnage {
 				listePers.add(h);
 				boolean contact=false;
 				for(Personnage m:listePers) {
-					if (!(this==m) && this.contactPers(m) && !(this.dansCoin())) {
+					if (!(this==m) && this.contactPers(m) && !(this.dansCoin()) && this.getClass()!=Fantome.class) {
 						dirP = this.getSeuilImg();//gauche,droite,haut,bas de l'image
 						dirM = m.getSeuilImg();
 						switch(this.dirImg) {
