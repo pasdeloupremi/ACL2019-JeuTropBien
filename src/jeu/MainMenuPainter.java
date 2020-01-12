@@ -38,7 +38,7 @@ public class MainMenuPainter implements GamePainter {
 	
 	BufferedImage startButtonImg,quitButtonImg;
 	public MainMenuPainter(MainMenu game)
-	{
+	{	
 		positionStartButton = new Point(100,100);
 		positionQuitButton = new Point(100,100+200);
 		
@@ -61,6 +61,7 @@ public class MainMenuPainter implements GamePainter {
 		//Box
 		graphics.setColor(Color.GRAY);
 		graphics.fill(boundingBox);
+		
 		
 		
 		//text
@@ -91,6 +92,14 @@ public class MainMenuPainter implements GamePainter {
 		Rectangle background =new Rectangle(0,0,10000,10000);
 		graphics.setColor(Color.black);
 		graphics.fill(background);
+		
+		try {
+			BufferedImage img = ImageIO.read(new File("Titre2.png"));
+			int largeur =476,hauteur=74;
+			graphics.drawImage(img, Carte.width/2, Carte.height/2, Carte.width, Carte.height/2+hauteur, 0, 0, largeur, hauteur, null);
+		} catch (IOException e) {
+			System.out.println("pas d'image de titre");
+		}
 		
 		
 		if(game.flagSetting)
