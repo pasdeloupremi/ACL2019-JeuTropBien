@@ -24,6 +24,7 @@ public class Main {
 
 	public static int PVheros=1000;
 	public static int VolumeSon = -4;
+	public static Clip musiquefond;
 	public static void main(String[] args) throws IOException, InterruptedException {
 		
 
@@ -56,6 +57,7 @@ public class Main {
 
 	}
 	public static void Initialisation() throws InterruptedException, IOException {
+		reset();
 		//CARTE
 		Carte c = new Carte("Carte.csv",48,"terrain48.png");
 		//Carte.generer();
@@ -104,6 +106,12 @@ public class Main {
 		
 	}
 	
+	public static void reset() {
+		Carte.listeNiveaux.clear();
+		Personnage.listeMonstre.clear();
+		Personnage.Joueur=null;
+	}
+	
 	public static void Update(BufferedImage im,Graphics2D crayon) {
 		Carte.AffichageTerrain(crayon);
 		Carte.AffichageDecors(crayon);
@@ -114,11 +122,13 @@ public class Main {
 
 	public static void playSound(String nom, int volume) {
 		File f = new File("./"+nom);
-		
 	    try {
 	    	AudioInputStream audioIn = AudioSystem.getAudioInputStream(f.toURI().toURL());
 	    	Clip clip = AudioSystem.getClip();
 	    	clip.open(audioIn);
+	    	if(nom.equals("Dungeon1.wav")) {
+	    		musiquefond=clip;
+	    	}
 	    	FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 	    	//gainControl.setValue((1-volume)*(-10.0f));
 	    	gainControl.setValue(volume*(5.0f));

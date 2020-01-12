@@ -155,14 +155,17 @@ public class PacmanGame implements Game {
 			switch (cursorPos) {
 			case 0:
 				System.out.println("Reprise du jeu");
+				Main.musiquefond.start();
 				pauseFlag = false;
 				break;
 			case 1:
 				System.out.println("Quitter le jeu");
+				Main.musiquefond.stop();
 				quitGameFlag = true;
 				break;
 			case 2:
 				System.out.println("Retour Menu Principal");
+				Main.musiquefond.stop();
 				System.exit(0);
 				break;
 
