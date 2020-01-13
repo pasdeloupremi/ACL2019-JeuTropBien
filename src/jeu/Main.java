@@ -59,32 +59,22 @@ public class Main {
 	public static void Initialisation() throws InterruptedException, IOException {
 		reset();
 		//CARTE
-		Carte c = new Carte("Carte.csv",48,"terrain48.png");
-		c.donnees[5][5]=2;
+		//Carte c = new Carte("Carte.csv",48,"terrain48.png");
+		//c.donnees[5][5]=2;
+		Carte c = new Carte("laby1.csv",48,"terrain48.png");
+		c = new Carte("Carte.csv",48,"terrain48.png");
 		c = new Carte("CarteVitesse33x10.csv",48,"terrain48.png");
-		
-		//Carte.niveauSuivant();
-		//Carte.generer();
-		
 		
 		//HERO
 		int[] t2= {48,72};
 		float[] hcoord= {0,0};
-		Heros h = new Heros("joueur1", PVheros, 20, hcoord, hcoord, 10, 13, 40,t2,Personnage.listeMonstre,"heros72x48.png");
+		Heros h = new Heros("joueur1", PVheros, 20, hcoord, hcoord, 10, 13, 50,t2,Personnage.listeMonstre,"heros72x48.png");
+		MajPersNiveau();
 		
 		//MONSTRE
-		float[] mcoord= {1500,150};
+		/*float[] mcoord= {1500,150};
 		//MinoBoss m1 = new MinoBoss(mcoord.clone());
-		//MinoBoss m2 = new MinoBoss(mcoord.clone());
-		//MinoBoss m3 = new MinoBoss(mcoord.clone());
-		float[] fcoord= {155,90};
-		float[] m4coord= {800,400};
-		float[] m5coord= {1650,150};
-		float[] m6coord= {1700,150};
-		Minotaure m4 = new Minotaure(m4coord);
-		Minotaure m5 = new Minotaure(m5coord);
-		Minotaure m6 = new Minotaure(m6coord);
-		Fantome f1 = new Fantome(fcoord);
+		 */
 
 		
 		//-------------------
@@ -104,10 +94,32 @@ public class Main {
 		
 		mainMenuEngine.run();
 		System.out.println("Demarrer partie");
-		engine.run();
-		
-		
-		
+		engine.run();	
+	}
+	
+	public static void MajPersNiveau() {
+		int t=Carte.taillecase;
+		Heros h=Heros.Joueur;
+		h.setPV(PVheros);
+		if(Carte.getCarte().getNomFichier().equals("laby1.csv")) {
+			h.setCoordXY(new float[] {5*t,25*t});
+			h.initCoord();
+			Minotaure m = new Minotaure(new float[] {14*t,2*t});
+			Minotaure m2 = new Minotaure(new float[] {14*t,3*t});
+			Minotaure m3 = new Minotaure(new float[] {4*t,15*t});
+			Fantome f = new Fantome(new float[] {0,0});
+			MinoBoss mb = new MinoBoss(new float[] {9*t,5*t});
+			}
+		else {
+			float[] fcoord= {155,90};
+			float[] m4coord= {800,400};
+			float[] m5coord= {1650,150};
+			float[] m6coord= {1700,150};
+			Minotaure m4 = new Minotaure(m4coord);
+			Minotaure m5 = new Minotaure(m5coord);
+			Minotaure m6 = new Minotaure(m6coord);
+			Fantome f1 = new Fantome(fcoord);
+		}
 	}
 	
 	public static void reset() {
@@ -132,6 +144,7 @@ public class Main {
 	    	clip.open(audioIn);
 	    	if(nom.equals("Dungeon1.wav")) {
 	    		musiquefond=clip;
+	    		musiquefond.loop(0);
 	    	}
 	    	FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 	    	//gainControl.setValue((1-volume)*(-10.0f));

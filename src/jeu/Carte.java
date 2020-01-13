@@ -27,11 +27,13 @@ public class Carte {
 	public int[][] donnees;
 	private String terrain;
 	public int[] ListeMurs;
+	private String nomfichier;
 	
 	public Carte(String fichier, int Tcase, String fichierTerrain) throws IOException {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		terrain = fichierTerrain;
 		taillecase=Tcase;
+		nomfichier=fichier;
 		BufferedReader helpReader;
 		String[] tab;
 		try {
@@ -154,7 +156,7 @@ public class Carte {
 		//	AFFICHAGE DU DECOR
 		BufferedImage decors=null;
 		try {
-			decors = ImageIO.read(new File("Chest.png"));
+			decors = ImageIO.read(new File("Chest - Copie.png"));
 		} catch (IOException e) {
 			System.out.println("pas d'image de decoration");
 		}
@@ -189,6 +191,10 @@ public class Carte {
 		
 	}
 	
+	public String getNomFichier() {
+		return this.nomfichier;
+	}
+	
 	public static Carte getCarte () {
 		return listeNiveaux.get(niveau_actuel);
 	}
@@ -196,6 +202,8 @@ public class Carte {
 	public static void niveauSuivant() {
 		if(listeNiveaux.size()>1) {
 			listeNiveaux.remove(0);
+			Personnage.listeMonstre.clear();
+			Main.MajPersNiveau();
 		}
 	}
 	

@@ -63,8 +63,8 @@ public class Personnage {
 		int t=Carte.taillecase;
 		int largeur = (Carte.getCarte().donnees.length-1)*t;
 		int hauteur = (Carte.getCarte().donnees[0].length-1)*t;
-		this.coordXY[0]=Math.min((this.coordXY[0]/t)*t, largeur);
-		this.coordXY[1]=Math.min((this.coordXY[1]/t)*t, hauteur);
+		this.coordXY[0]=Math.min((this.coordXY[0]/t)*t, largeur-t);
+		this.coordXY[1]=Math.min((this.coordXY[1]/t)*t, hauteur-t);
 		float[] coordbase=this.coordXY.clone();
 		boolean contact;
 		int[] coeff= {0,0,1,-1,1,1,-1,-1,
@@ -83,15 +83,15 @@ public class Personnage {
 					contact=true;
 				}}
 			}
-			if(contact && coordbase[0]+coeff[k]*c*t+m*t>0 && coordbase[1]+coeff[k+8]*c*t+m*t>0 
-					&& coordbase[0]+coeff[k]*c*t+m*t<largeur && coordbase[1]+coeff[k+8]*c*t+m*t<hauteur) {
-				this.coordXY[0]=coordbase[0]+coeff[k]*c*t+m*t;
-				this.coordXY[1]=coordbase[1]+coeff[k+8]*c*t-m*t;
+			if(contact && coordbase[0]+coeff[k]*c*t+m>0 && coordbase[1]+coeff[k+8]*c*t+m>0 
+					&& coordbase[0]+coeff[k]*c*t+m<largeur && coordbase[1]+coeff[k+8]*c*t+m<hauteur) {
+				this.coordXY[0]=coordbase[0]+coeff[k]*c*t+m;
+				this.coordXY[1]=coordbase[1]+coeff[k+8]*c*t-m;
 			}
 			k+=1;
 			m=-m;
 			if(c==29 && m==0) {m++;c=0;}
-			if(m!=0) {m++;}
+			if(m!=0) {m+=10;}
 			if(k==8) {c+=1;k=0;}
 		}while(contact==true && c<30);
 		if(c>=20)System.out.println("Monstre : "+this.getNom()+" dans un mur");

@@ -38,7 +38,6 @@ public class PacmanGame implements Game {
 	//Partie menu pause
 	public int cursorPos;
 	private int buttonNumber;
-	private int finjeu;
 	private boolean pressedUP,pressedDOWN;
 	private Item item = new Item();
 
@@ -56,7 +55,6 @@ public class PacmanGame implements Game {
 		this.joueur = joueur;
 		this.painter = painter;
 		this.controller = controller;
-		finjeu=0;
 		//Partie menu pause
 		pauseFlag = false;
 		pressedUP = false;
@@ -190,16 +188,13 @@ public class PacmanGame implements Game {
 		{
 			painter.afficherDefaite(true);
 			painter.afficherVictoire(false);
-			finjeu++;
 		}
 
 		if(victoryFlag == true)
 		{
 			painter.afficherDefaite(false);
 			painter.afficherVictoire(true);
-			finjeu++;
 		}
-		if(finjeu>100) {quitGameFlag=true;}
 	}
 
 
@@ -290,18 +285,24 @@ public class PacmanGame implements Game {
 		//--------------------------
 		if(joueur.contactCase(2))
 		{	
-			if(victoryFlag==true) {
+			if(victoryFlag==true ) {
 				try {
 					Thread.sleep(800);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				quitGameFlag = true;
+			if(Carte.listeNiveaux.size()<2) {
+				Main.musiquefond.stop();
+				quitGameFlag = true;}
+				}
+				else {
+					Carte.niveauSuivant();	
+				}
+				victoryFlag=true;
+				
 			}
-			victoryFlag = true;
 
-		}
 
 	}
 
