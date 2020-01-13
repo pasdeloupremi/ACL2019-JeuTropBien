@@ -15,6 +15,7 @@ import jeu.Main;
 import jeu.Monstre;
 import jeu.Personnage;
 import jeu.Sort1Autoguidee;
+import jeu.Item;
 
 /**
  * @author Horatiu Cirstea, Vincent Thomas
@@ -33,18 +34,12 @@ public class PacmanGame implements Game {
 	private Heros joueur;
 	private PacmanPainter painter;
 	private PacmanController controller;
-	private float vitesseinitiale;
-	private int dureeitemspeed=0;
-	private int soins=50;
-	private int dureeouvertureporte=0;
-	private ArrayList<int[]> memoirecases = new ArrayList<int[]>();
-	private int [] memoirecase= new int[2];
 	Heros h = Personnage.Joueur;
 	//Partie menu pause
 	public int cursorPos;
 	private int buttonNumber;
 	private boolean pressedUP,pressedDOWN;
-	private Carte memoire = Carte.getCarte();
+	private Item item = new Item();
 
 
 	//---------------------------
@@ -224,134 +219,45 @@ public class PacmanGame implements Game {
 			//PIEGE
 			if(joueur.contactCase(3))
 			{
-				joueur.setPV(joueur.getPV()-2);
+				item.Piege();
 			}
 
 			
 			//POTION HP 
 			
 			if(joueur.contactCase(8)) {
-				int test=0;
-				
-				if (joueur.getPV()==Main.PVheros) {
-					test=0;
-				}
-				else if (joueur.getPV()+soins>Main.PVheros) {
-					joueur.setPV(Main.PVheros);
-					test=1;
-				}
-				else  {
-					joueur.setPV(joueur.getPV()+soins);
-					test=1;
-				}
-				if (test==1) {
-					int[][] tab=Carte.getCarte().donnees;
-					int t=Carte.taillecase;
-					int casex1=(int) joueur.getSeuilImg()[0]/t;
-					int casex2=(int) joueur.getSeuilImg()[1]/t;
-					int casey1=(int) joueur.getSeuilImg()[2]/t;
-					int casey2=(int) joueur.getSeuilImg()[3]/t;
-					if (tab[casex1][casey1]==8) {
-						tab[casex1][casey1]=0;
-					}
-					else if (tab[casex2][casey1]==8) {
-						tab[casex2][casey1]=0;
-						}
-					else if (tab[casex1][casey2]==8) {
-						tab[casex1][casey2]=0;
-						}
-					else if (tab[casex2][casey2]==8) {
-						tab[casex2][casey2]=0;
-						}
-					test=0;
-				}
-				
+				item.Heal();
 			}
 			
 
 			//SPEED BOOST
-			if((joueur.contactCase(4)) &&(dureeitemspeed==0)) {
-				vitesseinitiale=joueur.getVitesse();
-				joueur.setVitesse(joueur.getVitesse()+5);
-				dureeitemspeed=1;
+			if(joueur.contactCase(4)) {
+				item.Speedboost();
 			}
-			if (dureeitemspeed>50) {
-				dureeitemspeed=0;
-				joueur.setVitesse(vitesseinitiale);
+			if (item.dureeitemspeed>50) {
+				item.resetspeed();
 			}
-			else if (dureeitemspeed>0) {
-				dureeitemspeed++;
+			else if (item.dureeitemspeed>0) {
+				item.dureeitemspeed++;
 			}
 
 			//INTERRUPTEUR PORTE
 			if(joueur.contactCase(5)) {
-				dureeouvertureporte=1;
-				for (int i=0;i<memoire.donnees.length;i++) {
-					for (int j=0;j<memoire.donnees[0].length;j++) {
-						if (memoire.donnees[i][j]==6) {
-							memoirecase = new int[2];
-							memoirecase[0]= i;
-							memoirecase[1]= j;
-							memoirecases.add(memoirecase);
-							memoire.donnees[i][j]=0;
-						}
-					}
-				}
+				item.interrupteur();
 			}
 
-			if (dureeouvertureporte>30) {
-				boolean test=false;
-				int t=Carte.taillecase;
-				int casex1=(int) h.getSeuilImg()[0]/t;
-				int casex2=(int) h.getSeuilImg()[1]/t;
-				int casey1=(int) h.getSeuilImg()[2]/t;
-				int casey2=(int) h.getSeuilImg()[3]/t;
-				for (int j=0;j<memoirecases.size();j++) {
-					try {
-						if ((casex1==memoirecases.get(j)[0]) && (casey1==memoirecases.get(j)[1])) {
-							test=true;
-						}
-						else if ((casex1==memoirecases.get(j)[0]) && (casey2==memoirecases.get(j)[1])){
-							test=true;
-						}
-						else if ((casex2==memoirecases.get(j)[0]) && (casey1==memoirecases.get(j)[1])) {
-							test=true;
-						}
-						else if ((casex2==memoirecases.get(j)[0]) && (casey2==memoirecases.get(j)[1])) {
-							test=true;
-						}
-						else {
-							test=false;
-						}
-					}
-					catch(ArrayIndexOutOfBoundsException e) {
-						System.out.println("ERREUR DIRECTION MONSTRE");
-					}
-					if (!test) {
-						
-						memoire.donnees[memoirecases.get(j)[0]][memoirecases.get(j)[1]]=6;
-					}
-					if (memoirecases.isEmpty()) {
-						dureeouvertureporte=0;
-					}
-				}
-
+			if (item.dureeouvertureporte>30) {
+				item.interrupteurreset();
 			}
-			else if (dureeouvertureporte>0) {
-				dureeouvertureporte++;
+			else if (item.dureeouvertureporte>0) {
+				item.dureeouvertureporte++;
 			}
 
 			//PORTE QUI OUVRE QUAND TOUT LES MONSTRES SONT MORTS
 			if (listeMonstre.isEmpty()) {
-				for (int i=0;i<memoire.donnees.length;i++) {
-					for (int j=0;j<memoire.donnees[0].length;j++) {
-						if (memoire.donnees[i][j]==7) {
-							memoire.donnees[i][j]=0;
-						}
-					}
-				}
+				item.portemonstre();
 			}
-		}
+		}		
 		else
 		{
 			//le joueur est mort, on passe en état gameover
