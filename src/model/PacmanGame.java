@@ -38,6 +38,7 @@ public class PacmanGame implements Game {
 	//Partie menu pause
 	public int cursorPos;
 	private int buttonNumber;
+	private int finjeu;
 	private boolean pressedUP,pressedDOWN;
 	private Item item = new Item();
 
@@ -55,7 +56,7 @@ public class PacmanGame implements Game {
 		this.joueur = joueur;
 		this.painter = painter;
 		this.controller = controller;
-
+		finjeu=0;
 		//Partie menu pause
 		pauseFlag = false;
 		pressedUP = false;
@@ -189,13 +190,16 @@ public class PacmanGame implements Game {
 		{
 			painter.afficherDefaite(true);
 			painter.afficherVictoire(false);
+			finjeu++;
 		}
 
 		if(victoryFlag == true)
 		{
 			painter.afficherDefaite(false);
 			painter.afficherVictoire(true);
+			finjeu++;
 		}
+		if(finjeu>100) {quitGameFlag=true;}
 	}
 
 

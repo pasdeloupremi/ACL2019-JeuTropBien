@@ -22,7 +22,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Main {
 
-	public static int PVheros=1000;
+	public static int PVheros=300;
 	public static int VolumeSon = 5;
 	public static Clip musiquefond;
 	public static void main(String[] args) throws IOException, InterruptedException {
@@ -60,6 +60,10 @@ public class Main {
 		reset();
 		//CARTE
 		Carte c = new Carte("Carte.csv",48,"terrain48.png");
+		c.donnees[5][5]=2;
+		c = new Carte("CarteVitesse33x10.csv",48,"terrain48.png");
+		
+		//Carte.niveauSuivant();
 		//Carte.generer();
 		
 		

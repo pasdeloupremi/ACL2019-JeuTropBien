@@ -170,12 +170,12 @@ public class Carte {
 					caseY=2*t;
 					break;
 				case 4: //ITEM SPEED
-					caseX=0;
+					caseX=6*t;
 					caseY=4*t;
 					break;
 				case 8: //ITEM HP
-					caseX=3*t;
-					caseY=4*t;
+					caseX=9*t;
+					caseY=5*t;
 					break;
 				default: // RIEN
 					caseX=0;

@@ -131,6 +131,7 @@ public class PacmanPainter implements GamePainter {
 			if(bAfficherEcranVictoire)
 			{
 				graphics.drawImage(imgVictoire, null, 0, 0);
+
 			}
 			if(bAfficherEcranDefaite)
 			{
