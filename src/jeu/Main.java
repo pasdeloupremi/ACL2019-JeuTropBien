@@ -59,9 +59,9 @@ public class Main {
 	public static void Initialisation() throws InterruptedException, IOException {
 		reset();
 		//CARTE
-		//Carte c = new Carte("Carte.csv",48,"terrain48.png");
+		Carte c = new Carte("Carte.csv",48,"terrain48.png");
 		//c.donnees[5][5]=2;
-		Carte c = new Carte("laby1.csv",48,"terrain48.png");
+		 c = new Carte("laby1.csv",48,"terrain48.png");
 		//c = new Carte("Carte.csv",48,"terrain48.png");
 		//c = new Carte("CarteVitesse33x10.csv",48,"terrain48.png");
 		
@@ -106,7 +106,7 @@ public class Main {
 		h.setPV(PVheros);
 		if(Carte.getCarte().getNomFichier().equals("laby1.csv")) {
 			h.setCoordXY(new float[] {5*t,25*t});
-			h.initCoord();
+			//h.initCoord();
 			Minotaure m = new Minotaure(new float[] {2*t,20*t});
 			Minotaure m2 = new Minotaure(new float[] {14*t,3*t});
 			Minotaure m3 = new Minotaure(new float[] {4*t,15*t});
@@ -120,9 +120,9 @@ public class Main {
 			float[] m4coord= {800,400};
 			float[] m5coord= {1650,150};
 			float[] m6coord= {1700,150};
-			Minotaure m4 = new Minotaure(m4coord);
-			Minotaure m5 = new Minotaure(m5coord);
-			Minotaure m6 = new Minotaure(m6coord);
+			//Minotaure m4 = new Minotaure(m4coord);
+			//Minotaure m5 = new Minotaure(m5coord);
+			//Minotaure m6 = new Minotaure(m6coord);
 			Fantome f1 = new Fantome(fcoord);
 		}
 	}

@@ -13,6 +13,7 @@ public class Item {
 	private ArrayList<int[]> memoirecases = new ArrayList<int[]>();
 	private int [] memoirecase= new int[2];
 	private Carte memoire = Carte.getCarte();
+	private static Item item=new Item();
 
 	public Item () {
 		this.joueur=Personnage.Joueur;
@@ -113,7 +114,7 @@ public class Item {
 				}
 			}
 			catch(ArrayIndexOutOfBoundsException e) {
-				System.out.println("ERREUR DIRECTION MONSTRE");
+				System.out.println("joueur dans la porte");
 			}
 			if (!test) {
 				
@@ -133,6 +134,17 @@ public class Item {
 				}
 			}
 		}
+	}
+	
+	public static void clear() {
+		item.memoirecase=new int[2];
+		item.memoirecases.clear();
+		item.dureeouvertureporte=0;
+		item.memoire=Carte.getCarte();
+		}
+	
+	public static Item getItem() {
+		return item;
 	}
 }
 
