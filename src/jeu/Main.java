@@ -59,11 +59,11 @@ public class Main {
 	public static void Initialisation() throws InterruptedException, IOException {
 		reset();
 		//CARTE
-		Carte c = new Carte("Carte.csv",48,"terrain48.png");
+		//Carte c = new Carte("Carte.csv",48,"terrain48.png");
 		//c.donnees[5][5]=2;
-		 c = new Carte("laby1.csv",48,"terrain48.png");
+		Carte c = new Carte("laby1.csv",48,"terrain48.png");
 		//c = new Carte("Carte.csv",48,"terrain48.png");
-		//c = new Carte("CarteVitesse33x10.csv",48,"terrain48.png");
+		c = new Carte("CarteVitesse33x10.csv",48,"terrain48.png");
 		
 		
 		//HERO
@@ -113,6 +113,9 @@ public class Main {
 			Fantome f = new Fantome(new float[] {0,0});
 			MinoBoss mb = new MinoBoss(new float[] {9*t,5*t});
 			}
+		else if(Carte.getCarte().getNomFichier().equals("CarteVitesse33x10.csv")) {
+			h.setCoordXY(new float[] {2*t,2*t});
+		}
 		else {
 			h.setCoordXY(new float[] {2*t,2*t});
 			//h.initCoord();
