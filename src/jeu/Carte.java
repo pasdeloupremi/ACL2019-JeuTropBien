@@ -204,6 +204,7 @@ public class Carte {
 			listeNiveaux.remove(0);
 			Personnage.listeMonstre.clear();
 			Main.MajPersNiveau();
+			Item.clear();
 		}
 	}
 	

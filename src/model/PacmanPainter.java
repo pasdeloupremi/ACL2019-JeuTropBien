@@ -55,11 +55,11 @@ public class PacmanPainter implements GamePainter {
 		
 		
 		try {
-			imgVictoire = ImageIO.read(new File("Completed.png"));
+			imgVictoire = ImageIO.read(new File("Victoire.png"));
 			imgDefaite = ImageIO.read(new File("GameOver.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("pas d'image victoire/defaite");
 		}
 	}
 	

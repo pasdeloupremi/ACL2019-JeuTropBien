@@ -39,7 +39,7 @@ public class PacmanGame implements Game {
 	public int cursorPos;
 	private int buttonNumber;
 	private boolean pressedUP,pressedDOWN;
-	private Item item = new Item();
+	private Item item = Item.getItem();
 
 
 	//---------------------------
