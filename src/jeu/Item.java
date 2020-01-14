@@ -174,7 +174,7 @@ public class Item {
 		item.memoire=Carte.getCarte();
 		item.dureeitemspeed=0;
 		item.encours=0;
-		Item.openingtime=30; 
+		Item.openingtime=0; 
 		}
 	
 	public static Item getItem() {

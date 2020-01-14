@@ -70,7 +70,7 @@ public class Main {
 		//HERO
 		int[] t2= {48,72};
 		float[] hcoord= {48,0};
-		Heros h = new Heros("joueur1", PVheros, 200, hcoord, hcoord, 10, 13, 50,t2,Personnage.listeMonstre,"heros72x48.png");
+		Heros h = new Heros("joueur1", PVheros, 25, hcoord, hcoord, 10, 13, 50,t2,Personnage.listeMonstre,"heros72x48.png");
 		//Carte.niveauSuivant();
 		MajPersNiveau();
 		
@@ -105,6 +105,10 @@ public class Main {
 		int t=Carte.taillecase;
 		Heros h=Heros.Joueur;
 		h.setPV(PVheros);
+		Item.clear();
+		Item.openingtime = 80;
+		Item.trapdmgs = 5;
+		h.setVitesse(10);
 		if(Carte.getCarte().getNomFichier().equals("laby1.csv")) {
 			h.setCoordXY(new float[] {5*t,25*t});
 			//h.initCoord();
@@ -119,7 +123,7 @@ public class Main {
 		else if (Carte.getCarte().getNomFichier().equals("bossroom.csv")) {
 			Item.openingtime = 80;
 			Item.trapdmgs = 5;
-			h.setCoordXY(new float[] {6*t,0*t});
+			h.setCoordXY(new float[] {5*t,1*t});
 			Minotaure m = new Minotaure(new float[] {2*t,6*t});
 			Minotaure m2 = new Minotaure(new float[] {15*t,6*t});
 			//Minotaure m3 = new Minotaure(new float[] {2*t,7*t});
