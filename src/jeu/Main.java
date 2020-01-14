@@ -62,14 +62,17 @@ public class Main {
 		//Carte c = new Carte("Carte.csv",48,"terrain48.png");
 		//c.donnees[5][5]=2;
 		Carte c = new Carte("laby1.csv",48,"terrain48.png");
-		c = new Carte("Carte.csv",48,"terrain48.png");
-		c = new Carte("CarteVitesse33x10.csv",48,"terrain48.png");
+		//c = new Carte("Carte.csv",48,"terrain48.png");
+		//c = new Carte("CarteVitesse33x10.csv",48,"terrain48.png");
+		
 		
 		//HERO
 		int[] t2= {48,72};
-		float[] hcoord= {0,0};
+		float[] hcoord= {48,0};
 		Heros h = new Heros("joueur1", PVheros, 20, hcoord, hcoord, 10, 13, 50,t2,Personnage.listeMonstre,"heros72x48.png");
+		//Carte.niveauSuivant();
 		MajPersNiveau();
+		
 		
 		//MONSTRE
 		/*float[] mcoord= {1500,150};
@@ -104,13 +107,15 @@ public class Main {
 		if(Carte.getCarte().getNomFichier().equals("laby1.csv")) {
 			h.setCoordXY(new float[] {5*t,25*t});
 			h.initCoord();
-			Minotaure m = new Minotaure(new float[] {14*t,2*t});
+			Minotaure m = new Minotaure(new float[] {2*t,20*t});
 			Minotaure m2 = new Minotaure(new float[] {14*t,3*t});
 			Minotaure m3 = new Minotaure(new float[] {4*t,15*t});
 			Fantome f = new Fantome(new float[] {0,0});
 			MinoBoss mb = new MinoBoss(new float[] {9*t,5*t});
 			}
 		else {
+			h.setCoordXY(new float[] {2*t,2*t});
+			//h.initCoord();
 			float[] fcoord= {155,90};
 			float[] m4coord= {800,400};
 			float[] m5coord= {1650,150};

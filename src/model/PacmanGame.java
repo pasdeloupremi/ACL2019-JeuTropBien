@@ -72,26 +72,26 @@ public class PacmanGame implements Game {
 		if(joueur.isAlive())
 		{
 			switch(commande) {
-				case UP:
-				case LEFT:
-				case RIGHT:
-				case DOWN:
-					Heros.deplacerjoueur(commande);
-					break;
-				case SPACE:
-					Heros.attaquer();
-					break;
-				case SORT1:
-					Sort1Autoguidee.lancersort1();
-					break;
-				case IDLE:
-					Heros.Joueur.surPlace();
-					break;
-				default:
-					break;
+			case UP:
+			case LEFT:
+			case RIGHT:
+			case DOWN:
+				Heros.deplacerjoueur(commande);
+				break;
+			case SPACE:
+				Heros.attaquer();
+				break;
+			case SORT1:
+				Sort1Autoguidee.lancersort1();
+				break;
+			case IDLE:
+				Heros.Joueur.surPlace();
+				break;
+			default:
+				break;
 			}
 		}
-		
+
 		switch(commande) {
 		case ESC:
 			if(!pauseFlag)
@@ -187,7 +187,14 @@ public class PacmanGame implements Game {
 		if(gameOverFlag == true)
 		{
 			painter.afficherDefaite(true);
-			painter.afficherVictoire(false);
+			painter.afficherVictoire(false);	
+			if(!Main.musiquefond.isActive()) {
+				try {Thread.sleep(1000);} 
+				catch (InterruptedException e) {System.out.println("fin jeu");}
+				quitGameFlag=true;}
+			else {
+				Main.musiquefond.stop();
+			}
 		}
 
 		if(victoryFlag == true)
@@ -221,13 +228,13 @@ public class PacmanGame implements Game {
 				item.Piege();
 			}
 
-			
+
 			//POTION HP 
-			
+
 			if(joueur.contactCase(8)) {
 				item.Heal();
 			}
-			
+
 
 			//SPEED BOOST
 			if(joueur.contactCase(4)) {
@@ -283,25 +290,26 @@ public class PacmanGame implements Game {
 		//--------------------------
 		//Victoire
 		//--------------------------
-		if(joueur.contactCase(2))
-		{	
-			if(victoryFlag==true ) {
-				try {
-					Thread.sleep(800);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		if(joueur.contactCase(2)){
 			if(Carte.listeNiveaux.size()<2) {
-				Main.musiquefond.stop();
-				quitGameFlag = true;}
-				}
-				else {
-					Carte.niveauSuivant();	
-				}
+				if(victoryFlag==true ) {
+					try {
+						Thread.sleep(800);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					Main.musiquefond.stop();
+					quitGameFlag = true;}
 				victoryFlag=true;
-				
 			}
+			else {
+				Carte.niveauSuivant();	
+			}
+
+		}
+
 
 
 	}

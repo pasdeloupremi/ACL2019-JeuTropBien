@@ -55,8 +55,8 @@ public class PacmanPainter implements GamePainter {
 		
 		
 		try {
-			imgVictoire = ImageIO.read(new File("Victoire.png"));
-			imgDefaite = ImageIO.read(new File("Defaite.png"));
+			imgVictoire = ImageIO.read(new File("Completed.png"));
+			imgDefaite = ImageIO.read(new File("GameOver.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -129,13 +129,15 @@ public class PacmanPainter implements GamePainter {
 		if(!bAfficherPause)
 		{
 			if(bAfficherEcranVictoire)
-			{
-				graphics.drawImage(imgVictoire, null, 0, 0);
+			{	
+				graphics.setColor(Color.WHITE);
+				graphics.fillRect(0, 0, Carte.width, Carte.height);
+				graphics.drawImage(imgVictoire, Carte.width/4, Carte.height/4, Carte.width*3/4, Carte.height/4+160, 0, 0, 300, 160,null);
 
 			}
 			if(bAfficherEcranDefaite)
 			{
-				graphics.drawImage(imgDefaite, null, 0, 0);
+				graphics.drawImage(imgDefaite, 0, 0, Carte.width, Carte.height, 0, 0, 816, 624,null);
 			}
 		}
 		
