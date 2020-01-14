@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Item {
 	
+	public static int openingtime;
+	public static int trapdmgs;
 	private Heros joueur;
 	private int soins=50;
 	private float vitesseinitiale;
@@ -55,7 +57,7 @@ public class Item {
 	}
 	
 	public void Piege() {
-		joueur.setPV(joueur.getPV()-2);
+		joueur.setPV(joueur.getPV()-trapdmgs);
 	}
 	
 	public void Speedboost() {
@@ -88,6 +90,35 @@ public class Item {
 		}
 	}
 	
+	public void interrupteur2() {
+		dureeouvertureporte=1;
+		for (int i=0;i<memoire.donnees.length;i++) {
+			for (int j=0;j<memoire.donnees[0].length;j++) {
+				if (memoire.donnees[i][j]==15) {
+					memoirecase = new int[2];
+					memoirecase[0]= i;
+					memoirecase[1]= j;
+					memoirecases.add(memoirecase);
+					memoire.donnees[i][j]=0;
+				}
+			}
+		}
+	}
+	
+	public void interrupteur3() {
+		dureeouvertureporte=1;
+		for (int i=0;i<memoire.donnees.length;i++) {
+			for (int j=0;j<memoire.donnees[0].length;j++) {
+				if (memoire.donnees[i][j]==14) {
+					memoirecase = new int[2];
+					memoirecase[0]= i;
+					memoirecase[1]= j;
+					memoirecases.add(memoirecase);
+					memoire.donnees[i][j]=0;
+				}
+			}
+		}
+	}
 	public void interrupteurreset() {
 		boolean test=false;
 		int t=Carte.taillecase;
@@ -143,6 +174,7 @@ public class Item {
 		item.memoire=Carte.getCarte();
 		item.dureeitemspeed=0;
 		item.encours=0;
+		Item.openingtime=30; 
 		}
 	
 	public static Item getItem() {

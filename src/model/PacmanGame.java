@@ -251,8 +251,20 @@ public class PacmanGame implements Game {
 			if(joueur.contactCase(5)) {
 				item.interrupteur();
 			}
+			if(joueur.contactCase(16)) {
+				item.interrupteur();
+				item.openingtime = 500;
+			}
+			if(joueur.contactCase(14)) {
+				item.interrupteur2();
+				item.openingtime = 200;
+			}
+			if(joueur.contactCase(12)) {
+				item.interrupteur3();
+				item.openingtime = 200;
+			}
 
-			if (item.dureeouvertureporte>30) {
+			if (item.dureeouvertureporte>item.openingtime) {
 				item.interrupteurreset();
 			}
 			else if (item.dureeouvertureporte>0) {
