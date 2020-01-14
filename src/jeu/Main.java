@@ -70,7 +70,7 @@ public class Main {
 		//HERO
 		int[] t2= {48,72};
 		float[] hcoord= {48,0};
-		Heros h = new Heros("joueur1", PVheros, 20, hcoord, hcoord, 10, 13, 50,t2,Personnage.listeMonstre,"heros72x48.png");
+		Heros h = new Heros("joueur1", PVheros, 200, hcoord, hcoord, 10, 13, 50,t2,Personnage.listeMonstre,"heros72x48.png");
 		//Carte.niveauSuivant();
 		MajPersNiveau();
 		
@@ -115,7 +115,7 @@ public class Main {
 			MinoBoss mb = new MinoBoss(new float[] {9*t,5*t});
 			}
 		else if (Carte.getCarte().getNomFichier().equals("bossroom.csv")) {
-			Item.openingtime = 80;
+			Item.openingtime = 120;
 			Item.trapdmgs = 5;
 			h.setCoordXY(new float[] {6*t,0*t});
 			Minotaure m = new Minotaure(new float[] {2*t,6*t});

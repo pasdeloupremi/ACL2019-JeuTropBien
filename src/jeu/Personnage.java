@@ -129,16 +129,16 @@ public class Personnage {
 		if (this.getClass()==Fantome.class) {
 			return false; //il faudra gérer quand même les bords de map
 		}
-		else if ((tab[casex1][casey1]==1) || (tab[casex1][casey1]==6) || (tab[casex1][casey1]==7)) {
+		else if ((tab[casex1][casey1]==1) || (tab[casex1][casey1]==6) || (tab[casex1][casey1]==7)|| (tab[casex1][casey1]==15)|| (tab[casex1][casey1]==13)) {
 			return true;
 		}
-		else if ((tab[casex2][casey1]==1) || (tab[casex2][casey1]==6) || (tab[casex2][casey1]==7)) {
+		else if ((tab[casex2][casey1]==1) || (tab[casex2][casey1]==6) || (tab[casex2][casey1]==7)|| (tab[casex2][casey1]==15)|| (tab[casex2][casey1]==13)) {
 			return true;
 		}
-		else if ((tab[casex1][casey2]==1) || (tab[casex1][casey2]==6) || (tab[casex1][casey2]==7)) {
+		else if ((tab[casex1][casey2]==1) || (tab[casex1][casey2]==6) || (tab[casex1][casey2]==7)|| (tab[casex1][casey2]==15)|| (tab[casex1][casey2]==13)) {
 			return true;
 		}
-		else if ((tab[casex2][casey2]==1) || (tab[casex2][casey2]==6) || (tab[casex2][casey2]==7)) {
+		else if ((tab[casex2][casey2]==1) || (tab[casex2][casey2]==6) || (tab[casex2][casey2]==7)|| (tab[casex2][casey2]==15)|| (tab[casex2][casey2]==13)) {
 			return true;
 		}
 		else {

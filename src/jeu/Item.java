@@ -109,7 +109,7 @@ public class Item {
 		dureeouvertureporte=1;
 		for (int i=0;i<memoire.donnees.length;i++) {
 			for (int j=0;j<memoire.donnees[0].length;j++) {
-				if (memoire.donnees[i][j]==14) {
+				if (memoire.donnees[i][j]==13) {
 					memoirecase = new int[2];
 					memoirecase[0]= i;
 					memoirecase[1]= j;
